@@ -104,7 +104,7 @@ public enum ConnectionSide {
 
 	public ConnectionSide projectHorizontal() {
 		ConnectionSide px = projectX();
-		ConnectionSide pz = projectX();
+		ConnectionSide pz = projectZ();
 
 		return px == null ? pz : (pz == null ? px : this);
 	}
