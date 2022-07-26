@@ -1,8 +1,12 @@
 package signal.api.signal.wire;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.core.Vec3i;
 
 public enum ConnectionSide {
 
@@ -27,14 +31,18 @@ public enum ConnectionSide {
 	SOUTH_WEST(17, 16,  4, -1,  3, -1,  0,  1);
 
 	public static final ConnectionSide[] ALL;
+	private static final Long2ObjectMap<ConnectionSide> BY_NORMAL;
 
 	static {
 
 		ConnectionSide[] values = values();
+
 		ALL = new ConnectionSide[values.length];
+		BY_NORMAL = new Long2ObjectOpenHashMap<>();
 
 		for (ConnectionSide side : values) {
 			ALL[side.index] = side;
+			BY_NORMAL.put(new BlockPos(side.normal).asLong(), side);
 		}
 	}
 
@@ -49,6 +57,7 @@ public enum ConnectionSide {
 	private final int dx;
 	private final int dy;
 	private final int dz;
+	private final Vec3i normal;
 
 	private ConnectionSide(int index, int oppositeIndex, int xProjectedIndex, int yProjectedIndex, int zProjectedIndex, int dx, int dy, int dz) {
 		this.index = index;
@@ -62,6 +71,7 @@ public enum ConnectionSide {
 		this.dx = dx;
 		this.dy = dy;
 		this.dz = dz;
+		this.normal = new Vec3i(this.dx, this.dy, this.dz);
 	}
 
 	public int getIndex() {
@@ -143,6 +153,10 @@ public enum ConnectionSide {
 		return dz;
 	}
 
+	public Vec3i getNormal() {
+		return normal;
+	}
+
 	public Direction getDirection() {
 		return isAligned() ? Direction.from3DDataValue(index) : null;
 	}
@@ -152,7 +166,7 @@ public enum ConnectionSide {
 	}
 
 	public static ConnectionSide fromDirections(Direction dir1, Direction dir2) {
-		throw new RuntimeException();
+		return BY_NORMAL.get(new BlockPos(dir1.getNormal()).offset(dir2.getNormal()).asLong());
 	}
 
 	public boolean is(Direction dir) {
