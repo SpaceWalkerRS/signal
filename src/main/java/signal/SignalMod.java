@@ -18,9 +18,15 @@ public class SignalMod implements ModInitializer, SignalInitializer {
 	public static final String MOD_VERSION = "1.0.0";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
+	public static final boolean DEBUG = true;
+
 	@Override
 	public void onInitialize() {
 		SignalRegistryCallbacks.run();
+
+		if (DEBUG) {
+			LOGGER.warn("== RUNNING DEBUG VERSION OF " + MOD_NAME + " ==");
+		}
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import signal.api.signal.SignalType;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
 
-public interface IBlock {
+public interface IBlockBehaviour {
 
 	static final Direction[] DIRECTIONS = Direction.values();
 

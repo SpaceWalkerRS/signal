@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.RedstoneSide;
 
-import signal.api.interfaces.mixin.IBlockState;
+import signal.api.interfaces.mixin.IBlockStateBase;
 import signal.api.signal.block.SignalState;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.block.Wire;
@@ -87,7 +87,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		// Diagonal shape updates are only sent to neighbors of the same block.
 		// This redirect makes it so they are also sent to wire blocks that
 		// can connect to this wire block.
-		IBlockState istate = (IBlockState)state;
+		IBlockStateBase istate = (IBlockStateBase)state;
 
 		if (!istate.isWire()) {
 			return false;
@@ -112,7 +112,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		ConnectionSide side = ConnectionSide.fromDirections(hor, Direction.UP);
 		BlockPos neighborPos = side.offset(pos);
 
-		return ((IBlockState)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
+		return ((IBlockStateBase)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
 	}
 
 	@Redirect(
@@ -130,7 +130,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		ConnectionSide side = ConnectionSide.fromDirection(hor);
 		BlockPos neighborPos = side.offset(pos);
 
-		return ((IBlockState)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
+		return ((IBlockStateBase)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
 	}
 
 	@Redirect(
@@ -149,7 +149,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		ConnectionSide side = ConnectionSide.fromDirections(hor, Direction.DOWN);
 		BlockPos neighborPos = side.offset(pos);
 
-		return ((IBlockState)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
+		return ((IBlockStateBase)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
 	}
 
 	@Redirect(
@@ -202,7 +202,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		// wires are told to emit block updates to their neighbors.
 		// We do not change this, but instead extend this condition to include
 		// all wires that can connect to this wire.
-		IBlockState istate = (IBlockState)state;
+		IBlockStateBase istate = (IBlockStateBase)state;
 
 		if (!istate.isWire()) {
 			return false;

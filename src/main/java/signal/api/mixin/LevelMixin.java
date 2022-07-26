@@ -3,6 +3,9 @@ package signal.api.mixin;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,7 +13,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.interfaces.mixin.IBlockState;
+import signal.SignalMod;
+import signal.api.interfaces.mixin.IBlockStateBase;
 import signal.api.interfaces.mixin.ILevel;
 import signal.api.signal.SignalType;
 
@@ -20,6 +24,76 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Shadow @Final private static Direction[] DIRECTIONS;
 
 	private boolean allowWireSignals = true;
+
+	@Inject(
+		method = "getDirectSignalTo",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateGetDirectSignalTo(CallbackInfoReturnable<Integer> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method Level#getDirectSignalTo is deprecated! Use ILevel#getDirectSignal instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method Level#getDirectSignalTo is deprecated! Use ILevel#getDirectSignal instead.");
+		}
+	}
+
+	@Inject(
+		method = "hasSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateHasSignal(CallbackInfoReturnable<Boolean> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method Level#hasSignal is deprecated! Use ILevel#hasSignalFrom instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method Level#hasSignal is deprecated! Use ILevel#hasSignalFrom instead.");
+		}
+	}
+
+	@Inject(
+		method = "getSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateGetSignal(CallbackInfoReturnable<Integer> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method Level#getSignal is deprecated! Use ILevel#getSignalFrom instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method Level#getSignal is deprecated! Use ILevel#getSignalFrom instead.");
+		}
+	}
+
+	@Inject(
+		method = "hasNeighborSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateHasNeighborSignal(CallbackInfoReturnable<Boolean> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method Level#hasNeighborSignal is deprecated! Use ILevel#hasSignal instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method Level#hasNeighborSignal is deprecated! Use ILevel#hasSignal instead.");
+		}
+	}
+
+	@Inject(
+		method = "getBestNeighborSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateGetBestNeighborSignal(CallbackInfoReturnable<Integer> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method Level#getBestNeighborSignal is deprecated! Use ILevel#getSignal instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method Level#getBestNeighborSignal is deprecated! Use ILevel#getSignal instead.");
+		}
+	}
 
 	@Override
 	public void setAllowWireSignals(boolean allowWireSignals) {
@@ -59,7 +133,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public int getSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
+		IBlockStateBase istate = (IBlockStateBase)state;
 
 		if (!allowWireSignals && istate.isWire()) {
 			return type.min();
@@ -81,7 +155,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public int getDirectSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
+		IBlockStateBase istate = (IBlockStateBase)state;
 
 		if (!allowWireSignals && istate.isWire()) {
 			return type.min();
@@ -115,7 +189,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public boolean hasSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
+		IBlockStateBase istate = (IBlockStateBase)state;
 
 		if (!allowWireSignals && istate.isWire()) {
 			return false;
@@ -133,7 +207,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public boolean hasDirectSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
+		IBlockStateBase istate = (IBlockStateBase)state;
 
 		if (!allowWireSignals && istate.isWire()) {
 			return false;

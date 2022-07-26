@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.interfaces.mixin.IBlockState;
+import signal.api.interfaces.mixin.IBlockStateBase;
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalConsumer;
 import signal.api.signal.block.SignalSource;
@@ -96,7 +96,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 
 		BlockPos neighborPos = side.offset(pos);
 		BlockState neighbor = level.getBlockState(neighborPos);
-		IBlockState ineighbor = (IBlockState)neighbor;
+		IBlockStateBase ineighbor = (IBlockStateBase)neighbor;
 
 		if (!ineighbor.isWire()) {
 			return type.min();

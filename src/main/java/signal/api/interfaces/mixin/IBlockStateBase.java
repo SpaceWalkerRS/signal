@@ -8,9 +8,9 @@ import signal.api.signal.SignalType;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
 
-public interface IBlockState {
+public interface IBlockStateBase {
 
-	IBlock getIBlock();
+	IBlockBehaviour getIBlock();
 
 	default boolean isSignalSource() {
 		return false;

@@ -131,15 +131,15 @@ public enum ConnectionSide {
 		return isAligned;
 	}
 
-	public int getOffsetX() {
+	public int getStepX() {
 		return dx;
 	}
 
-	public int getOffsetY() {
+	public int getStepY() {
 		return dy;
 	}
 
-	public int getOffsetZ() {
+	public int getStepZ() {
 		return dz;
 	}
 

@@ -5,11 +5,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.interfaces.mixin.IBlock;
+import signal.api.interfaces.mixin.IBlockBehaviour;
 import signal.api.interfaces.mixin.ILevel;
 import signal.api.signal.SignalType;
 
-public interface SignalConsumer extends IBlock {
+public interface SignalConsumer extends IBlockBehaviour {
 
 	@Override
 	default boolean isSignalConsumer(BlockState state) {

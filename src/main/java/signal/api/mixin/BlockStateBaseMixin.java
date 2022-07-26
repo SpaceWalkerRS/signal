@@ -1,9 +1,10 @@
 package signal.api.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-
-import com.google.common.collect.ImmutableMap;
-import com.mojang.serialization.MapCodec;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,24 +12,65 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
 
-import signal.api.interfaces.mixin.IBlock;
-import signal.api.interfaces.mixin.IBlockState;
+import signal.SignalMod;
+import signal.api.interfaces.mixin.IBlockBehaviour;
+import signal.api.interfaces.mixin.IBlockStateBase;
 import signal.api.signal.SignalType;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
 
-@Mixin(BlockState.class)
-public abstract class BlockStateMixin extends BlockStateBase implements IBlockState {
+@Mixin(BlockStateBase.class)
+public abstract class BlockStateBaseMixin implements IBlockStateBase {
 
-	private BlockStateMixin(Block block, ImmutableMap<Property<?>, Comparable<?>> values, MapCodec<BlockState> codec) {
-		super(block, values, codec);
+	@Shadow private Block getBlock() { return null; }
+	@Shadow private BlockState asState() { return null; }
+
+	@Inject(
+		method = "getSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateGetSignal(CallbackInfoReturnable<Integer> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method BlockStateBase#getSignal is deprecated! Use IBlockState#getSignal instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method BlockStateBase#getSignal is deprecated! Use IBlockState#getSignal instead.");
+		}
+	}
+
+	@Inject(
+		method = "getDirectSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateGetDirectSignal(CallbackInfoReturnable<Integer> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockState#getDirectSignal instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockState#getDirectSignal instead.");
+		}
+	}
+
+	@Inject(
+		method = "getAnalogOutputSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateGetAnalogOutputSignal(CallbackInfoReturnable<Integer> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockState#getAnalogSignal instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockState#getAnalogSignal instead.");
+		}
 	}
 
 	@Override
-	public IBlock getIBlock() {
-		return (IBlock)getBlock();
+	public IBlockBehaviour getIBlock() {
+		return (IBlockBehaviour)getBlock();
 	}
 
 	@Override

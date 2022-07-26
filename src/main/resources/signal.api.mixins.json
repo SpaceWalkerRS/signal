@@ -4,8 +4,8 @@
 	"package": "signal.api.mixin",
 	"compatibilityLevel": "JAVA_16",
 	"mixins": [
-		"BlockMixin",
-		"BlockStateMixin",
+		"BlockBehaviourMixin",
+		"BlockStateBaseMixin",
 		"LevelMixin"
 	],
 	"injectors": {

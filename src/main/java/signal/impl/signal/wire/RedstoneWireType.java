@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.interfaces.mixin.IBlockState;
+import signal.api.interfaces.mixin.IBlockStateBase;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.ConnectionType;
 import signal.api.signal.wire.WireType;
@@ -47,12 +47,12 @@ public class RedstoneWireType extends WireType {
 		if (ver == ConnectionSide.DOWN) {
 			BlockPos sidePos = hor.offset(pos);
 			BlockState sideState = level.getBlockState(sidePos);
-			IBlockState isideState = (IBlockState)sideState;
+			IBlockStateBase isideState = (IBlockStateBase)sideState;
 
 			if (!isideState.isSignalConductor(level, sidePos, signal)) {
 				BlockPos belowPos = pos.below();
 				BlockState belowState = level.getBlockState(belowPos);
-				IBlockState ibelowState = (IBlockState)belowState;
+				IBlockStateBase ibelowState = (IBlockStateBase)belowState;
 
 				return ibelowState.isSignalConductor(level, belowPos, signal) ? ConnectionType.BOTH : ConnectionType.IN;
 			}
@@ -60,12 +60,12 @@ public class RedstoneWireType extends WireType {
 		if (ver == ConnectionSide.UP) {
 			BlockPos abovePos = pos.above();
 			BlockState aboveState = level.getBlockState(abovePos);
-			IBlockState iaboveState = (IBlockState)aboveState;
+			IBlockStateBase iaboveState = (IBlockStateBase)aboveState;
 
 			if (!iaboveState.isSignalConductor(level, abovePos, signal)) {
 				BlockPos sidePos = hor.offset(pos);
 				BlockState sideState = level.getBlockState(sidePos);
-				IBlockState isideState = (IBlockState)sideState;
+				IBlockStateBase isideState = (IBlockStateBase)sideState;
 
 				return isideState.isSignalConductor(level, sidePos, signal) ? ConnectionType.BOTH : ConnectionType.OUT;
 			}
