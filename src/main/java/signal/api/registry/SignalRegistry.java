@@ -3,24 +3,16 @@ package signal.api.registry;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.resources.ResourceLocation;
 
 import signal.SignalMod;
 
 public class SignalRegistry<T> {
 
-	protected static final Logger LOGGER = SignalMod.LOGGER;
-
 	private final Map<ResourceLocation, T> idToValue = new HashMap<>();
 	private final Map<T, ResourceLocation> valueToId = new HashMap<>();
 
 	private boolean locked;
-
-	public boolean isLocked() {
-		return locked;
-	}
 
 	void unlock() {
 		locked = false;
@@ -38,10 +30,10 @@ public class SignalRegistry<T> {
 		}
 
 		if (idToValue.containsKey(id)) {
-			LOGGER.warn("Registering duplicate id " + id);
+			SignalMod.LOGGER.warn("Registering duplicate id " + id);
 		}
 		if (valueToId.containsKey(value)) {
-			LOGGER.warn("Registering duplicate value " + value);
+			SignalMod.LOGGER.warn("Registering duplicate value " + value);
 		}
 
 		idToValue.put(id, value);

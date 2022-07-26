@@ -5,11 +5,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.interfaces.mixin.IBlockBehaviour;
-import signal.api.interfaces.mixin.ILevel;
+import signal.api.IBlock;
+import signal.api.ILevel;
 import signal.api.signal.SignalType;
 
-public interface SignalConsumer extends IBlockBehaviour {
+public interface SignalConsumer extends IBlock {
 
 	@Override
 	default boolean signalConsumer(BlockState state) {
@@ -26,6 +26,9 @@ public interface SignalConsumer extends IBlockBehaviour {
 	default boolean consumes(SignalType type) {
 		return getConsumedSignalType().is(type);
 	}
+
+
+	// convenient methods so you do not have to do any casting
 
 	default void setAllowWireSignals(Level level, boolean allowWireSignals) {
 		((ILevel)level).setAllowWireSignals(allowWireSignals);

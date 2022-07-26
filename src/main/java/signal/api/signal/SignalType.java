@@ -4,7 +4,8 @@ import net.minecraft.util.Mth;
 
 public class SignalType {
 
-	protected final boolean isAny;
+	private final boolean isAny;
+
 	protected final int min;
 	protected final int max;
 
@@ -22,6 +23,7 @@ public class SignalType {
 		}
 
 		this.isAny = isAny;
+
 		this.min = min;
 		this.max = max;
 	}

@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.interfaces.mixin.IBlockStateBase;
+import signal.api.IBlockState;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 import signal.api.signal.block.SignalSource;
@@ -33,7 +33,7 @@ public class DebugScreenOverlayMixin {
 		)
 	)
 	private void addWireTypeInfo(CallbackInfoReturnable<List<String>> cir, long maxMemory, long totalMemory, long freeMemory, long usedMemory, List<String> info, BlockPos pos, BlockState state) {
-		IBlockStateBase istate = (IBlockStateBase)state;
+		IBlockState istate = (IBlockState)state;
 
 		if (istate.signalSource()) {
 			SignalSource source = (SignalSource)istate.getIBlock();

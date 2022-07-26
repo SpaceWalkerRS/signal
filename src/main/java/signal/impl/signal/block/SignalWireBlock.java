@@ -18,9 +18,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import signal.api.signal.block.SignalState;
+import signal.api.signal.wire.block.redstone.RedstoneWire;
+import signal.api.signal.wire.redstone.RedstoneWireType;
 import signal.impl.interfaces.mixin.IRedStoneWireBlock;
-import signal.impl.signal.wire.RedstoneWireType;
-import signal.impl.signal.wire.block.RedstoneWire;
 
 public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireBlock, RedstoneWire, SignalState {
 

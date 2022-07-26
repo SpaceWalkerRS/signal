@@ -27,7 +27,6 @@
 		]
 	},
 	"mixins": [
-		"signal.api.mixins.json",
 		"signal.impl.mixins.json"
 	],
 

@@ -6,7 +6,7 @@ import net.minecraft.core.Direction.Axis;
 
 public enum ConnectionSide {
 
-//             i   o   px  py  pz  dx  dy  dz
+//	           i   o   px  py  pz  dx  dy  dz
 	DOWN      ( 0,  1, -1,  0, -1,  0, -1,  0),
 	UP        ( 1,  0, -1,  1, -1,  0,  1,  0),
 	NORTH     ( 2,  3, -1, -1,  2,  0,  0, -1),

@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import signal.api.registry.SignalRegistry;
 import signal.api.registry.SignalRegistryCallbacks;
 import signal.api.signal.SignalTypes;
-import signal.impl.signal.wire.RedstoneWireType;
+import signal.api.signal.wire.redstone.RedstoneWireType;
 
 public class WireTypes {
 

@@ -1,6 +1,7 @@
 package signal.impl.signal.block;
 
 import net.minecraft.world.level.block.PressurePlateBlock;
+
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalSource;
 

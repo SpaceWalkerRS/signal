@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import signal.api.registry.SignalRegistry;
 import signal.api.registry.SignalRegistryCallbacks;
-import signal.impl.signal.RedstoneSignalType;
+import signal.api.signal.redstone.RedstoneSignalType;
 
 public class SignalTypes {
 

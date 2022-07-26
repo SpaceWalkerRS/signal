@@ -42,7 +42,7 @@ public enum ConnectionType {
 	}
 
 	public ConnectionType inverse() {
-		return ALL[((flags & out) << 1) | ((flags & in) >> 1)];
+		return ALL[((flags << 1) | (flags >> 1)) & 0b11];
 	}
 
 	public ConnectionType or(ConnectionType type) {

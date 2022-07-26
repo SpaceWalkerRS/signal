@@ -28,6 +28,7 @@ public interface AnalogSignalSource extends SignalSource {
 		return getAnalogSignal(level, pos, state, type) > type.min();
 	}
 
-	int getAnalogSignal(Level level, BlockPos pos, BlockState state);
-
+	default int getAnalogSignal(Level level, BlockPos pos, BlockState state) {
+		return getSignalType().min();
+	}
 }

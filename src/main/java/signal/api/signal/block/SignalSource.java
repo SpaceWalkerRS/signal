@@ -5,12 +5,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.interfaces.mixin.IBlockBehaviour;
+import signal.api.IBlock;
 import signal.api.signal.SignalType;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
 
-public interface SignalSource extends IBlockBehaviour {
+public interface SignalSource extends IBlock {
 
 	@Override
 	default boolean signalSource(BlockState state) {

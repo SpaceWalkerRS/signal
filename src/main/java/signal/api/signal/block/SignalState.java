@@ -1,7 +1,6 @@
 package signal.api.signal.block;
 
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface SignalState {
