@@ -62,12 +62,8 @@ public interface IBlock {
 		return false;
 	}
 
-	default boolean signalConductor(Level level, BlockPos pos, BlockState state) {
-		return signalConductor(level, pos, state, SignalTypes.ANY);
-	}
-
 	default boolean signalConductor(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return state.isRedstoneConductor(level, pos);
+		return type.is(SignalTypes.ANY);
 	}
 
 	default boolean wire(BlockState state) {

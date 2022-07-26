@@ -53,6 +53,9 @@ public interface SignalSource extends IBlock {
 		return getSignalType().is(type);
 	}
 
+
+	// override these methods for basic control over your signal source block
+
 	default int getSignal(Level level, BlockPos pos, BlockState state, Direction dir) {
 		return getSignalType().min();
 	}

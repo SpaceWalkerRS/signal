@@ -1,5 +1,6 @@
 package signal.impl.mixin.common;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
+import net.minecraft.world.level.block.state.BlockBehaviour.StatePredicate;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.SignalMod;
@@ -22,6 +24,8 @@ import signal.api.signal.wire.WireType;
 
 @Mixin(BlockStateBase.class)
 public class BlockStateBaseMixin implements IBlockState {
+
+	@Shadow @Final private StatePredicate isRedstoneConductor;
 
 	@Shadow private Block getBlock() { return null; }
 	@Shadow private BlockState asState() { return null; }
@@ -176,8 +180,13 @@ public class BlockStateBaseMixin implements IBlockState {
 	}
 
 	@Override
+	public boolean signalConductor(Level level, BlockPos pos) {
+		return isRedstoneConductor.test(asState(), level, pos);
+	}
+
+	@Override
 	public boolean signalConductor(Level level, BlockPos pos, SignalType type) {
-		return getIBlock().signalConductor(level, pos, asState(), type);
+		return getIBlock().signalConductor(level, pos, asState(), type) && signalConductor(level, pos);
 	}
 
 	@Override

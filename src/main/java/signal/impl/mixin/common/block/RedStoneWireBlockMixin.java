@@ -40,6 +40,61 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 	@Shadow private static boolean shouldConnectTo(BlockState state, Direction dir) { return false; }
 
 	@Redirect(
+		method = "getConnectingSide(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lnet/minecraft/world/level/block/state/properties/RedstoneSide;",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
+		)
+	)
+	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos, getSignalType());
+	}
+
+	@Redirect(
+		method = "getConnectingSide(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Z)Lnet/minecraft/world/level/block/state/properties/RedstoneSide;",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
+			)
+		)
+	private boolean isRedstoneConductor2(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos, getSignalType());
+	}
+
+	@Redirect(
+		method = "getMissingConnections",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
+		)
+	)
+	private boolean isRedstoneCondcutor3(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos, getSignalType());
+	}
+
+	@Redirect(
+		method = "updateNeighborsOfNeighboringWires",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
+		)
+	)
+	private boolean isRedstoneCondcutor4(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
+		return ((IBlockState)state).signalConductor(level, pos, getSignalType());
+	}
+
+	@Redirect(
+		method = "updatesOnShapeChange",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
+		)
+	)
+	private boolean isRedstoneCondcutor5(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
+		return ((IBlockState)state).signalConductor(level, pos);
+	}
+
+	@Redirect(
 		method = "getConnectionState",
 		at = @At(
 			value = "INVOKE",

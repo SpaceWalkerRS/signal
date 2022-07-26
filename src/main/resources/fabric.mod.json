@@ -27,7 +27,7 @@
 		]
 	},
 	"mixins": [
-		"signal.impl.mixins.json"
+		"signal.mixins.json"
 	],
 
 	"depends": {

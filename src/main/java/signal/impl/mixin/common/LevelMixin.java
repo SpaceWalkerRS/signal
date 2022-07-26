@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.BlockPos;
@@ -24,6 +25,28 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Shadow @Final private static Direction[] DIRECTIONS;
 
 	private boolean allowWireSignals = true;
+
+	@Redirect(
+		method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;hasAnalogOutputSignal()Z"
+		)
+	)
+	private boolean hasAnalogOutputSignal(BlockState state) {
+		return ((IBlockState)state).analogSignalSource();
+	}
+
+	@Redirect(
+		method = "updateNeighbourForOutputSignal",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
+		)
+	)
+	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+		return ((IBlockState)state).signalConductor(asLevel(), pos);
+	}
 
 	@Inject(
 		method = "getDirectSignalTo",
