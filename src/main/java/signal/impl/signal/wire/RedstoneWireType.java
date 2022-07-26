@@ -49,12 +49,12 @@ public class RedstoneWireType extends WireType {
 			BlockState sideState = level.getBlockState(sidePos);
 			IBlockStateBase isideState = (IBlockStateBase)sideState;
 
-			if (!isideState.isSignalConductor(level, sidePos, signal)) {
+			if (!isideState.signalConductor(level, sidePos, signal)) {
 				BlockPos belowPos = pos.below();
 				BlockState belowState = level.getBlockState(belowPos);
 				IBlockStateBase ibelowState = (IBlockStateBase)belowState;
 
-				return ibelowState.isSignalConductor(level, belowPos, signal) ? ConnectionType.BOTH : ConnectionType.IN;
+				return ibelowState.signalConductor(level, belowPos, signal) ? ConnectionType.BOTH : ConnectionType.IN;
 			}
 		} else
 		if (ver == ConnectionSide.UP) {
@@ -62,12 +62,12 @@ public class RedstoneWireType extends WireType {
 			BlockState aboveState = level.getBlockState(abovePos);
 			IBlockStateBase iaboveState = (IBlockStateBase)aboveState;
 
-			if (!iaboveState.isSignalConductor(level, abovePos, signal)) {
+			if (!iaboveState.signalConductor(level, abovePos, signal)) {
 				BlockPos sidePos = hor.offset(pos);
 				BlockState sideState = level.getBlockState(sidePos);
 				IBlockStateBase isideState = (IBlockStateBase)sideState;
 
-				return isideState.isSignalConductor(level, sidePos, signal) ? ConnectionType.BOTH : ConnectionType.OUT;
+				return isideState.signalConductor(level, sidePos, signal) ? ConnectionType.BOTH : ConnectionType.OUT;
 			}
 		}
 

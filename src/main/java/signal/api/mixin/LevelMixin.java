@@ -135,7 +135,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 		BlockState state = getBlockState(pos);
 		IBlockStateBase istate = (IBlockStateBase)state;
 
-		if (!allowWireSignals && istate.isWire()) {
+		if (!allowWireSignals && istate.wire()) {
 			return type.min();
 		}
 
@@ -145,7 +145,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			return type.max();
 		}
 
-		if (istate.isSignalConductor(asLevel(), pos, type)) {
+		if (istate.signalConductor(asLevel(), pos, type)) {
 			signal = Math.max(signal, getDirectSignal(pos, type));
 		}
 
@@ -157,7 +157,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 		BlockState state = getBlockState(pos);
 		IBlockStateBase istate = (IBlockStateBase)state;
 
-		if (!allowWireSignals && istate.isWire()) {
+		if (!allowWireSignals && istate.wire()) {
 			return type.min();
 		}
 
@@ -191,13 +191,13 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 		BlockState state = getBlockState(pos);
 		IBlockStateBase istate = (IBlockStateBase)state;
 
-		if (!allowWireSignals && istate.isWire()) {
+		if (!allowWireSignals && istate.wire()) {
 			return false;
 		}
 		if (istate.hasSignal(asLevel(), pos, dir, type)) {
 			return true;
 		}
-		if (!istate.isSignalConductor(asLevel(), pos, type)) {
+		if (!istate.signalConductor(asLevel(), pos, type)) {
 			return false;
 		}
 
@@ -209,7 +209,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 		BlockState state = getBlockState(pos);
 		IBlockStateBase istate = (IBlockStateBase)state;
 
-		if (!allowWireSignals && istate.isWire()) {
+		if (!allowWireSignals && istate.wire()) {
 			return false;
 		}
 

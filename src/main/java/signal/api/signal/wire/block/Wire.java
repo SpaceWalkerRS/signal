@@ -24,12 +24,12 @@ public interface Wire extends SignalSource, SignalConsumer {
 	}
 
 	@Override
-	default boolean isWire(BlockState state) {
+	default boolean wire(BlockState state) {
 		return true;
 	}
 
 	@Override
-	default boolean isWire(BlockState state, WireType type) {
+	default boolean wire(BlockState state, WireType type) {
 		return is(type);
 	}
 
@@ -98,7 +98,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 		BlockState neighbor = level.getBlockState(neighborPos);
 		IBlockStateBase ineighbor = (IBlockStateBase)neighbor;
 
-		if (!ineighbor.isWire()) {
+		if (!ineighbor.wire()) {
 			return type.min();
 		}
 

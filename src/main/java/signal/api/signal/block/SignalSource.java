@@ -13,12 +13,12 @@ import signal.api.signal.wire.WireType;
 public interface SignalSource extends IBlockBehaviour {
 
 	@Override
-	default boolean isSignalSource(BlockState state) {
+	default boolean signalSource(BlockState state) {
 		return true;
 	}
 
 	@Override
-	default boolean isSignalSource(BlockState state, SignalType type) {
+	default boolean signalSource(BlockState state, SignalType type) {
 		return is(type);
 	}
 

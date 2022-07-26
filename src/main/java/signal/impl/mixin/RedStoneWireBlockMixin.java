@@ -89,7 +89,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		// can connect to this wire block.
 		IBlockStateBase istate = (IBlockStateBase)state;
 
-		if (!istate.isWire()) {
+		if (!istate.wire()) {
 			return false;
 		}
 
@@ -204,7 +204,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		// all wires that can connect to this wire.
 		IBlockStateBase istate = (IBlockStateBase)state;
 
-		if (!istate.isWire()) {
+		if (!istate.wire()) {
 			return false;
 		}
 

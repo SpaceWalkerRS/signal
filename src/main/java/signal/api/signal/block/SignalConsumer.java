@@ -12,12 +12,12 @@ import signal.api.signal.SignalType;
 public interface SignalConsumer extends IBlockBehaviour {
 
 	@Override
-	default boolean isSignalConsumer(BlockState state) {
+	default boolean signalConsumer(BlockState state) {
 		return true;
 	}
 
 	@Override
-	default boolean isSignalConsumer(BlockState state, SignalType type) {
+	default boolean signalConsumer(BlockState state, SignalType type) {
 		return consumes(type);
 	}
 

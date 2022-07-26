@@ -6,6 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.signal.SignalType;
+import signal.api.signal.SignalTypes;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
 
@@ -13,11 +14,11 @@ public interface IBlockBehaviour {
 
 	static final Direction[] DIRECTIONS = Direction.values();
 
-	default boolean isSignalSource(BlockState state) {
+	default boolean signalSource(BlockState state) {
 		return false;
 	}
 
-	default boolean isSignalSource(BlockState state, SignalType type) {
+	default boolean signalSource(BlockState state, SignalType type) {
 		return false;
 	}
 
@@ -37,11 +38,11 @@ public interface IBlockBehaviour {
 		return false;
 	}
 
-	default boolean isAnalogSignalSource(BlockState state) {
+	default boolean analogSignalSource(BlockState state) {
 		return false;
 	}
 
-	default boolean isAnalogSignalSource(BlockState state, SignalType type) {
+	default boolean analogSignalSource(BlockState state, SignalType type) {
 		return false;
 	}
 
@@ -53,23 +54,27 @@ public interface IBlockBehaviour {
 		return false;
 	}
 
-	default boolean isSignalConsumer(BlockState state) {
+	default boolean signalConsumer(BlockState state) {
 		return false;
 	}
 
-	default boolean isSignalConsumer(BlockState state, SignalType type) {
+	default boolean signalConsumer(BlockState state, SignalType type) {
 		return false;
 	}
 
-	default boolean isSignalConductor(Level level, BlockPos pos, BlockState state, SignalType type) {
+	default boolean signalConductor(Level level, BlockPos pos, BlockState state) {
+		return signalConductor(level, pos, state, SignalTypes.ANY);
+	}
+
+	default boolean signalConductor(Level level, BlockPos pos, BlockState state, SignalType type) {
 		return state.isRedstoneConductor(level, pos);
 	}
 
-	default boolean isWire(BlockState state) {
+	default boolean wire(BlockState state) {
 		return false;
 	}
 
-	default boolean isWire(BlockState state, WireType type) {
+	default boolean wire(BlockState state, WireType type) {
 		return false;
 	}
 

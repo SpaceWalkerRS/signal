@@ -21,10 +21,52 @@ import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
 
 @Mixin(BlockStateBase.class)
-public abstract class BlockStateBaseMixin implements IBlockStateBase {
+public class BlockStateBaseMixin implements IBlockStateBase {
 
 	@Shadow private Block getBlock() { return null; }
 	@Shadow private BlockState asState() { return null; }
+
+	@Inject(
+		method = "isSignalSource",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateIsSignalSource(CallbackInfoReturnable<Boolean> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method BlockStateBase#isSignalSource is deprecated! Use IBlockStateBase#signalSource instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method BlockStateBase#isSignalSource is deprecated! Use IBlockStateBase#signalSource instead.");
+		}
+	}
+
+	@Inject(
+		method = "hasAnalogOutputSignal",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateHasAnalogOutputSignal(CallbackInfoReturnable<Boolean> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method BlockStateBase#hasAnalogOutputSignal is deprecated! Use IBlockStateBase#analogSignalSource instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method BlockStateBase#hasAnalogOutputSignal is deprecated! Use IBlockStateBase#analogSignalSource instead.");
+		}
+	}
+
+	@Inject(
+		method = "isRedstoneConductor",
+		at = @At(
+			value = "HEAD"
+		)
+	)
+	private void deprecateIsRedstoneConductor(CallbackInfoReturnable<Boolean> cir) {
+		if (SignalMod.DEBUG) {
+			throw new IllegalStateException("Method BlockStateBase#isRedstoneConductor is deprecated! Use IBlockStateBase#signalConductor instead.");
+		} else {
+			SignalMod.LOGGER.warn("Method BlockStateBase#isRedstoneConductor is deprecated! Use IBlockStateBase#signalConductor instead.");
+		}
+	}
 
 	@Inject(
 		method = "getSignal",
@@ -34,9 +76,9 @@ public abstract class BlockStateBaseMixin implements IBlockStateBase {
 	)
 	private void deprecateGetSignal(CallbackInfoReturnable<Integer> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#getSignal is deprecated! Use IBlockState#getSignal instead.");
+			throw new IllegalStateException("Method BlockStateBase#getSignal is deprecated! Use IBlockStateBase#getSignal instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#getSignal is deprecated! Use IBlockState#getSignal instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#getSignal is deprecated! Use IBlockStateBase#getSignal instead.");
 		}
 	}
 
@@ -48,9 +90,9 @@ public abstract class BlockStateBaseMixin implements IBlockStateBase {
 	)
 	private void deprecateGetDirectSignal(CallbackInfoReturnable<Integer> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockState#getDirectSignal instead.");
+			throw new IllegalStateException("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockStateBase#getDirectSignal instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockState#getDirectSignal instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockStateBase#getDirectSignal instead.");
 		}
 	}
 
@@ -62,9 +104,9 @@ public abstract class BlockStateBaseMixin implements IBlockStateBase {
 	)
 	private void deprecateGetAnalogOutputSignal(CallbackInfoReturnable<Integer> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockState#getAnalogSignal instead.");
+			throw new IllegalStateException("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockStateBase#getAnalogSignal instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockState#getAnalogSignal instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockStateBase#getAnalogSignal instead.");
 		}
 	}
 
@@ -74,13 +116,13 @@ public abstract class BlockStateBaseMixin implements IBlockStateBase {
 	}
 
 	@Override
-	public boolean isSignalSource() {
-		return getIBlock().isSignalSource(asState());
+	public boolean signalSource() {
+		return getIBlock().signalSource(asState());
 	}
 
 	@Override
-	public boolean isSignalSource(SignalType types) {
-		return getIBlock().isSignalSource(asState(), types);
+	public boolean signalSource(SignalType types) {
+		return getIBlock().signalSource(asState(), types);
 	}
 
 	@Override
@@ -104,13 +146,13 @@ public abstract class BlockStateBaseMixin implements IBlockStateBase {
 	}
 
 	@Override
-	public boolean isAnalogSignalSource() {
-		return getIBlock().isAnalogSignalSource(asState());
+	public boolean analogSignalSource() {
+		return getIBlock().analogSignalSource(asState());
 	}
 
 	@Override
-	public boolean isAnalogSignalSource(SignalType types) {
-		return getIBlock().isAnalogSignalSource(asState(), types);
+	public boolean analogSignalSource(SignalType types) {
+		return getIBlock().analogSignalSource(asState(), types);
 	}
 
 	@Override
@@ -124,28 +166,28 @@ public abstract class BlockStateBaseMixin implements IBlockStateBase {
 	}
 
 	@Override
-	public boolean isSignalConsumer() {
-		return getIBlock().isSignalConsumer(asState());
+	public boolean signalConsumer() {
+		return getIBlock().signalConsumer(asState());
 	}
 
 	@Override
-	public boolean isSignalConsumer(SignalType type) {
-		return getIBlock().isSignalConsumer(asState(), type);
+	public boolean signalConsumer(SignalType type) {
+		return getIBlock().signalConsumer(asState(), type);
 	}
 
 	@Override
-	public boolean isSignalConductor(Level level, BlockPos pos, SignalType type) {
-		return getIBlock().isSignalConductor(level, pos, asState(), type);
+	public boolean signalConductor(Level level, BlockPos pos, SignalType type) {
+		return getIBlock().signalConductor(level, pos, asState(), type);
 	}
 
 	@Override
-	public boolean isWire() {
-		return getIBlock().isWire(asState());
+	public boolean wire() {
+		return getIBlock().wire(asState());
 	}
 
 	@Override
-	public boolean isWire(WireType type) {
-		return getIBlock().isWire(asState(), type);
+	public boolean wire(WireType type) {
+		return getIBlock().wire(asState(), type);
 	}
 
 	@Override
