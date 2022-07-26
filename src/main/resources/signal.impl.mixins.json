@@ -1,0 +1,36 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "signal.impl.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"mixins": [
+		"BasePressurePlateBlockMixin",
+		"ButtonBlockMixin",
+		"ComparatorBlockMixin",
+		"DaylightDetectorBlockMixin",
+		"DiodeBlockMixin",
+		"LecternBlockMixin",
+		"LeverBlockMixin",
+		"LightningRodBlockMixin",
+		"ObserverBlockMixin",
+		"PoweredBlockMixin",
+		"PressurePlateBlockMixin",
+		"RedstoneTorchBlockMixin",
+		"RedstoneWallTorchBlockMixin",
+		"RedStoneWireBlockMixin",
+		"RepeaterBlockMixin",
+		"SculkSensorBlockMixin",
+		"StoneButtonBlockMixin",
+		"TargetBlockMixin",
+		"TrappedChestBlockMixin",
+		"TripWireHookBlockMixin",
+		"WeightedPressurePlateBlockMixin",
+		"WoodButtonBlockMixin"
+	],
+	"client": [
+		"client.DebugScreenOverlayMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

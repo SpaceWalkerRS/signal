@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "signal.api.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"mixins": [
+		"BlockMixin",
+		"BlockStateMixin",
+		"LevelMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

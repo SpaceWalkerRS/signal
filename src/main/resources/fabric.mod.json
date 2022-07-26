@@ -1,0 +1,45 @@
+{
+	"schemaVersion": 1,
+	"id": "signal",
+	"version": "${version}",
+
+	"name": "Signal",
+	"description": "An API for adding redstone-like blocks.",
+	"authors": [
+		"Space Walker"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/signal",
+		"sources": "https://github.com/SpaceWalkerRS/signal",
+		"issues": "https://github.com/SpaceWalkerRS/signal/issues"
+	},
+
+	"license": "MIT Licence",
+	"icon": "assets/signal/icon.png",
+
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"signal.SignalMod"
+		],
+		"signal": [
+			"signal.SignalMod"
+		]
+	},
+	"mixins": [
+		"signal.api.mixins.json",
+		"signal.impl.mixins.json"
+	],
+
+	"depends": {
+		"minecraft": "1.19.x"
+	},
+
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/EJC9zkX"
+			}
+		}
+	}
+}
