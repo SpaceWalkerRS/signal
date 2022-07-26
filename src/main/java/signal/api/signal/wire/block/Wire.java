@@ -57,7 +57,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 		return getWireType().min();
 	}
 
-	default int getReceivedSignal(Level level, BlockPos pos) {
+	default int getNeighborSignal(Level level, BlockPos pos) {
 		WireType type = getWireType();
 
 		setAllowWireSignals(level, false);
@@ -65,13 +65,13 @@ public interface Wire extends SignalSource, SignalConsumer {
 		setAllowWireSignals(level, true);
 
 		if (signal < type.max()) {
-			signal = Math.max(signal, getReceivedWireSignal(level, pos));
+			signal = Math.max(signal, getNeighborWireSignal(level, pos));
 		}
 
 		return signal;
 	}
 
-	default int getReceivedWireSignal(Level level, BlockPos pos) {
+	default int getNeighborWireSignal(Level level, BlockPos pos) {
 		WireType type = getWireType();
 
 		int signal = type.min();
