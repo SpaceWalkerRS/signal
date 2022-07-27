@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
+import signal.api.signal.SignalTypes;
 
 @Mixin(ChestBlock.class)
 public class ChestBlockMixin {
@@ -23,6 +24,6 @@ public class ChestBlockMixin {
 		)
 	)
 	private static boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos);
+		return blockGetter instanceof Level && ((IBlockState)state).isSignalConductor((Level)blockGetter, pos, SignalTypes.ANY);
 	}
 }

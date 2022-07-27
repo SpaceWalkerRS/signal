@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
+import signal.api.signal.SignalTypes;
 import signal.api.signal.block.redstone.RedstoneSignalConsumer;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 import signal.api.signal.wire.ConnectionSide;
@@ -68,7 +69,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 		)
 	)
 	private boolean hasAnalogOutputSignal(BlockState state) {
-		return ((IBlockState)state).analogSignalSource();
+		return ((IBlockState)state).isAnalogSignalSource(SignalTypes.ANY);
 	}
 
 	@Redirect(
@@ -79,7 +80,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 		)
 	)
 	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
-		return ((IBlockState)state).signalConductor(level, pos);
+		return ((IBlockState)state).isSignalConductor(level, pos, getSignalType());
 	}
 
 	@ModifyConstant(

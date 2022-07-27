@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.RailBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
+import signal.api.signal.SignalTypes;
 
 @Mixin(RailBlock.class)
 public class RailBlockMixin {
@@ -20,6 +21,6 @@ public class RailBlockMixin {
 		)
 	)
 	private boolean isSignalSource(BlockState state) {
-		return ((IBlockState)state).signalSource();
+		return ((IBlockState)state).isSignalSource(SignalTypes.ANY);
 	}
 }

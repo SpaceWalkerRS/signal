@@ -12,11 +12,7 @@ public interface IBlockState {
 
 	IBlock getIBlock();
 
-	default boolean signalSource() {
-		return false;
-	}
-
-	default boolean signalSource(SignalType type) {
+	default boolean isSignalSource(SignalType type) {
 		return false;
 	}
 
@@ -36,11 +32,7 @@ public interface IBlockState {
 		return false;
 	}
 
-	default boolean analogSignalSource() {
-		return false;
-	}
-
-	default boolean analogSignalSource(SignalType type) {
+	default boolean isAnalogSignalSource(SignalType type) {
 		return false;
 	}
 
@@ -52,27 +44,19 @@ public interface IBlockState {
 		return false;
 	}
 
-	default boolean signalConsumer() {
+	default boolean isSignalConsumer(SignalType type) {
 		return false;
 	}
 
-	default boolean signalConsumer(SignalType type) {
+	default boolean isSignalConductor(Level level, BlockPos pos, SignalType type) {
 		return false;
 	}
 
-	default boolean signalConductor(Level level, BlockPos pos) {
+	default boolean isWire() {
 		return false;
 	}
 
-	default boolean signalConductor(Level level, BlockPos pos, SignalType type) {
-		return false;
-	}
-
-	default boolean wire() {
-		return false;
-	}
-
-	default boolean wire(WireType type) {
+	default boolean isWire(WireType type) {
 		return false;
 	}
 

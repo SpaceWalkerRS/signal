@@ -3,26 +3,24 @@ package signal.api;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 
-import signal.api.signal.SignalType;
+import signal.api.signal.block.SignalConsumer;
 
 public interface ILevel {
 
-	void setAllowWireSignals(boolean allowWireSignals);
+	int getSignal(BlockPos pos, SignalConsumer consumer);
 
-	int getSignal(BlockPos pos, SignalType type);
+	int getDirectSignal(BlockPos pos, SignalConsumer consumer);
 
-	int getDirectSignal(BlockPos pos, SignalType type);
+	int getSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer);
 
-	int getSignalFrom(BlockPos pos, Direction dir, SignalType type);
+	int getDirectSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer);
 
-	int getDirectSignalFrom(BlockPos pos, Direction dir, SignalType type);
-
-	boolean hasSignal(BlockPos pos, SignalType type);
+	boolean hasSignal(BlockPos pos, SignalConsumer consumer);
 	
-	boolean hasDirectSignal(BlockPos pos, SignalType type);
+	boolean hasDirectSignal(BlockPos pos, SignalConsumer consumer);
 
-	boolean hasSignalFrom(BlockPos pos, Direction dir, SignalType type);
+	boolean hasSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer);
 	
-	boolean hasDirectSignalFrom(BlockPos pos, Direction dir, SignalType type);
+	boolean hasDirectSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer);
 
 }

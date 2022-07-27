@@ -47,7 +47,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos, getSignalType());
+		return blockGetter instanceof Level && ((IBlockState)state).isSignalConductor((Level)blockGetter, pos, getSignalType());
 	}
 
 	@Redirect(
@@ -58,7 +58,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			)
 		)
 	private boolean isRedstoneConductor2(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos, getSignalType());
+		return blockGetter instanceof Level && ((IBlockState)state).isSignalConductor((Level)blockGetter, pos, getSignalType());
 	}
 
 	@Redirect(
@@ -69,7 +69,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	private boolean isRedstoneCondcutor3(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos, getSignalType());
+		return blockGetter instanceof Level && ((IBlockState)state).isSignalConductor((Level)blockGetter, pos, getSignalType());
 	}
 
 	@Redirect(
@@ -80,7 +80,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	private boolean isRedstoneCondcutor4(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
-		return ((IBlockState)state).signalConductor(level, pos, getSignalType());
+		return ((IBlockState)state).isSignalConductor(level, pos, getSignalType());
 	}
 
 	@Redirect(
@@ -91,7 +91,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	private boolean isRedstoneCondcutor5(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
-		return ((IBlockState)state).signalConductor(level, pos);
+		return ((IBlockState)state).isSignalConductor(level, pos, getSignalType());
 	}
 
 	@Redirect(
@@ -144,7 +144,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		// can connect to this wire block.
 		IBlockState istate = (IBlockState)state;
 
-		if (!istate.wire()) {
+		if (!istate.isWire()) {
 			return false;
 		}
 
@@ -259,7 +259,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		// all wires that can connect to this wire.
 		IBlockState istate = (IBlockState)state;
 
-		if (!istate.wire()) {
+		if (!istate.isWire()) {
 			return false;
 		}
 

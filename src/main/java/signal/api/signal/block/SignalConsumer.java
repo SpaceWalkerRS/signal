@@ -3,7 +3,6 @@ package signal.api.signal.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlock;
 import signal.api.ILevel;
@@ -12,12 +11,12 @@ import signal.api.signal.SignalType;
 public interface SignalConsumer extends IBlock {
 
 	@Override
-	default boolean signalConsumer(BlockState state) {
+	default boolean isSignalConsumer() {
 		return true;
 	}
 
 	@Override
-	default boolean signalConsumer(BlockState state, SignalType type) {
+	default boolean isSignalConsumer(SignalType type) {
 		return consumes(type);
 	}
 
@@ -30,39 +29,35 @@ public interface SignalConsumer extends IBlock {
 
 	// convenient methods so you do not have to do any casting
 
-	default void setAllowWireSignals(Level level, boolean allowWireSignals) {
-		((ILevel)level).setAllowWireSignals(allowWireSignals);
-	}
-
 	default int getReceivedSignal(Level level, BlockPos pos) {
-		return ((ILevel)level).getSignal(pos, getConsumedSignalType());
+		return ((ILevel)level).getSignal(pos, this);
 	}
 
 	default int getReceivedDirectSignal(Level level, BlockPos pos) {
-		return ((ILevel)level).getDirectSignal(pos, getConsumedSignalType());
+		return ((ILevel)level).getDirectSignal(pos, this);
 	}
 
 	default int getReceivedSignalFrom(Level level, BlockPos pos, Direction dir) {
-		return ((ILevel)level).getSignalFrom(pos, dir, getConsumedSignalType());
+		return ((ILevel)level).getSignalFrom(pos, dir, this);
 	}
 
 	default int getReceivedDirectSignalFrom(Level level, BlockPos pos, Direction dir) {
-		return ((ILevel)level).getDirectSignalFrom(pos, dir, getConsumedSignalType());
+		return ((ILevel)level).getDirectSignalFrom(pos, dir, this);
 	}
 
 	default boolean hasReceivedSignal(Level level, BlockPos pos) {
-		return ((ILevel)level).hasSignal(pos, getConsumedSignalType());
+		return ((ILevel)level).hasSignal(pos, this);
 	}
 
 	default boolean hasReceivedDirectSignal(Level level, BlockPos pos) {
-		return ((ILevel)level).hasDirectSignal(pos, getConsumedSignalType());
+		return ((ILevel)level).hasDirectSignal(pos, this);
 	}
 
 	default boolean hasReceivedSignalFrom(Level level, BlockPos pos, Direction dir) {
-		return ((ILevel)level).hasSignalFrom(pos, dir, getConsumedSignalType());
+		return ((ILevel)level).hasSignalFrom(pos, dir, this);
 	}
 
 	default boolean hasReceivedDirectSignalFrom(Level level, BlockPos pos, Direction dir) {
-		return ((ILevel)level).hasDirectSignalFrom(pos, dir, getConsumedSignalType());
+		return ((ILevel)level).hasDirectSignalFrom(pos, dir, this);
 	}
 }

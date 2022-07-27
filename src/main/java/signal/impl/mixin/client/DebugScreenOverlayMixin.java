@@ -35,14 +35,14 @@ public class DebugScreenOverlayMixin {
 	private void addWireTypeInfo(CallbackInfoReturnable<List<String>> cir, long maxMemory, long totalMemory, long freeMemory, long usedMemory, List<String> info, BlockPos pos, BlockState state) {
 		IBlockState istate = (IBlockState)state;
 
-		if (istate.signalSource()) {
+		if (istate.isSignalSource(SignalTypes.ANY)) {
 			SignalSource source = (SignalSource)istate.getIBlock();
 			SignalType signalType = source.getSignalType();
 			ResourceLocation signalId = SignalTypes.REGISTRY.getId(signalType);
 
 			info.add("signal type: " + signalId);
 
-			if (istate.wire()) {
+			if (istate.isWire()) {
 				Wire wire = (Wire)source;
 				WireType wireType = wire.getWireType();
 				ResourceLocation wireId = WireTypes.REGISTRY.getId(wireType);

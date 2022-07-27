@@ -9,12 +9,12 @@ import signal.api.signal.SignalType;
 public interface AnalogSignalSource extends SignalSource {
 
 	@Override
-	default boolean analogSignalSource(BlockState state) {
+	default boolean isAnalogSignalSource() {
 		return true;
 	}
 
 	@Override
-	default boolean analogSignalSource(BlockState state, SignalType type) {
+	default boolean isAnalogSignalSource(SignalType type) {
 		return is(type);
 	}
 

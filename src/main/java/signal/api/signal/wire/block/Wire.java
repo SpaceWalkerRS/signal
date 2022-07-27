@@ -5,6 +5,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
+import signal.api.signal.SignalHolder;
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalConsumer;
 import signal.api.signal.block.SignalSource;
@@ -24,12 +25,12 @@ public interface Wire extends SignalSource, SignalConsumer {
 	}
 
 	@Override
-	default boolean wire(BlockState state) {
+	default boolean isWire() {
 		return true;
 	}
 
 	@Override
-	default boolean wire(BlockState state, WireType type) {
+	default boolean isWire(WireType type) {
 		return is(type);
 	}
 
@@ -58,13 +59,9 @@ public interface Wire extends SignalSource, SignalConsumer {
 	}
 
 	default int getNeighborSignal(Level level, BlockPos pos) {
-		WireType type = getWireType();
-
-		setAllowWireSignals(level, false);
 		int signal = getReceivedSignal(level, pos);
-		setAllowWireSignals(level, true);
 
-		if (signal < type.max()) {
+		if (signal < getWireType().max()) {
 			signal = Math.max(signal, getNeighborWireSignal(level, pos));
 		}
 
@@ -73,50 +70,22 @@ public interface Wire extends SignalSource, SignalConsumer {
 
 	default int getNeighborWireSignal(Level level, BlockPos pos) {
 		WireType type = getWireType();
+		SignalHolder signal = new SignalHolder(type.min());
 
-		int signal = type.min();
-
-		for (ConnectionSide side : ConnectionSide.ALL) {
-			signal = Math.max(signal, getReceivedWireSignal(level, pos, side));
-
-			if (signal >= type.max()) {
-				return type.max();
+		getWireType().findConnections(level, pos, (side, neighborPos, neighborState, connection) -> {
+			if (!connection.in()) {
+				return;
 			}
-		}
 
-		return type.clamp(signal);
-	}
+			IBlockState ineighborState = (IBlockState)neighborState;
+			Wire neighborWire = (Wire)ineighborState.getIBlock();
 
-	default int getReceivedWireSignal(Level level, BlockPos pos, ConnectionSide side) {
-		WireType type = getWireType();
+			int neighborSignal = neighborWire.getSignal(level, neighborPos, neighborState);
+			int step = Math.max(type.step(), neighborWire.getWireType().step());
 
-		if (!type.getConnection(level, pos, side).in()) {
-			return type.min();
-		}
+			signal.increase(neighborSignal - step);
+		});
 
-		BlockPos neighborPos = side.offset(pos);
-		BlockState neighbor = level.getBlockState(neighborPos);
-		IBlockState ineighbor = (IBlockState)neighbor;
-
-		if (!ineighbor.wire()) {
-			return type.min();
-		}
-
-		Wire neighborWire = (Wire)ineighbor.getIBlock();
-
-		if (!neighborWire.isCompatible(type)) {
-			return type.min();
-		}
-
-		WireType neighborType = neighborWire.getWireType();
-
-		if (neighborType != type && !neighborType.getConnection(level, neighborPos, side.getOpposite()).out()) {
-			return type.min();
-		}
-
-		int neighborSignal = neighborWire.getSignal(level, neighborPos, neighbor);
-		int step = Math.max(type.step(), neighborType.step());
-
-		return neighborSignal - step;
+		return type.clamp(signal.get());
 	}
 }

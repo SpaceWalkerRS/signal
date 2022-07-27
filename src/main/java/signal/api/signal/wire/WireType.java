@@ -3,8 +3,11 @@ package signal.api.signal.wire;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
+import signal.api.IBlockState;
 import signal.api.signal.SignalType;
+import signal.api.signal.wire.block.Wire;
 
 public abstract class WireType {
 
@@ -65,6 +68,80 @@ public abstract class WireType {
 		return signal.is(type.signal);
 	}
 
-	public abstract ConnectionType getConnection(Level level, BlockPos pos, ConnectionSide side);
+	public void findConnections(Level level, BlockPos pos, ConnectionConsumer consumer) {
+		findPotentialConnections(level, pos, (side, neighborPos, neighborState, connection) -> {
+			connection = validateConnection(level, pos, side, neighborPos, neighborState, connection);
 
+			if (connection != ConnectionType.NONE) {
+				consumer.accept(side, neighborPos, neighborState, connection);
+			}
+		});
+	}
+
+	public abstract void findPotentialConnections(Level level, BlockPos pos, PotentialConnectionConsumer consumer);
+
+	public ConnectionType getConnection(Level level, BlockPos pos, ConnectionSide side) {
+		ConnectionType connection = getPotentialConnection(level, pos, side);
+
+		if (connection == ConnectionType.NONE) {
+			return ConnectionType.NONE;
+		}
+
+		BlockPos neighborPos = side.offset(pos);
+		BlockState neighborState = level.getBlockState(neighborPos);
+
+		return validateConnection(level, pos, side, neighborPos, neighborState, connection);
+	}
+
+	public abstract ConnectionType getPotentialConnection(Level level, BlockPos pos, ConnectionSide side);
+
+	private ConnectionType validateConnection(Level level, BlockPos pos, ConnectionSide side, BlockPos neighborPos, BlockState neighborState, ConnectionType connection) {
+		if (connection == ConnectionType.NONE) {
+			return ConnectionType.NONE;
+		}
+
+		IBlockState ineighborState = (IBlockState)neighborState;
+
+		if (!ineighborState.isWire()) {
+			return ConnectionType.NONE;
+		}
+
+		Wire neighborWire = (Wire)ineighborState.getIBlock();
+
+		if (!neighborWire.isCompatible(this)) {
+			return ConnectionType.NONE;
+		}
+
+		WireType neighborType = neighborWire.getWireType();
+
+		if (this != neighborType) {
+			connection = connection.and(neighborType.getPotentialConnection(level, neighborPos, side.getOpposite()));
+
+			if (connection == ConnectionType.NONE) {
+				return ConnectionType.NONE;
+			}
+		}
+
+		return connection;
+	}
+
+	@FunctionalInterface
+	public interface ConnectionConsumer {
+
+		void accept(ConnectionSide side, BlockPos neighborPos, BlockState neighborState, ConnectionType connection);
+
+	}
+
+	@FunctionalInterface
+	public interface PotentialConnectionConsumer {
+
+		void accept(ConnectionSide side, BlockPos neighborPos, BlockState neighborState, ConnectionType connection);
+
+		default void accept(Level level, BlockPos pos, ConnectionSide side, ConnectionType connection) {
+			BlockPos neighborPos = side.offset(pos);
+			BlockState neighborState = level.getBlockState(neighborPos);
+
+			accept(side, neighborPos, neighborState, connection);
+		}
+	}
 }

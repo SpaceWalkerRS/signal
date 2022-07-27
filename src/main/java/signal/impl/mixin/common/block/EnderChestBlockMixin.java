@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.EnderChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
+import signal.api.signal.SignalTypes;
 
 @Mixin(EnderChestBlock.class)
 public class EnderChestBlockMixin {
@@ -23,6 +24,6 @@ public class EnderChestBlockMixin {
 		)
 	)
 	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos, BlockState blockState, Level level) {
-		return ((IBlockState)state).signalConductor(level, pos);
+		return ((IBlockState)state).isSignalConductor(level, pos, SignalTypes.ANY);
 	}
 }

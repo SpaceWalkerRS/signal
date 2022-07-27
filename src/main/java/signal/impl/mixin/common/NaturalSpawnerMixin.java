@@ -13,6 +13,7 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
+import signal.api.signal.SignalTypes;
 
 @Mixin(NaturalSpawner.class)
 public class NaturalSpawnerMixin {
@@ -25,7 +26,7 @@ public class NaturalSpawnerMixin {
 		)
 	)
 	private static boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos, MobCategory category, ServerLevel level) {
-		return ((IBlockState)state).signalConductor(level, pos);
+		return ((IBlockState)state).isSignalConductor(level, pos, SignalTypes.ANY);
 	}
 
 	@Redirect(
@@ -36,7 +37,7 @@ public class NaturalSpawnerMixin {
 		)
 	)
 	private static boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return blockGetter instanceof Level && ((IBlockState)state).signalConductor((Level)blockGetter, pos);
+		return blockGetter instanceof Level && ((IBlockState)state).isSignalConductor((Level)blockGetter, pos, SignalTypes.ANY);
 	}
 
 	@Redirect(
@@ -47,6 +48,6 @@ public class NaturalSpawnerMixin {
 		)
 	)
 	private static boolean isSignalSource(BlockState state) {
-		return ((IBlockState)state).signalSource();
+		return ((IBlockState)state).isSignalSource(SignalTypes.ANY);
 	}
 }

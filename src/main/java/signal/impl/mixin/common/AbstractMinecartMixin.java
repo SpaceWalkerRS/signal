@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
+import signal.api.signal.SignalTypes;
 
 @Mixin(AbstractMinecart.class)
 public abstract class AbstractMinecartMixin extends Entity {
@@ -29,6 +30,6 @@ public abstract class AbstractMinecartMixin extends Entity {
 		)
 	)
 	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return ((IBlockState)state).signalConductor(level, pos);
+		return ((IBlockState)state).isSignalConductor(level, pos, SignalTypes.ANY);
 	}
 }
