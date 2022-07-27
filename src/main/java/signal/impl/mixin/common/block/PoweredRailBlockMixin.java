@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.PoweredRailBlock;
 
-import signal.api.signal.block.redstone.RedstoneSignalConsumer;
+import signal.api.signal.block.SignalConsumer;
 
 @Mixin(PoweredRailBlock.class)
-public class PoweredRailBlockMixin implements RedstoneSignalConsumer {
+public class PoweredRailBlockMixin implements SignalConsumer {
 
 	@Redirect(
 		method = "isSameRailWithPower",

@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BellBlock;
 
-import signal.api.signal.block.redstone.RedstoneSignalConsumer;
+import signal.api.signal.block.SignalConsumer;
 
 @Mixin(BellBlock.class)
-public class BellBlockMixin implements RedstoneSignalConsumer {
+public class BellBlockMixin implements SignalConsumer {
 
 	@Redirect(
 		method = "neighborChanged",

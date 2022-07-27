@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseRailBlock;
 
-import signal.api.signal.block.redstone.RedstoneSignalConsumer;
+import signal.api.signal.block.SignalConsumer;
 
 @Mixin(BaseRailBlock.class)
-public class BaseRailBlockMixin implements RedstoneSignalConsumer {
+public class BaseRailBlockMixin implements SignalConsumer {
 
 	@Redirect(
 		method = "updateDir",

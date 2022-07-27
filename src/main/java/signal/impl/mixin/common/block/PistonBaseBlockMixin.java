@@ -9,10 +9,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 
-import signal.api.signal.block.redstone.RedstoneSignalConsumer;
+import signal.api.signal.block.SignalConsumer;
 
 @Mixin(PistonBaseBlock.class)
-public class PistonBaseBlockMixin implements RedstoneSignalConsumer {
+public class PistonBaseBlockMixin implements SignalConsumer {
 
 	@Redirect(
 		method = "getNeighborSignal",

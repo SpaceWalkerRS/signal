@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 import signal.api.IBlock;
 import signal.api.ILevel;
 import signal.api.signal.SignalType;
+import signal.api.signal.SignalTypes;
 
 public interface SignalConsumer extends IBlock {
 
@@ -20,7 +21,9 @@ public interface SignalConsumer extends IBlock {
 		return consumes(type);
 	}
 
-	SignalType getConsumedSignalType();
+	default SignalType getConsumedSignalType() {
+		return SignalTypes.ANY;
+	}
 
 	default boolean consumes(SignalType type) {
 		return getConsumedSignalType().is(type);

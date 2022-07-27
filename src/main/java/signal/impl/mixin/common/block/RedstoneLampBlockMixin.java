@@ -9,10 +9,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 
-import signal.api.signal.block.redstone.RedstoneSignalConsumer;
+import signal.api.signal.block.SignalConsumer;
 
 @Mixin(RedstoneLampBlock.class)
-public class RedstoneLampBlockMixin implements RedstoneSignalConsumer {
+public class RedstoneLampBlockMixin implements SignalConsumer {
 
 	@Redirect(
 		method = "getStateForPlacement",

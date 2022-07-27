@@ -9,10 +9,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BigDripleafBlock;
 
-import signal.api.signal.block.redstone.RedstoneSignalConsumer;
+import signal.api.signal.block.SignalConsumer;
 
 @Mixin(BigDripleafBlock.class)
-public class BigDripleafBlockMixin implements RedstoneSignalConsumer {
+public class BigDripleafBlockMixin implements SignalConsumer {
 
 	@Redirect(
 		method = "entityInside",
