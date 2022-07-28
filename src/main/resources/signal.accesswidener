@@ -1,4 +1,0 @@
-accessWidener	v1	named
-
-accessible	method	net/minecraft/world/level/block/RedStoneWireBlock	calculateShape	(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/phys/shapes/VoxelShape;
-accessible	method	net/minecraft/world/level/block/RedStoneWireBlock	spawnParticlesAlongLine	(Lnet/minecraft/world/level/Level;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/core/Direction;Lnet/minecraft/core/Direction;FF)V

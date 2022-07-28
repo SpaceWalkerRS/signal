@@ -21,6 +21,7 @@ import signal.api.signal.block.SignalState;
 import signal.api.signal.wire.block.redstone.RedstoneWire;
 import signal.api.signal.wire.redstone.RedstoneWireType;
 import signal.impl.interfaces.mixin.IRedStoneWireBlock;
+import signal.impl.interfaces.mixin.RedStoneWireBlockInvoker;
 
 public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireBlock, RedstoneWire, SignalState {
 
@@ -53,7 +54,7 @@ public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireB
 		}
 		for (BlockState state : getStateDefinition().getPossibleStates()) {
 			if (getSignal(state) == this.wireType.min()) {
-				shapesCache.put(state, calculateShape(state));
+				shapesCache.put(state, ((RedStoneWireBlockInvoker)this).calculateShape(state));
 			}
 		}
 
@@ -86,12 +87,12 @@ public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireB
 
 			switch (side) {
 			case UP:
-				spawnParticlesAlongLine(level, rand, pos, color, dir, Direction.UP, -0.5F, 0.5F);
+				((RedStoneWireBlockInvoker)this).spawnParticlesAlongLine(level, rand, pos, color, dir, Direction.UP, -0.5F, 0.5F);
 			case SIDE:
-				spawnParticlesAlongLine(level, rand, pos, color, Direction.DOWN, dir, 0.0F, 0.5F);
+				((RedStoneWireBlockInvoker)this).spawnParticlesAlongLine(level, rand, pos, color, Direction.DOWN, dir, 0.0F, 0.5F);
 				break;
 			default:
-				spawnParticlesAlongLine(level, rand, pos, color, Direction.DOWN, dir, 0.0F, 0.3F);
+				((RedStoneWireBlockInvoker)this).spawnParticlesAlongLine(level, rand, pos, color, Direction.DOWN, dir, 0.0F, 0.3F);
 			}
 		}
 	}
