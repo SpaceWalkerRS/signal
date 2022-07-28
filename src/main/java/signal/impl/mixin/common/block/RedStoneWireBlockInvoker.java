@@ -15,8 +15,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @Mixin(RedStoneWireBlock.class)
 public interface RedStoneWireBlockInvoker {
 
-	@Invoker VoxelShape calculateShape(BlockState state);
+	@Invoker("calculateShape")
+	VoxelShape invokeCalculateShape(BlockState state);
 
-	@Invoker void spawnParticlesAlongLine(Level level, RandomSource random, BlockPos pos, Vec3 color, Direction dir1, Direction dir2, float f, float g);
+	@Invoker("spawnParticlesAlongLine")
+	void invokeSpawnParticlesAlongLine(Level level, RandomSource random, BlockPos pos, Vec3 color, Direction dir1, Direction dir2, float f, float g);
 
 }
