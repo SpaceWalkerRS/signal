@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.api.ModInitializer;
+
 import net.minecraft.resources.ResourceLocation;
 
 import signal.api.SignalInitializer;

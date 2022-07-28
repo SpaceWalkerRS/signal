@@ -38,9 +38,9 @@ public class BlockStateBaseMixin implements IBlockState {
 	)
 	private void deprecateIsSignalSource(CallbackInfoReturnable<Boolean> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#isSignalSource is deprecated! Use IBlockStateBase#isSignalSource instead.");
+			throw new IllegalStateException("Method BlockStateBase#isSignalSource is deprecated! Use IBlockState#isSignalSource instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#isSignalSource is deprecated! Use IBlockStateBase#isSignalSource instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#isSignalSource is deprecated! Use IBlockState#isSignalSource instead.");
 		}
 	}
 
@@ -52,9 +52,9 @@ public class BlockStateBaseMixin implements IBlockState {
 	)
 	private void deprecateHasAnalogOutputSignal(CallbackInfoReturnable<Boolean> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#hasAnalogOutputSignal is deprecated! Use IBlockStateBase#isAnalogSignalSource instead.");
+			throw new IllegalStateException("Method BlockStateBase#hasAnalogOutputSignal is deprecated! Use IBlockState#isAnalogSignalSource instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#hasAnalogOutputSignal is deprecated! Use IBlockStateBase#isAnalogSignalSource instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#hasAnalogOutputSignal is deprecated! Use IBlockState#isAnalogSignalSource instead.");
 		}
 	}
 
@@ -66,9 +66,9 @@ public class BlockStateBaseMixin implements IBlockState {
 	)
 	private void deprecateIsRedstoneConductor(CallbackInfoReturnable<Boolean> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#isRedstoneConductor is deprecated! Use IBlockStateBase#isSignalConductor instead.");
+			throw new IllegalStateException("Method BlockStateBase#isRedstoneConductor is deprecated! Use IBlockState#isSignalConductor instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#isRedstoneConductor is deprecated! Use IBlockStateBase#isSignalConductor instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#isRedstoneConductor is deprecated! Use IBlockState#isSignalConductor instead.");
 		}
 	}
 
@@ -80,9 +80,9 @@ public class BlockStateBaseMixin implements IBlockState {
 	)
 	private void deprecateGetSignal(CallbackInfoReturnable<Integer> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#getSignal is deprecated! Use IBlockStateBase#getSignal instead.");
+			throw new IllegalStateException("Method BlockStateBase#getSignal is deprecated! Use IBlockState#getSignal instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#getSignal is deprecated! Use IBlockStateBase#getSignal instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#getSignal is deprecated! Use IBlockState#getSignal instead.");
 		}
 	}
 
@@ -94,9 +94,9 @@ public class BlockStateBaseMixin implements IBlockState {
 	)
 	private void deprecateGetDirectSignal(CallbackInfoReturnable<Integer> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockStateBase#getDirectSignal instead.");
+			throw new IllegalStateException("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockState#getDirectSignal instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockStateBase#getDirectSignal instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#getDirectSignal is deprecated! Use IBlockState#getDirectSignal instead.");
 		}
 	}
 
@@ -108,9 +108,9 @@ public class BlockStateBaseMixin implements IBlockState {
 	)
 	private void deprecateGetAnalogOutputSignal(CallbackInfoReturnable<Integer> cir) {
 		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockStateBase#getAnalogSignal instead.");
+			throw new IllegalStateException("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockState#getAnalogSignal instead.");
 		} else {
-			SignalMod.LOGGER.warn("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockStateBase#getAnalogSignal instead.");
+			SignalMod.LOGGER.warn("Method BlockStateBase#getAnalogOutputSignal is deprecated! Use IBlockState#getAnalogSignal instead.");
 		}
 	}
 

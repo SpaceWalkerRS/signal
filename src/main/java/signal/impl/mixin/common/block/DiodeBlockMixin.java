@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.DiodeBlock;
 import net.minecraft.world.level.block.PoweredBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+import signal.api.IBlockState;
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalConsumer;
 import signal.api.signal.block.SignalSource;
@@ -66,13 +67,15 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 	)
 	private void modifySideInputSignalAt(LevelReader levelReader, BlockPos pos, Direction dir, CallbackInfoReturnable<Integer> cir) {
 		if (!(levelReader instanceof Level)) {
-			return;
+			return; // we should never get here
 		}
+
+		SignalType type = getSignalType();
 
 		Level level = (Level)levelReader;
 		BlockState state = level.getBlockState(pos);
 
-		int signal = getSignalType().min();
+		int signal = type.min();
 
 		if (isCompatibleSideInput(state)) {
 			Block block = state.getBlock();
@@ -86,10 +89,21 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 				signal = getReceivedDirectSignalFrom(level, pos, dir);
 			}
 
-			signal = getSignalType().clamp(signal);
+			signal = type.clamp(signal);
 		}
 
 		cir.setReturnValue(signal);
+	}
+
+	@Redirect(
+		method = "isAlternateInput",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;isSignalSource()Z"
+		)
+	)
+	private boolean isSignalSource(BlockState state) {
+		return ((IBlockState)state).isSignalSource(getSignalType());
 	}
 
 	@ModifyConstant(
