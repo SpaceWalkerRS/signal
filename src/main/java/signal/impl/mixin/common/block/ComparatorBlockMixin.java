@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ComparatorBlock;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
 import signal.api.signal.SignalTypes;
+import signal.api.signal.block.AnalogSignalSource;
 import signal.api.signal.block.redstone.RedstoneSignalConsumer;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 import signal.api.signal.wire.ConnectionSide;
@@ -76,11 +78,33 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 		method = "getInputSignal",
 		at = @At(
 			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;getAnalogOutputSignal(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)I"
+		)
+	)
+	private int deprecateGetAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+		return ((IBlockState)state).getAnalogSignal(level, pos, getConsumedSignalType());
+	}
+
+	@Redirect(
+		method = "getInputSignal",
+		at = @At(
+			value = "INVOKE",
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
 	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
 		return ((IBlockState)state).isSignalConductor(level, pos, getSignalType());
+	}
+
+	@Redirect(
+		method = "getInputSignal",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/entity/decoration/ItemFrame;getAnalogOutput()I"
+		)
+	)
+	private int getAnalogOutput(ItemFrame itemFrame) {
+		return AnalogSignalSource.getAnalogSignal(itemFrame.getAnalogOutput(), getConsumedSignalType());
 	}
 
 	@ModifyConstant(

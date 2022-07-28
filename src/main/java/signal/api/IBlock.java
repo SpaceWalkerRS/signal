@@ -34,10 +34,6 @@ public interface IBlock {
 		return false;
 	}
 
-	default boolean isAnalogSignalSource() {
-		return false;
-	}
-
 	default boolean isAnalogSignalSource(SignalType type) {
 		return false;
 	}
@@ -47,10 +43,6 @@ public interface IBlock {
 	}
 
 	default boolean hasAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return false;
-	}
-
-	default boolean isSignalConsumer() {
 		return false;
 	}
 

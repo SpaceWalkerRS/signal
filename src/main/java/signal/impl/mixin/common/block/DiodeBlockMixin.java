@@ -139,19 +139,6 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 
 	@Override
 	public boolean isCompatibleSideInput(BlockState state) {
-		if (isAlternateInput(state)) {
-			Block block = state.getBlock();
-
-			if (block instanceof SignalSource) {
-				SignalSource source = (SignalSource)block;
-				SignalType type = source.getSignalType();
-
-				return consumes(type);
-			}
-
-			return true;
-		}
-
-		return false;
+		return isAlternateInput(state) && ((IBlockState)state).isSignalSource(getConsumedSignalType());
 	}
 }

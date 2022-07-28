@@ -14,39 +14,38 @@ public interface SignalSource extends IBlock {
 
 	@Override
 	default boolean isSignalSource(SignalType type) {
-		return is(type);
+		return getSignalType().is(type);
 	}
 
 	@Override
 	default int getSignal(Level level, BlockPos pos, BlockState state, Direction dir, SignalType type) {
-		return is(type) ? getSignal(level, pos, state, dir) : type.min();
+		return isSignalSource(type) ? getSignal(level, pos, state, dir) : type.min();
 	}
 
 	@Override
 	default int getDirectSignal(Level level, BlockPos pos, BlockState state, Direction dir, SignalType type) {
-		return is(type) ? getDirectSignal(level, pos, state, dir) : type.min();
+		return isSignalSource(type) ? getDirectSignal(level, pos, state, dir) : type.min();
 	}
 
 	@Override
 	default boolean hasSignal(Level level, BlockPos pos, BlockState state, Direction dir, SignalType type) {
-		return getSignal(level, pos, state, dir, type) > getSignalType().min();
+		return getSignal(level, pos, state, dir, type) > type.min();
 	}
 
 	@Override
 	default boolean hasDirectSignal(Level level, BlockPos pos, BlockState state, Direction dir, SignalType type) {
-		return getDirectSignal(level, pos, state, dir, type) > getSignalType().min();
+		return getDirectSignal(level, pos, state, dir, type) > type.min();
 	}
 
 	@Override
 	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType type) {
-		return is(type.signal()) && shouldConnectToWire(level, pos, state, side);
+		return isSignalSource(type.signal()) && shouldConnectToWire(level, pos, state, side);
 	}
 
+	/**
+	 * Returns the type of signal this block emits (cannot be {@link signal.api.signal.SignalTypes#ANY SignalTypes.ANY}).
+	 */
 	SignalType getSignalType();
-
-	default boolean is(SignalType type) {
-		return getSignalType().is(type);
-	}
 
 
 	// override these methods for basic control over your signal source block

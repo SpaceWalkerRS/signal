@@ -12,21 +12,15 @@ import signal.api.signal.SignalTypes;
 public interface SignalConsumer extends IBlock {
 
 	@Override
-	default boolean isSignalConsumer() {
-		return true;
-	}
-
-	@Override
 	default boolean isSignalConsumer(SignalType type) {
-		return consumes(type);
+		return getConsumedSignalType().is(type);
 	}
 
+	/**
+	 * Returns the type of signal this block consumes.
+	 */
 	default SignalType getConsumedSignalType() {
 		return SignalTypes.ANY;
-	}
-
-	default boolean consumes(SignalType type) {
-		return getConsumedSignalType().is(type);
 	}
 
 
