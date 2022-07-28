@@ -38,6 +38,7 @@
 		"common.block.RedstoneLampBlockMixin",
 		"common.block.RedstoneTorchBlockMixin",
 		"common.block.RedstoneWallTorchBlockMixin",
+		"common.block.RedStoneWireBlockInvoker",
 		"common.block.RedStoneWireBlockMixin",
 		"common.block.RepeaterBlockMixin",
 		"common.block.SculkSensorBlockMixin",

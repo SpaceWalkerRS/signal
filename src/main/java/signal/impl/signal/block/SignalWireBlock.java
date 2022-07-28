@@ -21,7 +21,7 @@ import signal.api.signal.block.SignalState;
 import signal.api.signal.wire.block.redstone.RedstoneWire;
 import signal.api.signal.wire.redstone.RedstoneWireType;
 import signal.impl.interfaces.mixin.IRedStoneWireBlock;
-import signal.impl.interfaces.mixin.RedStoneWireBlockInvoker;
+import signal.impl.mixin.common.block.RedStoneWireBlockInvoker;
 
 public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireBlock, RedstoneWire, SignalState {
 
