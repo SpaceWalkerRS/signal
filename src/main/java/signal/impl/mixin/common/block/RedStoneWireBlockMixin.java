@@ -311,7 +311,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 
 		state = getConnectionState(level, state, pos);
 
-		EnumProperty<RedstoneSide> property = RedStoneWireBlock.PROPERTY_BY_DIRECTION.get(dir);
+		EnumProperty<RedstoneSide> property = RedStoneWireBlock.PROPERTY_BY_DIRECTION.get(dir.getOpposite());
 		RedstoneSide side = state.getValue(property);
 
 		if (!side.isConnected()) {
