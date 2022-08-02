@@ -10,6 +10,7 @@ import signal.api.signal.redstone.RedstoneSignalType;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.ConnectionType;
 import signal.api.signal.wire.WireType;
+import signal.util.Lazy;
 
 public class RedstoneWireType extends WireType {
 
@@ -27,32 +28,30 @@ public class RedstoneWireType extends WireType {
 
 	@Override
 	public void findPotentialConnections(Level level, BlockPos pos, PotentialConnectionConsumer consumer) {
-		BlockPos below = pos.below();
-		BlockPos above = pos.above();
-		IBlockState ibelowState = (IBlockState)level.getBlockState(below);
-		IBlockState iaboveState = (IBlockState)level.getBlockState(above);
+		Lazy<IBlockState> ibelowState = new Lazy<>(() -> (IBlockState)level.getBlockState(pos.below()));
+		Lazy<IBlockState> iaboveState = new Lazy<>(() -> (IBlockState)level.getBlockState(pos.above()));
 
-		boolean belowIsConductor = ibelowState.isSignalConductor(level, below, signal);
-		boolean aboveIsConductor = iaboveState.isSignalConductor(level, above, signal);
+		Lazy<Boolean> belowIsConductor = new Lazy<>(() -> ibelowState.get().isSignalConductor(level, pos.below(), signal));
+		Lazy<Boolean> aboveIsConductor = new Lazy<>(() -> iaboveState.get().isSignalConductor(level, pos.above(), signal));
 
 		for (Direction dir : Direction.Plane.HORIZONTAL) {
-			BlockPos adjacentPos = pos.relative(dir);
-			BlockState adjacentState = level.getBlockState(adjacentPos);
+			BlockPos adjacent = pos.relative(dir);
+			BlockState adjacentState = level.getBlockState(adjacent);
 			IBlockState iadjacentState = (IBlockState)adjacentState;
 
 			if (iadjacentState.isWire()) {
-				consumer.accept(ConnectionSide.fromDirection(dir), adjacentPos, adjacentState, ConnectionType.BOTH);
+				consumer.accept(ConnectionSide.fromDirection(dir), adjacent, adjacentState, ConnectionType.BOTH);
 			} else {
-				boolean adjacentIsConductor = iadjacentState.isSignalConductor(level, adjacentPos, signal);
+				boolean adjacentIsConductor = iadjacentState.isSignalConductor(level, adjacent, signal);
 
 				if (!adjacentIsConductor) {
-					ConnectionSide side = ConnectionSide.fromDirections(dir, Direction.DOWN);
-					ConnectionType connection = belowIsConductor ? ConnectionType.BOTH : ConnectionType.IN;
+					ConnectionSide side = ConnectionSide.fromDirection(dir).withDown();
+					ConnectionType connection = belowIsConductor.get() ? ConnectionType.BOTH : ConnectionType.IN;
 
 					consumer.accept(level, pos, side, connection);
 				}
-				if (!aboveIsConductor) {
-					ConnectionSide side = ConnectionSide.fromDirections(dir, Direction.UP);
+				if (!aboveIsConductor.get()) {
+					ConnectionSide side = ConnectionSide.fromDirection(dir).withUp();
 					ConnectionType connection = adjacentIsConductor ? ConnectionType.BOTH : ConnectionType.OUT;
 
 					consumer.accept(level, pos, side, connection);
@@ -82,30 +81,34 @@ public class RedstoneWireType extends WireType {
 		ConnectionSide hor = side.projectHorizontal();
 
 		if (ver == ConnectionSide.DOWN) {
-			BlockPos sidePos = hor.offset(pos);
-			BlockState sideState = level.getBlockState(sidePos);
-			IBlockState isideState = (IBlockState)sideState;
+			BlockPos adjacent = hor.offset(pos);
+			BlockState adjacentState = level.getBlockState(adjacent);
+			IBlockState iadjacentState = (IBlockState)adjacentState;
 
-			if (!isideState.isSignalConductor(level, sidePos, signal)) {
-				BlockPos belowPos = pos.below();
-				BlockState belowState = level.getBlockState(belowPos);
-				IBlockState ibelowState = (IBlockState)belowState;
-
-				return ibelowState.isSignalConductor(level, belowPos, signal) ? ConnectionType.BOTH : ConnectionType.IN;
+			if (iadjacentState.isSignalConductor(level, adjacent, signal)) {
+				return ConnectionType.NONE;
 			}
-		} else
+
+			BlockPos below = pos.below();
+			BlockState belowState = level.getBlockState(below);
+			IBlockState ibelowState = (IBlockState)belowState;
+
+			return ibelowState.isSignalConductor(level, below, signal) ? ConnectionType.BOTH : ConnectionType.IN;
+		}
 		if (ver == ConnectionSide.UP) {
-			BlockPos abovePos = pos.above();
-			BlockState aboveState = level.getBlockState(abovePos);
+			BlockPos above = pos.above();
+			BlockState aboveState = level.getBlockState(above);
 			IBlockState iaboveState = (IBlockState)aboveState;
 
-			if (!iaboveState.isSignalConductor(level, abovePos, signal)) {
-				BlockPos sidePos = hor.offset(pos);
-				BlockState sideState = level.getBlockState(sidePos);
-				IBlockState isideState = (IBlockState)sideState;
-
-				return isideState.isSignalConductor(level, sidePos, signal) ? ConnectionType.BOTH : ConnectionType.OUT;
+			if (iaboveState.isSignalConductor(level, above, signal)) {
+				return ConnectionType.NONE;
 			}
+
+			BlockPos adjacent = hor.offset(pos);
+			BlockState adjacentState = level.getBlockState(adjacent);
+			IBlockState iadjacentState = (IBlockState)adjacentState;
+
+			return iadjacentState.isSignalConductor(level, adjacent, signal) ? ConnectionType.BOTH : ConnectionType.OUT;
 		}
 
 		return ConnectionType.NONE;

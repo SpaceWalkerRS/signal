@@ -12,14 +12,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.SignalType;
 import signal.api.signal.block.AnalogSignalSource;
 
 @Mixin(JukeboxBlock.class)
 public class JukeboxBlockMixin implements AnalogSignalSource {
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 
 		if (blockEntity instanceof JukeboxBlockEntity) {
@@ -28,10 +27,10 @@ public class JukeboxBlockMixin implements AnalogSignalSource {
 			Item item = stack.getItem();
 
 			if (item instanceof RecordItem) {
-				return AnalogSignalSource.getAnalogSignal(((RecordItem)item).getAnalogOutput(), type);	
+				return AnalogSignalSource.getAnalogSignal(((RecordItem)item).getAnalogOutput(), min, max);	
 			}
 		}
 
-		return type.min();
+		return min;
 	}
 }

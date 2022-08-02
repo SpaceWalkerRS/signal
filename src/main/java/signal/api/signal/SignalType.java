@@ -4,25 +4,13 @@ import net.minecraft.util.Mth;
 
 public class SignalType {
 
-	private final boolean isAny;
-
 	protected final int min;
 	protected final int max;
 
 	public SignalType(int min, int max) {
-		this(false, min, max);
-	}
-
-	SignalType() {
-		this(true, Integer.MIN_VALUE, Integer.MAX_VALUE);
-	}
-
-	private SignalType(boolean isAny, int min, int max) {
 		if (max < min) {
 			throw new IllegalArgumentException("max cannot be less than min!");
 		}
-
-		this.isAny = isAny;
 
 		this.min = min;
 		this.max = max;
@@ -46,7 +34,7 @@ public class SignalType {
 	}
 
 	public final boolean isAny() {
-		return isAny;
+		return this == SignalTypes.ANY;
 	}
 
 	public final boolean is(SignalType type) {

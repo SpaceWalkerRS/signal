@@ -64,7 +64,7 @@ public abstract class WireType {
 		return Mth.clamp(signal, min, max);
 	}
 
-	public final boolean isCompatible(WireType type) {
+	public boolean isCompatible(WireType type) {
 		return signal.is(type.signal);
 	}
 
@@ -73,8 +73,14 @@ public abstract class WireType {
 			connection = validateConnection(level, pos, side, neighborPos, neighborState, connection);
 
 			if (connection != ConnectionType.NONE) {
-				consumer.accept(side, neighborPos, neighborState, connection);
+				boolean findNext = consumer.accept(side, neighborPos, neighborState, connection);
+
+				if (!findNext) {
+					return false;
+				}
 			}
+
+			return true;
 		});
 	}
 
@@ -107,41 +113,44 @@ public abstract class WireType {
 		}
 
 		Wire neighborWire = (Wire)ineighborState.getIBlock();
+		WireType neighborType = neighborWire.getWireType();
 
-		if (!neighborWire.isCompatible(this)) {
+		if (this == neighborType) {
+			return connection;
+		}
+		if (!isCompatible(neighborType)) {
 			return ConnectionType.NONE;
 		}
 
-		WireType neighborType = neighborWire.getWireType();
-
-		if (this != neighborType) {
-			connection = connection.and(neighborType.getPotentialConnection(level, neighborPos, side.getOpposite()));
-
-			if (connection == ConnectionType.NONE) {
-				return ConnectionType.NONE;
-			}
-		}
-
-		return connection;
+		return connection.and(neighborType.getPotentialConnection(level, neighborPos, side.getOpposite()));
 	}
 
 	@FunctionalInterface
 	public interface ConnectionConsumer {
 
-		void accept(ConnectionSide side, BlockPos neighborPos, BlockState neighborState, ConnectionType connection);
+		/**
+		 * @return whether to continue looking for connections
+		 */
+		boolean accept(ConnectionSide side, BlockPos neighborPos, BlockState neighborState, ConnectionType connection);
 
 	}
 
 	@FunctionalInterface
 	public interface PotentialConnectionConsumer {
 
-		void accept(ConnectionSide side, BlockPos neighborPos, BlockState neighborState, ConnectionType connection);
+		/**
+		 * @return whether to continue looking for connections
+		 */
+		boolean accept(ConnectionSide side, BlockPos neighborPos, BlockState neighborState, ConnectionType connection);
 
-		default void accept(Level level, BlockPos pos, ConnectionSide side, ConnectionType connection) {
+		/**
+		 * @return whether to continue looking for connections
+		 */
+		default boolean accept(Level level, BlockPos pos, ConnectionSide side, ConnectionType connection) {
 			BlockPos neighborPos = side.offset(pos);
 			BlockState neighborState = level.getBlockState(neighborPos);
 
-			accept(side, neighborPos, neighborState, connection);
+			return accept(side, neighborPos, neighborState, connection);
 		}
 	}
 }

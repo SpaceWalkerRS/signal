@@ -9,7 +9,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.SignalType;
 import signal.api.signal.block.AnalogSignalSource;
 import signal.api.signal.block.SignalConsumer;
 
@@ -28,7 +27,7 @@ public class DispenserBlockMixin implements AnalogSignalSource, SignalConsumer {
 	}
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return AnalogSignalSource.getAnalogSignalFromBlockEntity(level.getBlockEntity(pos), type);
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
+		return AnalogSignalSource.getAnalogSignalFromBlockEntity(level.getBlockEntity(pos), min, max);
 	}
 }

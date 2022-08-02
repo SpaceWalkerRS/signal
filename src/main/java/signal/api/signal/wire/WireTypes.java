@@ -13,10 +13,17 @@ public class WireTypes {
 
 	public static final RedstoneWireType REDSTONE = new RedstoneWireType(SignalTypes.REDSTONE);
 
+	/**
+	 * Register a custom wire type.
+	 * For the id, it is customary to use your mod id as the namespace.
+	 */
 	public static void register(ResourceLocation id, WireType type) {
 		SignalRegistryCallbacks.register(REGISTRY, id, type);
 	}
 
+	/**
+	 * Schedule a callback that runs after all wire types have been registered.
+	 */
 	public static void postRegister(Runnable callback) {
 		SignalRegistryCallbacks.postRegister(REGISTRY, callback);
 	}

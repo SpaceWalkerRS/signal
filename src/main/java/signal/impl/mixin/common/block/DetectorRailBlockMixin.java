@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DetectorRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.SignalType;
 import signal.api.signal.block.AnalogSignalSource;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 
@@ -38,9 +37,9 @@ public class DetectorRailBlockMixin implements RedstoneSignalSource, AnalogSigna
 	}
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
 		if (!state.getValue(DetectorRailBlock.POWERED)) {
-			return type.min();
+			return min;
 		}
 
 		List<MinecartCommandBlock> minecartCommandBlocks = getInteractingMinecartOfType(level, pos, MinecartCommandBlock.class, entity -> true);
@@ -49,16 +48,16 @@ public class DetectorRailBlockMixin implements RedstoneSignalSource, AnalogSigna
 			MinecartCommandBlock minecart = minecartCommandBlocks.get(0);
 			BaseCommandBlock commandBlock = minecart.getCommandBlock();
 
-			return AnalogSignalSource.getAnalogSignal(commandBlock.getSuccessCount(), type);
+			return AnalogSignalSource.getAnalogSignal(commandBlock.getSuccessCount(), min, max);
 		}
 
 		List<AbstractMinecart> minecarts = getInteractingMinecartOfType(level, pos, AbstractMinecart.class, EntitySelector.CONTAINER_ENTITY_SELECTOR);
 
 		if (!minecarts.isEmpty()) {
-			return AnalogSignalSource.getAnalogSignalFromContainer((Container)minecarts.get(0), type);
+			return AnalogSignalSource.getAnalogSignalFromContainer((Container)minecarts.get(0), min, max);
 		}
 
-		return type.min();
+		return min;
 	}
 
 }

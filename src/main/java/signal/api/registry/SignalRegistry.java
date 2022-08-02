@@ -2,6 +2,7 @@ package signal.api.registry;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -46,5 +47,13 @@ public class SignalRegistry<T> {
 
 	public ResourceLocation getId(T value) {
 		return valueToId.get(value);
+	}
+
+	public Set<T> getAll() {
+		return valueToId.keySet();
+	}
+
+	public Set<ResourceLocation> getIds() {
+		return idToValue.keySet();
 	}
 }

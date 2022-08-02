@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.entity.SculkSensorBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 
-import signal.api.signal.SignalType;
 import signal.api.signal.block.AnalogSignalSource;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 
@@ -24,7 +23,7 @@ public class SculkSensorBlockMixin implements RedstoneSignalSource, AnalogSignal
 	}
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
 		SculkSensorPhase phase = SculkSensorBlock.getPhase(state);
 
 		if (phase == SculkSensorPhase.ACTIVE) {
@@ -34,10 +33,10 @@ public class SculkSensorBlockMixin implements RedstoneSignalSource, AnalogSignal
 				SculkSensorBlockEntity sculkSensorBlockEntity = (SculkSensorBlockEntity)blockEntity;
 				int frequency = sculkSensorBlockEntity.getLastVibrationFrequency();
 
-				return AnalogSignalSource.getAnalogSignal(frequency, type);
+				return AnalogSignalSource.getAnalogSignal(frequency, min, max);
 			}
 		}
 
-		return type.min();
+		return min;
 	}
 }

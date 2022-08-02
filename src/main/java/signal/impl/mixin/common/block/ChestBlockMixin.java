@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
-import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 import signal.api.signal.block.AnalogSignalSource;
 
@@ -30,7 +29,7 @@ public class ChestBlockMixin implements AnalogSignalSource {
 	}
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return AnalogSignalSource.getAnalogSignalFromContainer(ChestBlock.getContainer((ChestBlock)(Object)this, state, level, pos, false), type);
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
+		return AnalogSignalSource.getAnalogSignalFromContainer(ChestBlock.getContainer((ChestBlock)(Object)this, state, level, pos, false), min, max);
 	}
 }

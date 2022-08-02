@@ -21,7 +21,7 @@ public interface AnalogSignalSource extends IBlock {
 
 	@Override
 	default int getAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return !type.isAny() && isAnalogSignalSource(type) ? calculateAnalogSignal(level, pos, state, type) : type.min();
+		return !type.isAny() && isAnalogSignalSource(type) ? getAnalogSignal(level, pos, state, type.min(), type.max()) : type.min();
 	}
 
 	@Override
@@ -39,17 +39,17 @@ public interface AnalogSignalSource extends IBlock {
 
 	// override this method to control the analog output signal of your block
 
-	default int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return type.min();
+	default int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
+		return min;
 	}
 
-	public static int getAnalogSignalFromBlockEntity(BlockEntity blockEntity, SignalType type) {
-		return blockEntity instanceof Container ? getAnalogSignalFromContainer((Container)blockEntity, type) : type.min();
+	public static int getAnalogSignalFromBlockEntity(BlockEntity blockEntity, int min, int max) {
+		return blockEntity instanceof Container ? getAnalogSignalFromContainer((Container)blockEntity, min, max) : min;
 	}
 
-	public static int getAnalogSignalFromContainer(Container container, SignalType type) {
+	public static int getAnalogSignalFromContainer(Container container, int min, int max) {
 		if (container == null) {
-			return type.min();
+			return min;
 		}
 
 		int stackCount = 0;
@@ -68,13 +68,10 @@ public interface AnalogSignalSource extends IBlock {
 
 		filled /= container.getContainerSize();
 
-		int min = type.min();
-		int max = type.max();
-
 		return min + Mth.floor(filled * (max - min - 1)) + (stackCount == 0 ? 0 : 1);
 	}
 
-	public static int getAnalogSignal(int level, SignalType type) {
-		return type.clamp(type.min() + level);
+	public static int getAnalogSignal(int level, int min, int max) {
+		return Mth.clamp(min + level, min, max);
 	}
 }

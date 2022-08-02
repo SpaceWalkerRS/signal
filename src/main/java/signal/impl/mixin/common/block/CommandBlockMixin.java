@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.CommandBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.CommandBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import signal.api.signal.SignalType;
+
 import signal.api.signal.block.AnalogSignalSource;
 import signal.api.signal.block.SignalConsumer;
 
@@ -40,14 +40,14 @@ public class CommandBlockMixin implements AnalogSignalSource, SignalConsumer {
 	}
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 
 		if (blockEntity instanceof CommandBlockEntity) {
 			CommandBlockEntity commandBlockEntity = (CommandBlockEntity)blockEntity;
-			return AnalogSignalSource.getAnalogSignal(commandBlockEntity.getCommandBlock().getSuccessCount(), type);
+			return AnalogSignalSource.getAnalogSignal(commandBlockEntity.getCommandBlock().getSuccessCount(), min, max);
 		}
 
-		return type.min();
+		return min;
 	}
 }

@@ -7,7 +7,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.SignalType;
 import signal.api.signal.block.AnalogSignalSource;
 import signal.impl.signal.block.CakeHelper;
 
@@ -15,7 +14,7 @@ import signal.impl.signal.block.CakeHelper;
 public class CandleCakeBlockMixin implements AnalogSignalSource {
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return CakeHelper.getSignal(0, type);
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
+		return CakeHelper.getSignal(0, min, max);
 	}
 }

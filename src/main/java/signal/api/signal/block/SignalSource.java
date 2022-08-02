@@ -10,6 +10,11 @@ import signal.api.signal.SignalType;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
 
+/**
+ * This interface represents a block that can emit a signal of some type.
+ * 
+ * @author Space Walker
+ */
 public interface SignalSource extends IBlock {
 
 	@Override
@@ -29,12 +34,12 @@ public interface SignalSource extends IBlock {
 
 	@Override
 	default boolean hasSignal(Level level, BlockPos pos, BlockState state, Direction dir, SignalType type) {
-		return getSignal(level, pos, state, dir, type) > type.min();
+		return getSignal(level, pos, state, dir, type) > getSignalType().min();
 	}
 
 	@Override
 	default boolean hasDirectSignal(Level level, BlockPos pos, BlockState state, Direction dir, SignalType type) {
-		return getDirectSignal(level, pos, state, dir, type) > type.min();
+		return getDirectSignal(level, pos, state, dir, type) > getSignalType().min();
 	}
 
 	@Override

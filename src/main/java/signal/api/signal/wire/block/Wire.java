@@ -15,28 +15,23 @@ import signal.api.signal.wire.WireType;
 public interface Wire extends SignalSource, SignalConsumer {
 
 	@Override
-	default SignalType getSignalType() {
-		return getWireType().signal();
-	}
-
-	@Override
-	default SignalType getConsumedSignalType() {
-		return getWireType().signal();
-	}
-
-	@Override
 	default boolean isWire() {
 		return true;
 	}
 
 	@Override
 	default boolean isWire(WireType type) {
-		return is(type);
+		return getWireType() == type;
 	}
 
 	@Override
 	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType type) {
-		return isCompatible(type) && shouldConnectToWire(level, pos, state, side);
+		return getWireType().isCompatible(type) && shouldConnectToWire(level, pos, state, side);
+	}
+
+	@Override
+	default SignalType getSignalType() {
+		return getWireType().signal();
 	}
 
 	@Override
@@ -44,37 +39,39 @@ public interface Wire extends SignalSource, SignalConsumer {
 		return true;
 	}
 
-	WireType getWireType();
-
-	default boolean is(WireType type) {
-		return getWireType() == type;
+	@Override
+	default SignalType getConsumedSignalType() {
+		return getWireType().signal();
 	}
 
-	default boolean isCompatible(WireType type) {
-		return getWireType().isCompatible(type);
+	WireType getWireType();
+
+	default boolean isCompatible(Wire wire) {
+		return getWireType().isCompatible(wire.getWireType());
 	}
 
 	default int getSignal(Level level, BlockPos pos, BlockState state) {
 		return getWireType().min();
 	}
 
-	default int getNeighborSignal(Level level, BlockPos pos) {
-		int signal = getReceivedSignal(level, pos);
+	@Override
+	default int getReceivedSignal(Level level, BlockPos pos) {
+		int signal = SignalConsumer.super.getReceivedSignal(level, pos);
 
 		if (signal < getWireType().max()) {
-			signal = Math.max(signal, getNeighborWireSignal(level, pos));
+			signal = Math.max(signal, getReceivedWireSignal(level, pos));
 		}
 
 		return signal;
 	}
 
-	default int getNeighborWireSignal(Level level, BlockPos pos) {
+	default int getReceivedWireSignal(Level level, BlockPos pos) {
 		WireType type = getWireType();
 		SignalHolder signal = new SignalHolder(type.min());
 
 		getWireType().findConnections(level, pos, (side, neighborPos, neighborState, connection) -> {
 			if (!connection.in()) {
-				return;
+				return true;
 			}
 
 			IBlockState ineighborState = (IBlockState)neighborState;
@@ -84,6 +81,8 @@ public interface Wire extends SignalSource, SignalConsumer {
 			int step = Math.max(type.step(), neighborWire.getWireType().step());
 
 			signal.increase(neighborSignal - step);
+
+			return signal.get() < type.max();
 		});
 
 		return type.clamp(signal.get());

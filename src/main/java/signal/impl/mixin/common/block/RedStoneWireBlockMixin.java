@@ -148,7 +148,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			return false;
 		}
 
-		return isCompatible(((Wire)istate.getIBlock()).getWireType());
+		return isCompatible(((Wire)istate.getIBlock()));
 	}
 
 	@Redirect(
@@ -164,7 +164,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			return shouldConnectTo(neighborState); // we should never get here
 		}
 
-		ConnectionSide side = ConnectionSide.fromDirections(hor, Direction.UP);
+		ConnectionSide side = ConnectionSide.fromDirection(hor).withUp();
 		BlockPos neighborPos = side.offset(pos);
 
 		return ((IBlockState)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
@@ -201,7 +201,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			return shouldConnectTo(neighborState); // we should never get here
 		}
 
-		ConnectionSide side = ConnectionSide.fromDirections(hor, Direction.DOWN);
+		ConnectionSide side = ConnectionSide.fromDirection(hor).withDown();
 		BlockPos neighborPos = side.offset(pos);
 
 		return ((IBlockState)neighborState).shouldConnectToWire((Level)level, neighborPos, side.getOpposite(), getWireType());
@@ -240,7 +240,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	private void modifyCalculateTargetStrength(Level level, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		cir.setReturnValue(getNeighborSignal(level, pos));
+		cir.setReturnValue(getReceivedSignal(level, pos));
 	}
 
 	@Redirect(
@@ -263,7 +263,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			return false;
 		}
 
-		return isCompatible(((Wire)istate.getIBlock()).getWireType());
+		return isCompatible(((Wire)istate.getIBlock()));
 	}
 
 	@Redirect(

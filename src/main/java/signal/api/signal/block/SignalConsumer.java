@@ -9,6 +9,11 @@ import signal.api.ILevel;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 
+/**
+ * This interface represents a block that consumes a signal of some, or all, type(s).
+ * 
+ * @author Space Walker
+ */
 public interface SignalConsumer extends IBlock {
 
 	@Override

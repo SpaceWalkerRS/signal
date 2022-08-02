@@ -7,14 +7,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RespawnAnchorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.SignalType;
 import signal.api.signal.block.AnalogSignalSource;
 
 @Mixin(RespawnAnchorBlock.class)
 public class RespawnAnchorBlockMixin implements AnalogSignalSource {
 
 	@Override
-	public int calculateAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return type.min() + RespawnAnchorBlock.getScaledChargeLevel(state, type.max() - type.min());
+	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
+		return AnalogSignalSource.getAnalogSignal(RespawnAnchorBlock.getScaledChargeLevel(state, max - min), min, max);
 	}
 }

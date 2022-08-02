@@ -82,7 +82,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 		)
 	)
 	private int deprecateGetAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-		return ((IBlockState)state).getAnalogSignal(level, pos, getConsumedSignalType());
+		return ((IBlockState)state).getAnalogSignal(level, pos, getSignalType());
 	}
 
 	@Redirect(
@@ -104,7 +104,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 		)
 	)
 	private int getAnalogOutput(ItemFrame itemFrame) {
-		return AnalogSignalSource.getAnalogSignal(itemFrame.getAnalogOutput(), getConsumedSignalType());
+		return AnalogSignalSource.getAnalogSignal(itemFrame.getAnalogOutput(), getConsumedSignalType().min(), getConsumedSignalType().max());
 	}
 
 	@ModifyConstant(
