@@ -306,7 +306,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			return getWireType().min();
 		}
 		if (dir == Direction.UP) {
-			return getWireType().max();
+			return getSignal(level, pos, state);
 		}
 
 		state = getConnectionState(level, state, pos);
