@@ -64,6 +64,9 @@ public abstract class WireType {
 		return Mth.clamp(signal, min, max);
 	}
 
+	/**
+	 * Override only! Call {@link signal.api.signal.wire.WireTypes#areCompatible(WireType, WireType) WireTypes.areCompatible} instead.
+	 */
 	protected boolean isCompatible(WireType type) {
 		return signal.is(type.signal);
 	}
@@ -118,7 +121,7 @@ public abstract class WireType {
 		if (this == neighborType) {
 			return connection;
 		}
-		if (!isCompatible(neighborType)) {
+		if (!WireTypes.areCompatible(this, neighborType)) {
 			return ConnectionType.NONE;
 		}
 
