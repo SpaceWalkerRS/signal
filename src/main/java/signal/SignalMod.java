@@ -16,7 +16,7 @@ public class SignalMod implements ModInitializer, SignalInitializer {
 
 	public static final String MOD_ID = "signal";
 	public static final String MOD_NAME = "Signal";
-	public static final String MOD_VERSION = "0.0.1";
+	public static final String MOD_VERSION = "0.0.2";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
 	public static final boolean DEBUG = true;
