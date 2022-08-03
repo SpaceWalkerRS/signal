@@ -23,11 +23,11 @@ public class SignalMod implements ModInitializer, SignalInitializer {
 
 	@Override
 	public void onInitialize() {
-		SignalRegistryCallbacks.run();
-
 		if (DEBUG) {
 			LOGGER.warn("== RUNNING DEBUG VERSION OF " + MOD_NAME + " ==");
 		}
+
+		SignalRegistryCallbacks.run();
 	}
 
 	@Override

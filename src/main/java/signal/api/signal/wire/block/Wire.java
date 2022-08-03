@@ -38,7 +38,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 
 	@Override
 	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side) {
-		return getWireType().getPotentialConnection(level, pos, side) != ConnectionType.NONE;
+		return getWireType().getConnection(level, pos, side) != ConnectionType.NONE;
 	}
 
 	@Override
