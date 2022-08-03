@@ -28,17 +28,7 @@ public class WireTypes {
 		SignalRegistryCallbacks.postRegister(REGISTRY, callback);
 	}
 
-	private static boolean enabled;
-
-	public static void enableAll() {
-		enabled = true;
-	}
-
-	public static void disableAll() {
-		enabled = false;
-	}
-
-	public static boolean enabled() {
-		return enabled;
+	public static boolean areCompatible(WireType a, WireType b) {
+		return a.isCompatible(b) && b.isCompatible(a);
 	}
 }

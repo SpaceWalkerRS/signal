@@ -64,7 +64,7 @@ public abstract class WireType {
 		return Mth.clamp(signal, min, max);
 	}
 
-	public boolean isCompatible(WireType type) {
+	protected boolean isCompatible(WireType type) {
 		return signal.is(type.signal);
 	}
 

@@ -11,6 +11,7 @@ import signal.api.signal.block.SignalConsumer;
 import signal.api.signal.block.SignalSource;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
+import signal.api.signal.wire.WireTypes;
 
 public interface Wire extends SignalSource, SignalConsumer {
 
@@ -26,7 +27,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 
 	@Override
 	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType type) {
-		return getWireType().isCompatible(type) && shouldConnectToWire(level, pos, state, side);
+		return WireTypes.areCompatible(getWireType(), type) && shouldConnectToWire(level, pos, state, side);
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 	WireType getWireType();
 
 	default boolean isCompatible(Wire wire) {
-		return getWireType().isCompatible(wire.getWireType());
+		return WireTypes.areCompatible(getWireType(), wire.getWireType());
 	}
 
 	default int getSignal(Level level, BlockPos pos, BlockState state) {
