@@ -36,28 +36,10 @@ public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireB
 		this.colors = new Vec3[(this.wireType.max() + 1) - this.wireType.min()];
 		this.shapesCache = new HashMap<>();
 
-		registerDefaultState(setSignal(getStateDefinition().any().
-			setValue(NORTH, RedstoneSide.NONE).
-			setValue(EAST, RedstoneSide.NONE).
-			setValue(SOUTH, RedstoneSide.NONE).
-			setValue(WEST, RedstoneSide.NONE),
-			this.wireType.min()));
+		populateColorTable(baseColor);
+		populateShapesCache();
 
-		for (int i = 0; i < this.colors.length; i++) {
-			float f = (float)i / (this.colors.length - 1);
-
-			float r = (float)baseColor.x * (f * 0.6F + (f > 0.0F ? 0.4F : 0.3F));
-			float g = (float)baseColor.y * (f * 0.6F + (f > 0.0F ? 0.4F : 0.3F));
-			float b = (float)baseColor.z * (f * 0.6F + (f > 0.0F ? 0.4F : 0.3F));
-
-			this.colors[i] = new Vec3(r, g, b);
-		}
-		for (BlockState state : getStateDefinition().getPossibleStates()) {
-			if (getSignal(state) == this.wireType.min()) {
-				shapesCache.put(state, ((RedStoneWireBlockInvoker)this).invokeCalculateShape(state));
-			}
-		}
-
+		fixDefaultState();
 		fixCrossState();
 	}
 
@@ -97,12 +79,51 @@ public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireB
 		}
 	}
 
+	private void populateColorTable(Vec3 baseColor) {
+		if (colors.length == 1) {
+			colors[0] = baseColor;
+		} else {
+			for (int i = 0; i < colors.length; i++) {
+				float f = (float)i / (colors.length - 1);
+
+				float r = (float)baseColor.x * (f * 0.6F + (f > 0.0F ? 0.4F : 0.3F));
+				float g = (float)baseColor.y * (f * 0.6F + (f > 0.0F ? 0.4F : 0.3F));
+				float b = (float)baseColor.z * (f * 0.6F + (f > 0.0F ? 0.4F : 0.3F));
+
+				colors[i] = new Vec3(r, g, b);
+			}
+		}
+	}
+
+	private void populateShapesCache() {
+		for (BlockState state : getStateDefinition().getPossibleStates()) {
+			if (getSignal(state) == wireType.min()) {
+				shapesCache.put(state, ((RedStoneWireBlockInvoker)this).invokeCalculateShape(state));
+			}
+		}
+	}
+
+	private void fixDefaultState() {
+		registerDefaultState(setSignal(getStateDefinition().any().
+			setValue(NORTH, RedstoneSide.NONE).
+			setValue(EAST, RedstoneSide.NONE).
+			setValue(SOUTH, RedstoneSide.NONE).
+			setValue(WEST, RedstoneSide.NONE), wireType.min()));
+	}
+
 	public int getColorForSignalInt(int signal) {
 		Vec3 c = getColorForSignalVec(signal);
 		return Mth.color((float)c.x, (float)c.y, (float)c.z);
 	}
 
 	public Vec3 getColorForSignalVec(int signal) {
+		if (signal < wireType.min()) {
+			return Vec3.ZERO;
+		}
+		if (signal > wireType.max()) {
+			return Vec3.ZERO;
+		}
+
 		return colors[signal - wireType.min()];
 	}
 }
