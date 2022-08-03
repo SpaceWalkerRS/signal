@@ -10,6 +10,7 @@ import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalConsumer;
 import signal.api.signal.block.SignalSource;
 import signal.api.signal.wire.ConnectionSide;
+import signal.api.signal.wire.ConnectionType;
 import signal.api.signal.wire.WireType;
 import signal.api.signal.wire.WireTypes;
 
@@ -37,7 +38,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 
 	@Override
 	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side) {
-		return true;
+		return getWireType().getPotentialConnection(level, pos, side) != ConnectionType.NONE;
 	}
 
 	@Override
