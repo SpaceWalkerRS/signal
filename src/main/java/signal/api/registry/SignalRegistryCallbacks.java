@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import net.fabricmc.loader.impl.entrypoint.EntrypointUtils;
+
 import net.minecraft.resources.ResourceLocation;
 
 import signal.SignalMod;

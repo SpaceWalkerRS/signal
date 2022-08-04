@@ -1,4 +1,4 @@
-package signal.api.signal.wire.redstone;
+package signal.api.signal.wire;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -6,23 +6,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.IBlockState;
-import signal.api.signal.redstone.RedstoneSignalType;
-import signal.api.signal.wire.ConnectionSide;
-import signal.api.signal.wire.ConnectionType;
-import signal.api.signal.wire.WireType;
+import signal.api.signal.SignalType;
 import signal.util.Lazy;
 
-public class RedstoneWireType extends WireType {
+public class BasicWireType extends WireType {
 
-	public RedstoneWireType(RedstoneSignalType signal) {
+	public BasicWireType(SignalType signal) {
 		super(signal, signal.min(), signal.max(), 1);
 	}
 
-	public RedstoneWireType(RedstoneSignalType signal, int step) {
+	public BasicWireType(SignalType signal, int step) {
 		super(signal, signal.min(), signal.max(), step);
 	}
 
-	public RedstoneWireType(RedstoneSignalType signal, int min, int max, int step) {
+	public BasicWireType(SignalType signal, int min, int max, int step) {
 		super(signal, min, max, step);
 	}
 

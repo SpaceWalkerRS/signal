@@ -4,14 +4,13 @@ import net.minecraft.resources.ResourceLocation;
 
 import signal.api.registry.SignalRegistry;
 import signal.api.registry.SignalRegistryCallbacks;
-import signal.api.signal.redstone.RedstoneSignalType;
 
 public class SignalTypes {
 
 	public static final SignalRegistry<SignalType> REGISTRY = new SignalRegistry<>();
 
-	public static final SignalType         ANY      = new SignalType(Integer.MIN_VALUE, Integer.MAX_VALUE);
-	public static final RedstoneSignalType REDSTONE = new RedstoneSignalType();
+	public static final SignalType ANY      = new SignalType(Integer.MIN_VALUE, Integer.MAX_VALUE);
+	public static final SignalType REDSTONE = new BasicSignalType();
 
 	/**
 	 * Register a custom signal type.

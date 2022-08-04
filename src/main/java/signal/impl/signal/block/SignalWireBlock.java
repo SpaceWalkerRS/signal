@@ -13,24 +13,29 @@ import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.RedstoneSide;
+import net.minecraft.world.level.redstone.Redstone;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import signal.api.signal.block.SignalState;
+import signal.api.signal.wire.WireType;
 import signal.api.signal.wire.block.redstone.RedstoneWire;
-import signal.api.signal.wire.redstone.RedstoneWireType;
 import signal.impl.interfaces.mixin.IRedStoneWireBlock;
 import signal.impl.mixin.common.block.RedStoneWireBlockInvoker;
 
 public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireBlock, RedstoneWire, SignalState {
 
-	protected final RedstoneWireType wireType;
+	protected final WireType wireType;
 	protected final Vec3[] colors;
 	protected final Map<BlockState, VoxelShape> shapesCache;
 	
-	public SignalWireBlock(Properties properties, Vec3 baseColor, RedstoneWireType wireType) {
+	public SignalWireBlock(Properties properties, Vec3 baseColor, WireType wireType) {
 		super(properties);
+
+		if (wireType.min() < Redstone.SIGNAL_MIN || wireType.max() > Redstone.SIGNAL_MAX) {
+			throw new IllegalArgumentException("illegal wire type given - its min/max must be between [0, 15]");
+		}
 
 		this.wireType = wireType;
 		this.colors = new Vec3[(this.wireType.max() + 1) - this.wireType.min()];
@@ -44,7 +49,7 @@ public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireB
 	}
 
 	@Override
-	public RedstoneWireType getWireType() {
+	public WireType getWireType() {
 		return wireType;
 	}
 

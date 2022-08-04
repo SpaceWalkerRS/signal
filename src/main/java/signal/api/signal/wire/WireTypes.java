@@ -5,13 +5,12 @@ import net.minecraft.resources.ResourceLocation;
 import signal.api.registry.SignalRegistry;
 import signal.api.registry.SignalRegistryCallbacks;
 import signal.api.signal.SignalTypes;
-import signal.api.signal.wire.redstone.RedstoneWireType;
 
 public class WireTypes {
 
 	public static final SignalRegistry<WireType> REGISTRY = new SignalRegistry<>();
 
-	public static final RedstoneWireType REDSTONE = new RedstoneWireType(SignalTypes.REDSTONE);
+	public static final WireType REDSTONE = new BasicWireType(SignalTypes.REDSTONE);
 
 	/**
 	 * Register a custom wire type.
