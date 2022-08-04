@@ -15,6 +15,6 @@ public class CandleCakeBlockMixin implements AnalogSignalSource {
 
 	@Override
 	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
-		return CakeHelper.getSignal(0, min, max);
+		return CakeHelper.getAnalogSignal(0, min, max);
 	}
 }

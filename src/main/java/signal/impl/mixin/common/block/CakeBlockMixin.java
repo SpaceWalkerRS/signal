@@ -15,6 +15,6 @@ public class CakeBlockMixin implements AnalogSignalSource {
 
 	@Override
 	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
-		return CakeHelper.getSignal(state.getValue(CakeBlock.BITES), min, max);
+		return CakeHelper.getAnalogSignal(state.getValue(CakeBlock.BITES), min, max);
 	}
 }
