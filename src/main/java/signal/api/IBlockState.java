@@ -12,6 +12,10 @@ public interface IBlockState {
 
 	IBlock getIBlock();
 
+	default boolean is(IBlock block) {
+		return getIBlock() == block;
+	}
+
 	default boolean isSignalSource(SignalType type) {
 		return false;
 	}
