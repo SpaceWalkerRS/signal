@@ -27,8 +27,23 @@ public interface Wire extends SignalSource, SignalConsumer {
 	}
 
 	@Override
-	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType type) {
-		return WireTypes.areCompatible(getWireType(), type) && shouldConnectToWire(level, pos, state, side);
+	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType neighborType) {
+		WireType type = getWireType();
+
+		if (!WireTypes.areCompatible(type, neighborType)) {
+			return false;
+		}
+
+		ConnectionType connection = type.getPotentialConnection(level, pos, side);
+
+		if (type != neighborType) {
+			BlockPos neighborPos = side.offset(pos);
+			ConnectionSide neighborSide = side.getOpposite();
+
+			connection = connection.and(neighborType.getPotentialConnection(level, neighborPos, neighborSide));
+		}
+
+		return connection != ConnectionType.NONE;
 	}
 
 	@Override
