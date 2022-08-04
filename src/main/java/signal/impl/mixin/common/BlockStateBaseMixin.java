@@ -120,6 +120,11 @@ public class BlockStateBaseMixin implements IBlockState {
 	}
 
 	@Override
+	public boolean is(IBlock block) {
+		return getIBlock() == block;
+	}
+
+	@Override
 	public boolean isSignalSource(SignalType types) {
 		return getIBlock().isSignalSource(types);
 	}
