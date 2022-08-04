@@ -56,9 +56,12 @@ public interface Wire extends SignalSource, SignalConsumer {
 		return getWireType().min();
 	}
 
-	@Override
-	default int getReceivedSignal(Level level, BlockPos pos) {
-		int signal = SignalConsumer.super.getReceivedSignal(level, pos);
+	default BlockState setSignal(Level level, BlockPos pos, BlockState state, int signal) {
+		return state;
+	}
+
+	default int getNeighborSignal(Level level, BlockPos pos) {
+		int signal = getReceivedSignal(level, pos);
 
 		if (signal < getWireType().max()) {
 			signal = Math.max(signal, getReceivedWireSignal(level, pos));

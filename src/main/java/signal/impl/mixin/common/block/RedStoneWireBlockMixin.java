@@ -240,7 +240,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	private void modifyCalculateTargetStrength(Level level, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		cir.setReturnValue(getReceivedSignal(level, pos));
+		cir.setReturnValue(getNeighborSignal(level, pos));
 	}
 
 	@Redirect(
@@ -329,5 +329,10 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 	@Override
 	public int getSignal(Level level, BlockPos pos, BlockState state) {
 		return getSignal(state);
+	}
+
+	@Override
+	public BlockState setSignal(Level level, BlockPos pos, BlockState state, int signal) {
+		return setSignal(state, signal);
 	}
 }
