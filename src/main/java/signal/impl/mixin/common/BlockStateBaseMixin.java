@@ -160,11 +160,6 @@ public class BlockStateBaseMixin implements IBlockState {
 	}
 
 	@Override
-	public boolean hasAnalogSignal(Level level, BlockPos pos, SignalType type) {
-		return getIBlock().hasAnalogSignal(level, pos, asState(), type);
-	}
-
-	@Override
 	public boolean isSignalConsumer(SignalType type) {
 		return getIBlock().isSignalConsumer(type);
 	}

@@ -241,7 +241,7 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			return false;
 		}
 
-		return istate.hasSignal(asLevel(), pos, dir, type);
+		return istate.hasDirectSignal(asLevel(), pos, dir, type);
 	}
 
 	private Level asLevel() {

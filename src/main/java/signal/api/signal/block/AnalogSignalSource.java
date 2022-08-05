@@ -24,11 +24,6 @@ public interface AnalogSignalSource extends IBlock {
 		return !type.isAny() && isAnalogSignalSource(type) ? getAnalogSignal(level, pos, state, type.min(), type.max()) : type.min();
 	}
 
-	@Override
-	default boolean hasAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return getAnalogSignal(level, pos, state, type) > type.min();
-	}
-
 	/**
 	 * Returns the type of analog signal this block emits.
 	 */

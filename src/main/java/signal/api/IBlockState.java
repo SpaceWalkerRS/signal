@@ -42,10 +42,6 @@ public interface IBlockState {
 		return type.min();
 	}
 
-	default boolean hasAnalogSignal(Level level, BlockPos pos, SignalType type) {
-		return false;
-	}
-
 	default boolean isSignalConsumer(SignalType type) {
 		return false;
 	}
