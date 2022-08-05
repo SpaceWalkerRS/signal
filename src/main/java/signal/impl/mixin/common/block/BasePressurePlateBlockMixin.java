@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BasePressurePlateBlock;
@@ -80,5 +81,15 @@ public abstract class BasePressurePlateBlockMixin implements SignalSource {
 	)
 	private int modifyMinOutputSignal4(int zero) {
 		return getSignalType().min();
+	}
+
+	@Override
+	public int getSignal(Level level, BlockPos pos, BlockState state, Direction dir) {
+		return getSignalForState(state);
+	}
+
+	@Override
+	public int getDirectSignal(Level level, BlockPos pos, BlockState state, Direction dir) {
+		return dir == Direction.UP ? getSignalForState(state) : getSignalType().min();
 	}
 }
