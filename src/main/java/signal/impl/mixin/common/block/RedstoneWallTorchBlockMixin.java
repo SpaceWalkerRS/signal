@@ -29,7 +29,7 @@ public class RedstoneWallTorchBlockMixin implements RedstoneSignalSource, Redsto
 		Direction dir = state.getValue(RedstoneWallTorchBlock.FACING).getOpposite();
 		BlockPos behind = pos.relative(dir);
 
-		cir.setReturnValue(hasReceivedSignal(level, behind));
+		cir.setReturnValue(hasReceivedSignalFrom(level, behind, dir));
 	}
 
 	@Override
