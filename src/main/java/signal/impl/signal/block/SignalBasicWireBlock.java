@@ -22,13 +22,13 @@ import signal.api.signal.wire.WireType;
 import signal.impl.interfaces.mixin.IRedStoneWireBlock;
 import signal.impl.mixin.common.block.RedStoneWireBlockInvoker;
 
-public class SignalWireBlock extends RedStoneWireBlock {
+public class SignalBasicWireBlock extends RedStoneWireBlock {
 
 	protected final WireType wireType;
 	protected final Vec3[] colors;
 	protected final Map<BlockState, VoxelShape> shapesCache;
 	
-	public SignalWireBlock(Properties properties, Vec3 baseColor, WireType wireType) {
+	public SignalBasicWireBlock(Properties properties, Vec3 baseColor, WireType wireType) {
 		super(properties);
 
 		if (wireType.min() < Redstone.SIGNAL_MIN || wireType.max() > Redstone.SIGNAL_MAX) {
