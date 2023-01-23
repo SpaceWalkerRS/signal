@@ -21,6 +21,7 @@
 		"common.block.CakeBlockMixin",
 		"common.block.CandleCakeBlockMixin",
 		"common.block.ChestBlockMixin",
+		"common.block.ChiseledBookShelfBlockMixin",
 		"common.block.CommandBlockMixin",
 		"common.block.ComparatorBlockMixin",
 		"common.block.ComposterBlockMixin",
