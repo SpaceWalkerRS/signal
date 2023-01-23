@@ -3,9 +3,8 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.PoweredBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalSource;
 
-public class SignalPoweredBlock extends PoweredBlock implements SignalSource {
+public class SignalPoweredBlock extends PoweredBlock {
 
 	protected final SignalType signalType;
 	protected final int signal;
