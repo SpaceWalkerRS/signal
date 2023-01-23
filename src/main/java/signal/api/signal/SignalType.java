@@ -33,11 +33,11 @@ public class SignalType {
 		return Mth.clamp(signal, min, max);
 	}
 
-	public final boolean isAny() {
-		return this == SignalTypes.ANY;
+	public final boolean is(SignalType type) {
+		return this == type || isAny() || type.isAny();
 	}
 
-	public final boolean is(SignalType type) {
-		return isAny() || type.isAny() || this == type;
+	private boolean isAny() {
+		return this == SignalTypes.ANY;
 	}
 }

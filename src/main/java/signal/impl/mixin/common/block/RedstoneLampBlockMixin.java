@@ -22,7 +22,7 @@ public class RedstoneLampBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean hasNeighborSignal(Level level, BlockPos pos) {
-		return hasReceivedSignal(level, pos);
+		return level.hasSignal(pos, this);
 	}
 
 	@Redirect(
@@ -33,7 +33,7 @@ public class RedstoneLampBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean hasNeighborSignal2(Level level, BlockPos pos) {
-		return hasReceivedSignal(level, pos);
+		return level.hasSignal(pos, this);
 	}
 
 	@Redirect(
@@ -44,6 +44,6 @@ public class RedstoneLampBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean hasNeighborSignal(ServerLevel level, BlockPos pos) {
-		return hasReceivedSignal(level, pos);
+		return level.hasSignal(pos, this);
 	}
 }

@@ -1,29 +1,32 @@
 package signal.api.signal;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
-import signal.api.registry.SignalRegistry;
-import signal.api.registry.SignalRegistryCallbacks;
+import signal.api.SignalRegistries;
 
 public class SignalTypes {
 
-	public static final SignalRegistry<SignalType> REGISTRY = new SignalRegistry<>();
-
-	public static final SignalType ANY      = new SignalType(Integer.MIN_VALUE, Integer.MAX_VALUE);
-	public static final SignalType REDSTONE = new BasicSignalType();
+	public static final SignalType      ANY      = new SignalType(Integer.MIN_VALUE, Integer.MAX_VALUE);
+	public static final BasicSignalType REDSTONE = register(new ResourceLocation("redstone"), new BasicSignalType());
 
 	/**
 	 * Register a custom signal type.
 	 * For the id, it is customary to use your mod id as the namespace.
 	 */
-	public static void register(ResourceLocation id, SignalType type) {
-		SignalRegistryCallbacks.register(REGISTRY, id, type);
+	public static <T extends SignalType> T register(ResourceLocation id, T type) {
+		return Registry.register(SignalRegistries.SIGNAL_TYPE, id, type);
 	}
 
-	/**
-	 * Schedule a callback that runs after all signal types have been registered.
-	 */
-	public static void postRegister(Runnable callback) {
-		SignalRegistryCallbacks.postRegister(REGISTRY, callback);
+	public static SignalType get(ResourceLocation id) {
+		return SignalRegistries.SIGNAL_TYPE.get(id);
+	}
+
+	public static ResourceLocation getId(SignalType type) {
+		return SignalRegistries.SIGNAL_TYPE.getKey(type);
+	}
+
+	public static void bootstrap() {
+
 	}
 }

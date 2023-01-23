@@ -4,9 +4,8 @@ import net.minecraft.world.level.block.PoweredBlock;
 
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalSource;
-import signal.impl.interfaces.mixin.IPoweredBlock;
 
-public class SignalPoweredBlock extends PoweredBlock implements IPoweredBlock, SignalSource {
+public class SignalPoweredBlock extends PoweredBlock implements SignalSource {
 
 	protected final SignalType signalType;
 	protected final int signal;
@@ -27,7 +26,6 @@ public class SignalPoweredBlock extends PoweredBlock implements IPoweredBlock, S
 		return signalType;
 	}
 
-	@Override
 	public int getSignal() {
 		return signal;
 	}

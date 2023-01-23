@@ -25,11 +25,11 @@ public class RedstoneWallTorchBlockMixin implements RedstoneSignalSource, Redsto
 			value = "HEAD"
 		)
 	)
-	private void modifyHasNeighborSignal(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
+	private void signal$modifyHasNeighborSignal(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
 		Direction dir = state.getValue(RedstoneWallTorchBlock.FACING).getOpposite();
 		BlockPos behind = pos.relative(dir);
 
-		cir.setReturnValue(hasReceivedSignalFrom(level, behind, dir));
+		cir.setReturnValue(level.hasSignalFrom(behind, dir, this));
 	}
 
 	@Override

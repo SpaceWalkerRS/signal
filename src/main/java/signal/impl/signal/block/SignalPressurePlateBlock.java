@@ -1,16 +1,16 @@
 package signal.impl.signal.block;
 
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.PressurePlateBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalSource;
 
-public class SignalPressurePlateBlock extends PressurePlateBlock implements SignalSource {
+public class SignalPressurePlateBlock extends PressurePlateBlock {
 
 	protected final SignalType signalType;
 
-	public SignalPressurePlateBlock(Sensitivity sensitivity, Properties properties, SignalType signalType) {
-		super(sensitivity, properties);
+	public SignalPressurePlateBlock(Sensitivity sensitivity, Properties properties, SoundEvent soundOff, SoundEvent soundOn, SignalType signalType) {
+		super(sensitivity, properties, soundOff, soundOn);
 
 		this.signalType = signalType;
 	}

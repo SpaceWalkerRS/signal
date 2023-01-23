@@ -9,10 +9,9 @@ import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
+import signal.impl.interfaces.mixin.IBlockStateBase;
 
-public interface IBlock {
-
-	static final Direction[] DIRECTIONS = Direction.values();
+public interface SignalBlockBehavior {
 
 	default boolean isSignalSource(SignalType type) {
 		return false;
@@ -47,11 +46,7 @@ public interface IBlock {
 	}
 
 	default boolean isSignalConductor(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return type.is(SignalTypes.ANY);
-	}
-
-	default boolean isWire() {
-		return false;
+		return type.is(SignalTypes.ANY) && ((IBlockStateBase)state).signal$isRedstoneConductor(level, pos);
 	}
 
 	default boolean isWire(WireType type) {

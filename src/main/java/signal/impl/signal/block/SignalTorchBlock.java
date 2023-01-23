@@ -3,10 +3,8 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.RedstoneTorchBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalConsumer;
-import signal.api.signal.block.SignalSource;
 
-public class SignalTorchBlock extends RedstoneTorchBlock implements SignalSource, SignalConsumer {
+public class SignalTorchBlock extends RedstoneTorchBlock {
 
 	protected final SignalType signalType;
 

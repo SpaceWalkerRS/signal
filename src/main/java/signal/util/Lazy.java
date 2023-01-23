@@ -10,9 +10,7 @@ public class Lazy<T> implements Supplier<T> {
 	private T value;
 
 	public Lazy(Supplier<T> delegate) {
-		Objects.requireNonNull(delegate);
-
-		this.delegate = delegate;
+		this.delegate = Objects.requireNonNull(delegate);
 	}
 
 	@Override

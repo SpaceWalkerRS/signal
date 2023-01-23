@@ -3,11 +3,8 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.ComparatorBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalConsumer;
-import signal.api.signal.block.SignalSource;
-import signal.impl.interfaces.mixin.IDiodeBlock;
 
-public class SignalComparatorBlock extends ComparatorBlock implements IDiodeBlock, SignalSource, SignalConsumer {
+public class SignalComparatorBlock extends ComparatorBlock {
 
 	protected final SignalType signalType;
 

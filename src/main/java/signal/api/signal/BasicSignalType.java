@@ -13,10 +13,10 @@ public class BasicSignalType extends SignalType {
 		super(min, max);
 
 		if (min < MIN) {
-			throw new IllegalArgumentException("min cannot be less than " + MIN + "!");
+			throw new IllegalArgumentException("min cannot be less than " + MIN + " for basic signal types!");
 		}
 		if (max > MAX) {
-			throw new IllegalArgumentException("max cannot be more than " + MAX + "!");
+			throw new IllegalArgumentException("max cannot be more than " + MAX + " for basic signal types!");
 		}
 	}
 }

@@ -25,8 +25,8 @@ public class RedstoneTorchBlockMixin implements RedstoneSignalSource, RedstoneSi
 			value = "HEAD"
 		)
 	)
-	private void modifyHasNeighborSignal(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-		cir.setReturnValue(hasReceivedSignalFrom(level, pos.below(), Direction.DOWN));
+	private void signal$modifyHasNeighborSignal(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
+		cir.setReturnValue(level.hasSignalFrom(pos.below(), Direction.DOWN, this));
 	}
 
 	@Override

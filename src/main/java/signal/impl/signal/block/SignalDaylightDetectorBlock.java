@@ -3,10 +3,8 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.DaylightDetectorBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalSource;
-import signal.api.signal.block.SignalState;
 
-public class SignalDaylightDetectorBlock extends DaylightDetectorBlock implements SignalSource, SignalState {
+public class SignalDaylightDetectorBlock extends DaylightDetectorBlock {
 
 	protected final SignalType signalType;
 

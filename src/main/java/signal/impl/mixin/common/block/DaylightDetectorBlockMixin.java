@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.DaylightDetectorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalSource;
 import signal.api.signal.block.SignalState;
@@ -30,7 +29,7 @@ public class DaylightDetectorBlockMixin implements RedstoneSignalSource, SignalS
 		)
 	)
 	@SuppressWarnings("unchecked")
-	private static <T extends Comparable<T>> T updateSignalStrengthGetSignal(BlockState state, Property<T> property) {
+	private static <T extends Comparable<T>> T signal$updateSignalStrengthGetSignal(BlockState state, Property<T> property) {
 		return (T)(Integer)((SignalState)state.getBlock()).getSignal(state);
 	}
 
@@ -42,7 +41,7 @@ public class DaylightDetectorBlockMixin implements RedstoneSignalSource, SignalS
 			target = "Lnet/minecraft/world/level/block/state/BlockState;setValue(Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/Comparable;)Ljava/lang/Object;"
 		)
 	)
-	private static <T extends Comparable<T>> Object updateSignalStrengthSetSignal(BlockState state, Property<T> property, T signal) {
+	private static <T extends Comparable<T>> Object signal$updateSignalStrengthSetSignal(BlockState state, Property<T> property, T signal) {
 		return ((SignalState)state.getBlock()).setSignal(state, (Integer)signal);
 	}
 
@@ -54,12 +53,11 @@ public class DaylightDetectorBlockMixin implements RedstoneSignalSource, SignalS
 			target = "Lnet/minecraft/util/Mth;clamp(III)I"
 		)
 	)
-	private static int modifyUpdateSignalStrength(int brightness, int min, int max, BlockState state, Level level, BlockPos pos) {
+	private static int signal$modifyUpdateSignalStrength(int brightness, int min, int max, BlockState state, Level level, BlockPos pos) {
 		brightness = Mth.clamp(brightness, min, max);
 		float f = (float)(brightness - min) / (max - min);
 
-		IBlockState istate = (IBlockState)state;
-		SignalSource source = (SignalSource)istate.getIBlock();
+		SignalSource source = (SignalSource)state.getBlock();
 		SignalType type = source.getSignalType();
 
 		return type.min() + (int)(f * (type.max() - type.min()));

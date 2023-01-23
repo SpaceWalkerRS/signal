@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import net.minecraft.world.level.block.RailBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalTypes;
 
 @Mixin(RailBlock.class)
@@ -20,7 +19,7 @@ public class RailBlockMixin {
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isSignalSource()Z"
 		)
 	)
-	private boolean isSignalSource(BlockState state) {
-		return ((IBlockState)state).isSignalSource(SignalTypes.ANY);
+	private boolean signal$isSignalSource(BlockState state) {
+		return state.isSignalSource(SignalTypes.ANY);
 	}
 }

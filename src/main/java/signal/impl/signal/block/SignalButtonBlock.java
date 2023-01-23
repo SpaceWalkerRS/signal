@@ -1,16 +1,16 @@
 package signal.impl.signal.block;
 
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.ButtonBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalSource;
 
-public abstract class SignalButtonBlock extends ButtonBlock implements SignalSource {
+public abstract class SignalButtonBlock extends ButtonBlock {
 
 	protected final SignalType signalType;
 
-	protected SignalButtonBlock(boolean sensitive, Properties properties, SignalType signalType) {
-		super(sensitive, properties);
+	protected SignalButtonBlock(Properties properties, int ticksToStayPressed, boolean arrowsCanPress, SoundEvent soundOff, SoundEvent soundOn, SignalType signalType) {
+		super(properties, ticksToStayPressed, arrowsCanPress, soundOff, soundOn);
 
 		this.signalType = signalType;
 	}

@@ -20,16 +20,14 @@ import net.minecraft.world.level.block.DiodeBlock;
 import net.minecraft.world.level.block.PoweredBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalConsumer;
 import signal.api.signal.block.SignalSource;
 import signal.api.signal.wire.block.Wire;
-import signal.impl.interfaces.mixin.IDiodeBlock;
 import signal.impl.interfaces.mixin.IPoweredBlock;
 
 @Mixin(DiodeBlock.class)
-public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, SignalConsumer {
+public abstract class DiodeBlockMixin implements SignalSource, SignalConsumer {
 
 	@Shadow private boolean isAlternateInput(BlockState state) { return false; }
 	@Shadow private int getOutputSignal(BlockGetter level, BlockPos pos, BlockState state) { return 0; }
@@ -40,7 +38,7 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 			expandZeroConditions = Condition.GREATER_THAN_ZERO
 		)
 	)
-	private int modifyMinInputSignal(int zero) {
+	private int signal$modifyMinInputSignal(int zero) {
 		return getSignalType().min();
 	}
 
@@ -51,11 +49,11 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 			value = "HEAD"
 		)
 	)
-	private void modifyGetInputSignal(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Integer> cir) {
+	private void signal$modifyGetInputSignal(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Integer> cir) {
 		Direction facing = state.getValue(DiodeBlock.FACING);
 		BlockPos behind = pos.relative(facing);
 
-		cir.setReturnValue(getReceivedSignalFrom(level, behind, facing));
+		cir.setReturnValue(level.getSignalFrom(behind, facing, this));
 	}
 
 	@Inject(
@@ -65,19 +63,18 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 			value = "HEAD"
 		)
 	)
-	private void modifySideInputSignalAt(LevelReader levelReader, BlockPos pos, Direction dir, CallbackInfoReturnable<Integer> cir) {
+	private void signal$modifySideInputSignalAt(LevelReader levelReader, BlockPos pos, Direction dir, CallbackInfoReturnable<Integer> cir) {
 		if (!(levelReader instanceof Level)) {
 			return; // we should never get here
 		}
 
 		SignalType type = getSignalType();
+		int signal = type.min();
 
 		Level level = (Level)levelReader;
 		BlockState state = level.getBlockState(pos);
 
-		int signal = type.min();
-
-		if (isCompatibleSideInput(state)) {
+		if (isAlternateInput(state)) {
 			Block block = state.getBlock();
 
 			if (block instanceof PoweredBlock) {
@@ -86,7 +83,7 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 			if (block instanceof Wire) {
 				signal = ((Wire)block).getSignal(level, pos, state);
 			} else {
-				signal = getReceivedDirectSignalFrom(level, pos, dir);
+				signal = level.getDirectSignalFrom(pos, dir, this);
 			}
 
 			signal = type.clamp(signal);
@@ -102,8 +99,8 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isSignalSource()Z"
 		)
 	)
-	private boolean isSignalSource(BlockState state) {
-		return ((IBlockState)state).isSignalSource(getSignalType());
+	private boolean signal$isSignalSource(BlockState state) {
+		return state.isSignalSource(getConsumedSignalType());
 	}
 
 	@ModifyConstant(
@@ -124,7 +121,7 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 		)
 	)
 	private boolean redirectIsDiode(BlockState state) {
-		return DiodeBlock.isDiode(state) && isCompatibleSideInput(state);
+		return DiodeBlock.isDiode(state) && isAlternateInput(state);
 	}
 
 	@Override
@@ -135,10 +132,5 @@ public abstract class DiodeBlockMixin implements IDiodeBlock, SignalSource, Sign
 	@Override
 	public int getDirectSignal(Level level, BlockPos pos, BlockState state, Direction dir) {
 		return getSignal(level, pos, state, dir);
-	}
-
-	@Override
-	public boolean isCompatibleSideInput(BlockState state) {
-		return isAlternateInput(state) && ((IBlockState)state).isSignalSource(getConsumedSignalType());
 	}
 }

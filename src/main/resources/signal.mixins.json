@@ -6,7 +6,6 @@
 	"mixins": [
 		"common.AbstractMinecartMixin",
 		"common.BatMixin",
-		"common.BlockBehaviourMixin",
 		"common.BlockStateBaseMixin",
 		"common.LevelMixin",
 		"common.NaturalSpawnerMixin",
@@ -56,15 +55,13 @@
 		"common.block.RespawnAnchorBlockMixin",
 		"common.block.SculkSensorBlockMixin",
 		"common.block.ShulkerBoxBlockMixin",
-		"common.block.StoneButtonBlockMixin",
 		"common.block.StructureBlockMixin",
 		"common.block.TargetBlockMixin",
 		"common.block.TntBlockMixin",
 		"common.block.TrapDoorBlockMixin",
 		"common.block.TrappedChestBlockMixin",
 		"common.block.TripWireHookBlockMixin",
-		"common.block.WeightedPressurePlateBlockMixin",
-		"common.block.WoodButtonBlockMixin"
+		"common.block.WeightedPressurePlateBlockMixin"
 	],
 	"client": [
 		"client.DebugScreenOverlayMixin"

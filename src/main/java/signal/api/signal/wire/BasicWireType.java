@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalType;
 import signal.util.Lazy;
 
@@ -25,21 +24,20 @@ public class BasicWireType extends WireType {
 
 	@Override
 	public void findPotentialConnections(Level level, BlockPos pos, PotentialConnectionConsumer consumer) {
-		Lazy<IBlockState> ibelowState = new Lazy<>(() -> (IBlockState)level.getBlockState(pos.below()));
-		Lazy<IBlockState> iaboveState = new Lazy<>(() -> (IBlockState)level.getBlockState(pos.above()));
+		Lazy<BlockState> belowState = new Lazy<>(() -> level.getBlockState(pos.below()));
+		Lazy<BlockState> aboveState = new Lazy<>(() -> level.getBlockState(pos.above()));
 
-		Lazy<Boolean> belowIsConductor = new Lazy<>(() -> ibelowState.get().isSignalConductor(level, pos.below(), signal));
-		Lazy<Boolean> aboveIsConductor = new Lazy<>(() -> iaboveState.get().isSignalConductor(level, pos.above(), signal));
+		Lazy<Boolean> belowIsConductor = new Lazy<>(() -> belowState.get().isSignalConductor(level, pos.below(), signal));
+		Lazy<Boolean> aboveIsConductor = new Lazy<>(() -> aboveState.get().isSignalConductor(level, pos.above(), signal));
 
 		for (Direction dir : Direction.Plane.HORIZONTAL) {
 			BlockPos adjacent = pos.relative(dir);
 			BlockState adjacentState = level.getBlockState(adjacent);
-			IBlockState iadjacentState = (IBlockState)adjacentState;
 
-			if (iadjacentState.isWire()) {
+			if (adjacentState.isWire(WireTypes.ANY)) {
 				consumer.accept(ConnectionSide.fromDirection(dir), adjacent, adjacentState, ConnectionType.BOTH);
 			} else {
-				boolean adjacentIsConductor = iadjacentState.isSignalConductor(level, adjacent, signal);
+				boolean adjacentIsConductor = adjacentState.isSignalConductor(level, adjacent, signal);
 
 				if (!adjacentIsConductor) {
 					ConnectionSide side = ConnectionSide.fromDirection(dir).withDown();
@@ -80,32 +78,28 @@ public class BasicWireType extends WireType {
 		if (ver == ConnectionSide.DOWN) {
 			BlockPos adjacent = hor.offset(pos);
 			BlockState adjacentState = level.getBlockState(adjacent);
-			IBlockState iadjacentState = (IBlockState)adjacentState;
 
-			if (iadjacentState.isSignalConductor(level, adjacent, signal)) {
+			if (adjacentState.isSignalConductor(level, adjacent, signal)) {
 				return ConnectionType.NONE;
 			}
 
 			BlockPos below = pos.below();
 			BlockState belowState = level.getBlockState(below);
-			IBlockState ibelowState = (IBlockState)belowState;
 
-			return ibelowState.isSignalConductor(level, below, signal) ? ConnectionType.BOTH : ConnectionType.IN;
+			return belowState.isSignalConductor(level, below, signal) ? ConnectionType.BOTH : ConnectionType.IN;
 		}
 		if (ver == ConnectionSide.UP) {
 			BlockPos above = pos.above();
 			BlockState aboveState = level.getBlockState(above);
-			IBlockState iaboveState = (IBlockState)aboveState;
 
-			if (iaboveState.isSignalConductor(level, above, signal)) {
+			if (aboveState.isSignalConductor(level, above, signal)) {
 				return ConnectionType.NONE;
 			}
 
 			BlockPos adjacent = hor.offset(pos);
 			BlockState adjacentState = level.getBlockState(adjacent);
-			IBlockState iadjacentState = (IBlockState)adjacentState;
 
-			return iadjacentState.isSignalConductor(level, adjacent, signal) ? ConnectionType.BOTH : ConnectionType.OUT;
+			return adjacentState.isSignalConductor(level, adjacent, signal) ? ConnectionType.BOTH : ConnectionType.OUT;
 		}
 
 		return ConnectionType.NONE;

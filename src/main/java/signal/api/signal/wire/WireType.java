@@ -5,7 +5,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalType;
 import signal.api.signal.wire.block.Wire;
 
@@ -17,8 +16,8 @@ public abstract class WireType {
 	protected final int step;
 
 	protected WireType(SignalType signal, int min, int max, int step) {
-		if (signal == null || signal.isAny()) {
-			throw new IllegalArgumentException("signal type cannot be null or any!");
+		if (signal == null) {
+			throw new IllegalArgumentException("signal type cannot be null!");
 		}
 		if (max < min) {
 			throw new IllegalArgumentException("max cannot be less than min!");
@@ -64,11 +63,19 @@ public abstract class WireType {
 		return Mth.clamp(signal, min, max);
 	}
 
+	public final boolean is(WireType type) {
+		return this == type || isAny() || type.isAny();
+	}
+
+	private boolean isAny() {
+		return this == WireTypes.ANY;
+	}
+
 	/**
 	 * Override only! Call {@link signal.api.signal.wire.WireTypes#areCompatible(WireType, WireType) WireTypes.areCompatible} instead.
 	 */
 	protected boolean isCompatible(WireType type) {
-		return signal.is(type.signal);
+		return is(type) || signal.is(type.signal);
 	}
 
 	public void findConnections(Level level, BlockPos pos, ConnectionConsumer consumer) {
@@ -108,14 +115,11 @@ public abstract class WireType {
 		if (connection == ConnectionType.NONE) {
 			return ConnectionType.NONE;
 		}
-
-		IBlockState ineighborState = (IBlockState)neighborState;
-
-		if (!ineighborState.isWire()) {
+		if (!neighborState.isWire(WireTypes.ANY)) {
 			return ConnectionType.NONE;
 		}
 
-		Wire neighborWire = (Wire)ineighborState.getIBlock();
+		Wire neighborWire = (Wire)neighborState.getBlock();
 		WireType neighborType = neighborWire.getWireType();
 
 		if (this == neighborType) {

@@ -5,7 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlock;
+import signal.api.SignalBlockBehavior;
 import signal.api.signal.SignalType;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.WireType;
@@ -15,7 +15,7 @@ import signal.api.signal.wire.WireType;
  * 
  * @author Space Walker
  */
-public interface SignalSource extends IBlock {
+public interface SignalSource extends SignalBlockBehavior {
 
 	@Override
 	default boolean isSignalSource(SignalType type) {

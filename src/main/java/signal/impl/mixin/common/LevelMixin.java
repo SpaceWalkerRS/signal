@@ -1,8 +1,6 @@
 package signal.impl.mixin.common;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -15,16 +13,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.SignalMod;
-import signal.api.IBlockState;
-import signal.api.ILevel;
+import signal.api.SignalLevel;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.wire.WireTypes;
 
 @Mixin(Level.class)
-public abstract class LevelMixin implements BlockGetter, ILevel {
+public abstract class LevelMixin implements BlockGetter, SignalLevel {
 
-	@Shadow @Final private static Direction[] DIRECTIONS;
+	private static final Direction[] DIRECTIONS = Direction.values();
 
 	@Redirect(
 		method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z",
@@ -33,8 +31,8 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			target = "Lnet/minecraft/world/level/block/state/BlockState;hasAnalogOutputSignal()Z"
 		)
 	)
-	private boolean hasAnalogOutputSignal(BlockState state) {
-		return ((IBlockState)state).isAnalogSignalSource(SignalTypes.ANY);
+	private boolean signal$hasAnalogOutputSignal(BlockState state) {
+		return state.isAnalogSignalSource(SignalTypes.ANY);
 	}
 
 	@Redirect(
@@ -44,8 +42,8 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return ((IBlockState)state).isSignalConductor(asLevel(), pos, SignalTypes.ANY);
+	private boolean signal$isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+		return state.isSignalConductor(signal$asLevel(), pos, SignalTypes.ANY);
 	}
 
 	@Inject(
@@ -54,12 +52,8 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			value = "HEAD"
 		)
 	)
-	private void deprecateGetDirectSignalTo(CallbackInfoReturnable<Integer> cir) {
-		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method Level#getDirectSignalTo is deprecated! Use ILevel#getDirectSignal instead.");
-		} else {
-			SignalMod.LOGGER.warn("Method Level#getDirectSignalTo is deprecated! Use ILevel#getDirectSignal instead.");
-		}
+	private void signal$deprecateGetDirectSignalTo(CallbackInfoReturnable<Integer> cir) {
+		SignalMod.deprecate("Method Level#getDirectSignalTo is deprecated! Use SignalLevel#getDirectSignal instead.");
 	}
 
 	@Inject(
@@ -68,12 +62,8 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			value = "HEAD"
 		)
 	)
-	private void deprecateHasSignal(CallbackInfoReturnable<Boolean> cir) {
-		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method Level#hasSignal is deprecated! Use ILevel#hasSignalFrom instead.");
-		} else {
-			SignalMod.LOGGER.warn("Method Level#hasSignal is deprecated! Use ILevel#hasSignalFrom instead.");
-		}
+	private void signal$deprecateHasSignal(CallbackInfoReturnable<Boolean> cir) {
+		SignalMod.deprecate("Method Level#hasSignal is deprecated! Use SignalLevel#hasSignalFrom instead.");
 	}
 
 	@Inject(
@@ -82,12 +72,8 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			value = "HEAD"
 		)
 	)
-	private void deprecateGetSignal(CallbackInfoReturnable<Integer> cir) {
-		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method Level#getSignal is deprecated! Use ILevel#getSignalFrom instead.");
-		} else {
-			SignalMod.LOGGER.warn("Method Level#getSignal is deprecated! Use ILevel#getSignalFrom instead.");
-		}
+	private void signal$deprecateGetSignal(CallbackInfoReturnable<Integer> cir) {
+		SignalMod.deprecate("Method Level#getSignal is deprecated! Use SignalLevel#getSignalFrom instead.");
 	}
 
 	@Inject(
@@ -96,12 +82,8 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			value = "HEAD"
 		)
 	)
-	private void deprecateHasNeighborSignal(CallbackInfoReturnable<Boolean> cir) {
-		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method Level#hasNeighborSignal is deprecated! Use ILevel#hasSignal instead.");
-		} else {
-			SignalMod.LOGGER.warn("Method Level#hasNeighborSignal is deprecated! Use ILevel#hasSignal instead.");
-		}
+	private void signal$deprecateHasNeighborSignal(CallbackInfoReturnable<Boolean> cir) {
+		SignalMod.deprecate("Method Level#hasNeighborSignal is deprecated! Use SignalLevel#hasSignal instead.");
 	}
 
 	@Inject(
@@ -110,24 +92,22 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 			value = "HEAD"
 		)
 	)
-	private void deprecateGetBestNeighborSignal(CallbackInfoReturnable<Integer> cir) {
-		if (SignalMod.DEBUG) {
-			throw new IllegalStateException("Method Level#getBestNeighborSignal is deprecated! Use ILevel#getSignal instead.");
-		} else {
-			SignalMod.LOGGER.warn("Method Level#getBestNeighborSignal is deprecated! Use ILevel#getSignal instead.");
-		}
+	private void signal$deprecateGetBestNeighborSignal(CallbackInfoReturnable<Integer> cir) {
+		SignalMod.deprecate("Method Level#getBestNeighborSignal is deprecated! Use SignalLevel#getSignal instead.");
 	}
 
 	@Override
 	public int getSignal(BlockPos pos, SignalConsumer consumer) {
 		SignalType type = consumer.getConsumedSignalType();
+
 		int signal = type.min();
+		int max = type.max();
 
 		for (Direction dir : DIRECTIONS) {
 			signal = Math.max(signal, getSignalFrom(pos.relative(dir), dir, consumer));
 
-			if (signal >= type.max()) {
-				return type.max();
+			if (signal >= max) {
+				return max;
 			}
 		}
 
@@ -137,13 +117,15 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public int getDirectSignal(BlockPos pos, SignalConsumer consumer) {
 		SignalType type = consumer.getConsumedSignalType();
+
 		int signal = type.min();
+		int max = type.max();
 
 		for (Direction dir : DIRECTIONS) {
 			signal = Math.max(signal, getDirectSignalFrom(pos.relative(dir), dir, consumer));
 
-			if (signal >= type.max()) {
-				return type.max();
+			if (signal >= max) {
+				return max;
 			}
 		}
 
@@ -153,21 +135,22 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public int getSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
 		SignalType type = consumer.getConsumedSignalType();
-
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
 
-		if (consumer.isWire() && istate.isWire()) {
-			return type.min();
+		int signal = type.min();
+		int max = type.max();
+
+		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
+			return signal;
 		}
 
-		int signal = istate.getSignal(asLevel(), pos, dir, type);
+		signal = state.getSignal(signal$asLevel(), pos, dir, type);
 
-		if (signal >= type.max()) {
-			return type.max();
+		if (signal >= max) {
+			return max;
 		}
 
-		if (istate.isSignalConductor(asLevel(), pos, type)) {
+		if (state.isSignalConductor(signal$asLevel(), pos, type)) {
 			signal = Math.max(signal, getDirectSignal(pos, consumer));
 		}
 
@@ -177,15 +160,13 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public int getDirectSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
 		SignalType type = consumer.getConsumedSignalType();
-
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
 
-		if (consumer.isWire() && istate.isWire()) {
+		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
 			return type.min();
 		}
 
-		return type.clamp(istate.getDirectSignal(asLevel(), pos, dir, type));
+		return type.clamp(state.getDirectSignal(signal$asLevel(), pos, dir, type));
 	}
 
 	@Override
@@ -213,38 +194,31 @@ public abstract class LevelMixin implements BlockGetter, ILevel {
 	@Override
 	public boolean hasSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
 		SignalType type = consumer.getConsumedSignalType();
-
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
 
-		if (consumer.isWire() && istate.isWire()) {
+		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
 			return false;
 		}
-		if (istate.hasSignal(asLevel(), pos, dir, type)) {
+		if (state.hasSignal(signal$asLevel(), pos, dir, type)) {
 			return true;
 		}
-		if (!istate.isSignalConductor(asLevel(), pos, type)) {
-			return false;
-		}
 
-		return hasDirectSignal(pos, consumer);
+		return state.isSignalConductor(signal$asLevel(), pos, type) && hasDirectSignal(pos, consumer);
 	}
 
 	@Override
 	public boolean hasDirectSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
 		SignalType type = consumer.getConsumedSignalType();
-
 		BlockState state = getBlockState(pos);
-		IBlockState istate = (IBlockState)state;
 
-		if (consumer.isWire() && istate.isWire()) {
+		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
 			return false;
 		}
 
-		return istate.hasDirectSignal(asLevel(), pos, dir, type);
+		return state.hasDirectSignal(signal$asLevel(), pos, dir, type);
 	}
 
-	private Level asLevel() {
+	private Level signal$asLevel() {
 		return (Level)(Object)this;
 	}
 }

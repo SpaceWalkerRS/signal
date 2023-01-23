@@ -3,11 +3,8 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.DiodeBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalConsumer;
-import signal.api.signal.block.SignalSource;
-import signal.impl.interfaces.mixin.IDiodeBlock;
 
-public abstract class SignalDiodeBlock extends DiodeBlock implements IDiodeBlock, SignalSource, SignalConsumer {
+public abstract class SignalDiodeBlock extends DiodeBlock {
 
 	protected final SignalType signalType;
 

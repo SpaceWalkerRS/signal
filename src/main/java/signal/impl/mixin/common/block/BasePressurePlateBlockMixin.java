@@ -15,13 +15,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BasePressurePlateBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Redstone;
 
 import signal.api.signal.block.SignalSource;
 
 @Mixin(BasePressurePlateBlock.class)
 public abstract class BasePressurePlateBlockMixin implements SignalSource {
 
-	@Shadow private int getSignalForState(BlockState state) { return 0; }
+	@Shadow private int getSignalForState(BlockState state) { return Redstone.SIGNAL_NONE; }
 	@Shadow private void checkPressed(Entity entity, Level level, BlockPos pos, BlockState state, int signal) { }
 
 	@ModifyConstant(
@@ -30,7 +31,7 @@ public abstract class BasePressurePlateBlockMixin implements SignalSource {
 			expandZeroConditions = Condition.GREATER_THAN_ZERO
 		)
 	)
-	private int modifyMinOutputSignal(int zero) {
+	private int signal$modifyMinOutputSignal(int zero) {
 		return getSignalType().min();
 	}
 
@@ -40,7 +41,7 @@ public abstract class BasePressurePlateBlockMixin implements SignalSource {
 			expandZeroConditions = Condition.GREATER_THAN_ZERO
 		)
 	)
-	private int modifyMinOutputSignal1(int zero) {
+	private int signal$modifyMinOutputSignal1(int zero) {
 		return getSignalType().min();
 	}
 
@@ -51,7 +52,7 @@ public abstract class BasePressurePlateBlockMixin implements SignalSource {
 			value = "HEAD"
 		)
 	)
-	private void modifyEntityInside(BlockState state, Level level, BlockPos pos, Entity entity, CallbackInfo ci) {
+	private void signal$modifyEntityInside(BlockState state, Level level, BlockPos pos, Entity entity, CallbackInfo ci) {
 		if (!level.isClientSide()) {
 			int signal = getSignalForState(state);
 
@@ -69,7 +70,7 @@ public abstract class BasePressurePlateBlockMixin implements SignalSource {
 			expandZeroConditions = Condition.GREATER_THAN_ZERO
 		)
 	)
-	private int modifyMinOutputSignal3(int zero) {
+	private int signal$modifyMinOutputSignal3(int zero) {
 		return getSignalType().min();
 	}
 
@@ -79,7 +80,7 @@ public abstract class BasePressurePlateBlockMixin implements SignalSource {
 			expandZeroConditions = Condition.GREATER_THAN_ZERO
 		)
 	)
-	private int modifyMinOutputSignal4(int zero) {
+	private int signal$modifyMinOutputSignal4(int zero) {
 		return getSignalType().min();
 	}
 

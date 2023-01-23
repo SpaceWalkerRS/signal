@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalHolder;
 import signal.api.signal.SignalType;
 import signal.api.signal.block.SignalConsumer;
@@ -17,13 +16,8 @@ import signal.api.signal.wire.WireTypes;
 public interface Wire extends SignalSource, SignalConsumer {
 
 	@Override
-	default boolean isWire() {
-		return true;
-	}
-
-	@Override
 	default boolean isWire(WireType type) {
-		return getWireType() == type;
+		return getWireType().is(type);
 	}
 
 	@Override
@@ -61,6 +55,9 @@ public interface Wire extends SignalSource, SignalConsumer {
 		return getWireType().signal();
 	}
 
+	/**
+	 * Returns the type of wire this block is (cannot be {@link signal.api.signal.wire.WireTypes#ANY WireTypes.ANY}).
+	 */
 	WireType getWireType();
 
 	default boolean isCompatible(Wire wire) {
@@ -76,16 +73,16 @@ public interface Wire extends SignalSource, SignalConsumer {
 	}
 
 	default int getNeighborSignal(Level level, BlockPos pos) {
-		int signal = getReceivedSignal(level, pos);
+		int signal = level.getSignal(pos, this);
 
 		if (signal < getWireType().max()) {
-			signal = Math.max(signal, getReceivedWireSignal(level, pos));
+			signal = Math.max(signal, getNeighborWireSignal(level, pos));
 		}
 
 		return signal;
 	}
 
-	default int getReceivedWireSignal(Level level, BlockPos pos) {
+	default int getNeighborWireSignal(Level level, BlockPos pos) {
 		WireType type = getWireType();
 		SignalHolder signal = new SignalHolder(type.min());
 
@@ -94,8 +91,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 				return true;
 			}
 
-			IBlockState ineighborState = (IBlockState)neighborState;
-			Wire neighborWire = (Wire)ineighborState.getIBlock();
+			Wire neighborWire = (Wire)neighborState.getBlock();
 
 			int neighborSignal = neighborWire.getSignal(level, neighborPos, neighborState);
 			int step = Math.max(type.step(), neighborWire.getWireType().step());

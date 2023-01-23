@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalTypes;
 import signal.api.signal.block.AnalogSignalSource;
 
@@ -24,8 +23,8 @@ public class ChestBlockMixin implements AnalogSignalSource {
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private static boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return blockGetter instanceof Level && ((IBlockState)state).isSignalConductor((Level)blockGetter, pos, SignalTypes.ANY);
+	private static boolean signal$isRedstoneConductor(BlockState state, BlockGetter level, BlockPos pos) {
+		return level instanceof Level && state.isSignalConductor((Level)level, pos, SignalTypes.ANY);
 	}
 
 	@Override

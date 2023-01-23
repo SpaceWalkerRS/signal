@@ -20,8 +20,8 @@ public class FenceGateBlockMixin implements SignalConsumer {
 			target = "Lnet/minecraft/world/level/Level;hasNeighborSignal(Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean hasNeighborSignal(Level level, BlockPos pos) {
-		return hasReceivedSignal(level, pos);
+	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
+		return level.hasSignal(pos, this);
 	}
 
 	@Redirect(
@@ -31,7 +31,7 @@ public class FenceGateBlockMixin implements SignalConsumer {
 			target = "Lnet/minecraft/world/level/Level;hasNeighborSignal(Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean hasNeighborSignal2(Level level, BlockPos pos) {
-		return hasReceivedSignal(level, pos);
+	private boolean signal$hasNeighborSignal2(Level level, BlockPos pos) {
+		return level.hasSignal(pos, this);
 	}
 }

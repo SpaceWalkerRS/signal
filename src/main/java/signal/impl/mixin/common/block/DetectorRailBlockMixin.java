@@ -59,5 +59,4 @@ public class DetectorRailBlockMixin implements RedstoneSignalSource, AnalogSigna
 
 		return min;
 	}
-
 }

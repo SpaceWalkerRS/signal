@@ -18,13 +18,11 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import signal.api.signal.block.SignalState;
 import signal.api.signal.wire.WireType;
-import signal.api.signal.wire.block.redstone.RedstoneWire;
 import signal.impl.interfaces.mixin.IRedStoneWireBlock;
 import signal.impl.mixin.common.block.RedStoneWireBlockInvoker;
 
-public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireBlock, RedstoneWire, SignalState {
+public class SignalWireBlock extends RedStoneWireBlock {
 
 	protected final WireType wireType;
 	protected final Vec3[] colors;
@@ -45,7 +43,7 @@ public class SignalWireBlock extends RedStoneWireBlock implements IRedStoneWireB
 		populateShapesCache();
 
 		fixDefaultState();
-		fixCrossState();
+		((IRedStoneWireBlock)this).fixCrossState();
 	}
 
 	@Override

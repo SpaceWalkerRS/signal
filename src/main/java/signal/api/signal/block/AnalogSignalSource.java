@@ -8,11 +8,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlock;
+import signal.api.SignalBlockBehavior;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 
-public interface AnalogSignalSource extends IBlock {
+public interface AnalogSignalSource extends SignalBlockBehavior {
 
 	@Override
 	default boolean isAnalogSignalSource(SignalType type) {
@@ -21,7 +21,7 @@ public interface AnalogSignalSource extends IBlock {
 
 	@Override
 	default int getAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return !type.isAny() && isAnalogSignalSource(type) ? getAnalogSignal(level, pos, state, type.min(), type.max()) : type.min();
+		return isAnalogSignalSource(type) ? getAnalogSignal(level, pos, state, type.min(), type.max()) : type.min();
 	}
 
 	/**

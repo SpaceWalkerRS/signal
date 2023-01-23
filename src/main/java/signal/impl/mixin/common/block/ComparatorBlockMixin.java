@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalTypes;
 import signal.api.signal.block.AnalogSignalSource;
 import signal.api.signal.block.redstone.RedstoneSignalConsumer;
@@ -29,7 +28,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			intValue = 0
 		)
 	)
-	private int modifyDefaultOutputSignal(int zero) {
+	private int signal$modifyDefaultOutputSignal(int zero) {
 		return getSignalType().min();
 	}
 
@@ -39,7 +38,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			intValue = 0
 		)
 	)
-	private int modifyMinOutputSignal(int zero) {
+	private int signal$modifyMinOutputSignal(int zero) {
 		return getSignalType().min();
 	}
 
@@ -49,7 +48,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			intValue = 0
 		)
 	)
-	private int modifyMinInputSignal(int zero) {
+	private int signal$modifyMinInputSignal(int zero) {
 		return getSignalType().min();
 	}
 
@@ -59,7 +58,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			intValue = 15
 		)
 	)
-	private int modifyMaxInputSignal(int fifteen) {
+	private int signal$modifyMaxInputSignal(int fifteen) {
 		return getSignalType().max();
 	}
 
@@ -70,8 +69,8 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			target = "Lnet/minecraft/world/level/block/state/BlockState;hasAnalogOutputSignal()Z"
 		)
 	)
-	private boolean hasAnalogOutputSignal(BlockState state) {
-		return ((IBlockState)state).isAnalogSignalSource(SignalTypes.ANY);
+	private boolean signal$hasAnalogOutputSignal(BlockState state) {
+		return state.isAnalogSignalSource(SignalTypes.ANY);
 	}
 
 	@Redirect(
@@ -81,8 +80,8 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			target = "Lnet/minecraft/world/level/block/state/BlockState;getAnalogOutputSignal(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)I"
 		)
 	)
-	private int deprecateGetAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-		return ((IBlockState)state).getAnalogSignal(level, pos, getSignalType());
+	private int signal$deprecateGetAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+		return state.getAnalogSignal(level, pos, getConsumedSignalType());
 	}
 
 	@Redirect(
@@ -92,8 +91,8 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
-		return ((IBlockState)state).isSignalConductor(level, pos, getSignalType());
+	private boolean signal$isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
+		return state.isSignalConductor(level, pos, getConsumedSignalType());
 	}
 
 	@Redirect(
@@ -103,7 +102,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			target = "Lnet/minecraft/world/entity/decoration/ItemFrame;getAnalogOutput()I"
 		)
 	)
-	private int getAnalogOutput(ItemFrame itemFrame) {
+	private int signal$getAnalogOutput(ItemFrame itemFrame) {
 		return AnalogSignalSource.getAnalogSignal(itemFrame.getAnalogOutput(), getConsumedSignalType().min(), getConsumedSignalType().max());
 	}
 
@@ -113,7 +112,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			intValue = 0
 		)
 	)
-	private int modifyMinOutputSignal1(int zero) {
+	private int signal$modifyMinOutputSignal1(int zero) {
 		return getSignalType().min();
 	}
 
@@ -123,7 +122,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 			intValue = 0
 		)
 	)
-	private int modifyMinOutputSignal2(int zero) {
+	private int signal$modifyMinOutputSignal2(int zero) {
 		return getSignalType().min();
 	}
 

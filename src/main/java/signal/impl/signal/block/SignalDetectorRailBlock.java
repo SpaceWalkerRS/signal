@@ -3,10 +3,8 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.DetectorRailBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.AnalogSignalSource;
-import signal.api.signal.block.SignalSource;
 
-public class SignalDetectorRailBlock extends DetectorRailBlock implements SignalSource, AnalogSignalSource {
+public class SignalDetectorRailBlock extends DetectorRailBlock {
 
 	protected final SignalType type;
 

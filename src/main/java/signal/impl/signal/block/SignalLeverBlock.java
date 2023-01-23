@@ -3,9 +3,8 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.LeverBlock;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalSource;
 
-public class SignalLeverBlock extends LeverBlock implements SignalSource {
+public class SignalLeverBlock extends LeverBlock {
 
 	protected final SignalType signalType;
 

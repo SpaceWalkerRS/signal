@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 import signal.api.signal.block.SignalSource;
@@ -32,20 +31,18 @@ public class DebugScreenOverlayMixin {
 			target = "Lnet/minecraft/world/level/block/state/BlockState;getTags()Ljava/util/stream/Stream;"
 		)
 	)
-	private void addWireTypeInfo(CallbackInfoReturnable<List<String>> cir, long maxMemory, long totalMemory, long freeMemory, long usedMemory, List<String> info, BlockPos pos, BlockState state) {
-		IBlockState istate = (IBlockState)state;
-
-		if (istate.isSignalSource(SignalTypes.ANY)) {
-			SignalSource source = (SignalSource)istate.getIBlock();
+	private void signal$addSignalAndWireTypeInformation(CallbackInfoReturnable<List<String>> cir, long maxMemory, long totalMemory, long freeMemory, long usedMemory, List<String> info, BlockPos pos, BlockState state) {
+		if (state.isSignalSource(SignalTypes.ANY)) {
+			SignalSource source = (SignalSource)state.getBlock();
 			SignalType signalType = source.getSignalType();
-			ResourceLocation signalId = SignalTypes.REGISTRY.getId(signalType);
+			ResourceLocation signalId = SignalTypes.getId(signalType);
 
 			info.add("signal type: " + signalId);
 
-			if (istate.isWire()) {
+			if (state.isWire(WireTypes.ANY)) {
 				Wire wire = (Wire)source;
 				WireType wireType = wire.getWireType();
-				ResourceLocation wireId = WireTypes.REGISTRY.getId(wireType);
+				ResourceLocation wireId = WireTypes.getId(wireType);
 
 				info.add("wire type: " + wireId);
 			}

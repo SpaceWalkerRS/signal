@@ -18,7 +18,7 @@ public class PressurePlateBlockMixin implements RedstoneSignalSource {
 			intValue = 15
 		)
 	)
-	private int modifyMaxOutputSignal(int fifteen) {
+	private int signal$modifyMaxOutputSignal(int fifteen) {
 		return getSignalType().max();
 	}
 
@@ -28,7 +28,7 @@ public class PressurePlateBlockMixin implements RedstoneSignalSource {
 			intValue = 0
 		)
 	)
-	private int modifyMinOutputSignal(int zero) {
+	private int signal$modifyMinOutputSignal(int zero) {
 		return getSignalType().min();
 	}
 
@@ -38,7 +38,7 @@ public class PressurePlateBlockMixin implements RedstoneSignalSource {
 			expandZeroConditions = Condition.GREATER_THAN_ZERO
 		)
 	)
-	private int modifyMinOutputSignal1(int zero) {
+	private int signal$modifyMinOutputSignal1(int zero) {
 		return getSignalType().min();
 	}
 
@@ -48,7 +48,7 @@ public class PressurePlateBlockMixin implements RedstoneSignalSource {
 			intValue = 15
 		)
 	)
-	private int modifyMaxOutputSignal1(int fifteen) {
+	private int signal$modifyMaxOutputSignal1(int fifteen) {
 		return getSignalType().max();
 	}
 
@@ -58,7 +58,7 @@ public class PressurePlateBlockMixin implements RedstoneSignalSource {
 			intValue = 0
 		)
 	)
-	private int modifyMinOutputSignal2(int zero) {
+	private int signal$modifyMinOutputSignal2(int zero) {
 		return getSignalType().min();
 	}
 }

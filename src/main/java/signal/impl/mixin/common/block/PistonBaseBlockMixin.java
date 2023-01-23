@@ -21,7 +21,7 @@ public class PistonBaseBlockMixin implements SignalConsumer {
 			target = "Lnet/minecraft/world/level/Level;hasSignal(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Z"
 		)
 	)
-	private boolean hasSignal(Level level, BlockPos pos, Direction dir) {
-		return hasReceivedSignalFrom(level, pos, dir);
+	private boolean signal$hasSignal(Level level, BlockPos pos, Direction dir) {
+		return level.hasSignalFrom(pos, dir, this);
 	}
 }

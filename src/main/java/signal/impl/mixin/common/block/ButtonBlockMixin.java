@@ -9,10 +9,10 @@ import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.block.SignalSource;
+import signal.api.signal.block.redstone.RedstoneSignalSource;
 
 @Mixin(ButtonBlock.class)
-public abstract class ButtonBlockMixin extends FaceAttachedHorizontalDirectionalBlock implements SignalSource {
+public class ButtonBlockMixin extends FaceAttachedHorizontalDirectionalBlock implements RedstoneSignalSource {
 
 	private ButtonBlockMixin(Properties properties) {
 		super(properties);

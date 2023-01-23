@@ -12,7 +12,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.IBlockState;
 import signal.api.signal.SignalTypes;
 
 @Mixin(Bat.class)
@@ -29,7 +28,7 @@ public abstract class BatMixin extends Entity {
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-		return ((IBlockState)state).isSignalConductor(level, pos, SignalTypes.ANY);
+	private boolean signal$isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+		return state.isSignalConductor(level, pos, SignalTypes.ANY);
 	}
 }
