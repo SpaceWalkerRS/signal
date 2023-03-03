@@ -18,17 +18,17 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import signal.api.signal.wire.WireType;
+import signal.api.signal.wire.BasicWireType;
 import signal.impl.interfaces.mixin.IRedStoneWireBlock;
 import signal.impl.mixin.common.block.RedStoneWireBlockInvoker;
 
 public class SignalBasicWireBlock extends RedStoneWireBlock {
 
-	protected final WireType wireType;
+	protected final BasicWireType wireType;
 	protected final Vec3[] colors;
 	protected final Map<BlockState, VoxelShape> shapesCache;
 	
-	public SignalBasicWireBlock(Properties properties, Vec3 baseColor, WireType wireType) {
+	public SignalBasicWireBlock(Properties properties, Vec3 baseColor, BasicWireType wireType) {
 		super(properties);
 
 		if (wireType.min() < Redstone.SIGNAL_MIN || wireType.max() > Redstone.SIGNAL_MAX) {
@@ -47,7 +47,7 @@ public class SignalBasicWireBlock extends RedStoneWireBlock {
 	}
 
 	@Override
-	public WireType getWireType() {
+	public BasicWireType getWireType() {
 		return wireType;
 	}
 

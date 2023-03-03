@@ -1,32 +1,42 @@
 package signal.api.signal;
 
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import signal.api.SignalRegistries;
 
 public class SignalTypes {
 
-	public static final SignalType      ANY      = new SignalType(Integer.MIN_VALUE, Integer.MAX_VALUE);
-	public static final BasicSignalType REDSTONE = register(new ResourceLocation("redstone"), new BasicSignalType());
+	public static final SignalType      ANY      = new SignalType();
+	public static final BasicSignalType REDSTONE = register("redstone", new BasicSignalType());
+
+	private static <T extends SignalType> T register(String name, T type) {
+		return register(new ResourceLocation(name), type);
+	}
 
 	/**
 	 * Register a custom signal type.
-	 * For the id, it is customary to use your mod id as the namespace.
+	 * For the key, it is customary to use your mod id as the namespace.
 	 */
-	public static <T extends SignalType> T register(ResourceLocation id, T type) {
-		return Registry.register(SignalRegistries.SIGNAL_TYPE, id, type);
+	public static <T extends SignalType> T register(ResourceLocation key, T type) {
+		return Registry.register(SignalRegistries.SIGNAL_TYPE, key, type);
 	}
 
-	public static SignalType get(ResourceLocation id) {
-		return SignalRegistries.SIGNAL_TYPE.get(id);
+	/**
+	 * Register a custom signal type.
+	 */
+	public static <T extends SignalType> T register(ResourceKey<SignalType> key, T type) {
+		return Registry.register(SignalRegistries.SIGNAL_TYPE, key, type);
 	}
 
-	public static ResourceLocation getId(SignalType type) {
+	public static SignalType get(ResourceLocation key) {
+		return SignalRegistries.SIGNAL_TYPE.get(key);
+	}
+
+	public static ResourceLocation getKey(SignalType type) {
 		return SignalRegistries.SIGNAL_TYPE.getKey(type);
 	}
 
-	public static void bootstrap() {
-
-	}
+	public static void bootstrap() { }
 }

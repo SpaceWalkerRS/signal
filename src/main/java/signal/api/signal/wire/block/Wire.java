@@ -64,13 +64,9 @@ public interface Wire extends SignalSource, SignalConsumer {
 		return WireTypes.areCompatible(getWireType(), wire.getWireType());
 	}
 
-	default int getSignal(Level level, BlockPos pos, BlockState state) {
-		return getWireType().min();
-	}
+	int getSignal(Level level, BlockPos pos, BlockState state);
 
-	default BlockState setSignal(Level level, BlockPos pos, BlockState state, int signal) {
-		return state;
-	}
+	BlockState setSignal(Level level, BlockPos pos, BlockState state, int signal);
 
 	default int getNeighborSignal(Level level, BlockPos pos) {
 		int signal = level.getSignal(pos, this);
@@ -86,7 +82,7 @@ public interface Wire extends SignalSource, SignalConsumer {
 		WireType type = getWireType();
 		SignalHolder signal = new SignalHolder(type.min());
 
-		getWireType().findConnections(level, pos, (side, neighborPos, neighborState, connection) -> {
+		type.findConnections(level, pos, (side, neighborPos, neighborState, connection) -> {
 			if (!connection.in()) {
 				return true;
 			}

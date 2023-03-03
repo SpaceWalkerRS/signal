@@ -14,7 +14,5 @@ public class SignalRegistries {
 	public static final Registry<SignalType> SIGNAL_TYPE = FabricRegistryBuilder.createSimple(SignalType.class, new ResourceLocation(SignalMod.MOD_ID, "signal_type")).buildAndRegister();
 	public static final Registry<WireType> WIRE_TYPE = FabricRegistryBuilder.createSimple(WireType.class, new ResourceLocation(SignalMod.MOD_ID, "wire_type")).buildAndRegister();
 
-	public static void bootstrap() {
-
-	}
+	public static void bootstrap() { }
 }

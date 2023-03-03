@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.client.gui.components.DebugScreenOverlay;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.signal.SignalType;
@@ -35,16 +34,14 @@ public class DebugScreenOverlayMixin {
 		if (state.isSignalSource(SignalTypes.ANY)) {
 			SignalSource source = (SignalSource)state.getBlock();
 			SignalType signalType = source.getSignalType();
-			ResourceLocation signalId = SignalTypes.getId(signalType);
 
-			info.add("signal type: " + signalId);
+			info.add("signal type: " + SignalTypes.getKey(signalType));
 
 			if (state.isWire(WireTypes.ANY)) {
 				Wire wire = (Wire)source;
 				WireType wireType = wire.getWireType();
-				ResourceLocation wireId = WireTypes.getId(wireType);
 
-				info.add("wire type: " + wireId);
+				info.add("wire type: " + WireTypes.getKey(wireType));
 			}
 		}
 	}

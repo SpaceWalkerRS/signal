@@ -7,6 +7,10 @@ public class SignalType {
 	protected final int min;
 	protected final int max;
 
+	SignalType() {
+		this(Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
 	public SignalType(int min, int max) {
 		if (max < min) {
 			throw new IllegalArgumentException("max cannot be less than min!");
@@ -18,7 +22,7 @@ public class SignalType {
 
 	@Override
 	public final String toString() {
-		return String.format("SignalType[min: %d, max: %d]", min, max);
+		return String.format("SignalType[min: %d, max: %d] {%s}", min, max, SignalTypes.getKey(this));
 	}
 
 	public final int min() {
@@ -34,10 +38,6 @@ public class SignalType {
 	}
 
 	public final boolean is(SignalType type) {
-		return this == type || isAny() || type.isAny();
-	}
-
-	private boolean isAny() {
-		return this == SignalTypes.ANY;
+		return this == type || this == SignalTypes.ANY || type == SignalTypes.ANY;
 	}
 }

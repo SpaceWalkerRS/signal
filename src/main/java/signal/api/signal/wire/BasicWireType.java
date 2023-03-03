@@ -23,7 +23,7 @@ public class BasicWireType extends WireType {
 	}
 
 	@Override
-	public void findPotentialConnections(Level level, BlockPos pos, PotentialConnectionConsumer consumer) {
+	public void findPotentialConnections(Level level, BlockPos pos, PotentialConnectionConsumer action) {
 		Lazy<BlockState> belowState = new Lazy<>(() -> level.getBlockState(pos.below()));
 		Lazy<BlockState> aboveState = new Lazy<>(() -> level.getBlockState(pos.above()));
 
@@ -35,7 +35,10 @@ public class BasicWireType extends WireType {
 			BlockState adjacentState = level.getBlockState(adjacent);
 
 			if (adjacentState.isWire(WireTypes.ANY)) {
-				consumer.accept(ConnectionSide.fromDirection(dir), adjacent, adjacentState, ConnectionType.BOTH);
+				ConnectionSide side = ConnectionSide.fromDirection(dir);
+				ConnectionType connection = ConnectionType.BOTH;
+
+				action.accept(side, adjacent, adjacentState, connection);
 			} else {
 				boolean adjacentIsConductor = adjacentState.isSignalConductor(level, adjacent, signal);
 
@@ -43,13 +46,13 @@ public class BasicWireType extends WireType {
 					ConnectionSide side = ConnectionSide.fromDirection(dir).withDown();
 					ConnectionType connection = belowIsConductor.get() ? ConnectionType.BOTH : ConnectionType.IN;
 
-					consumer.accept(level, pos, side, connection);
+					action.accept(level, pos, side, connection);
 				}
 				if (!aboveIsConductor.get()) {
 					ConnectionSide side = ConnectionSide.fromDirection(dir).withUp();
 					ConnectionType connection = adjacentIsConductor ? ConnectionType.BOTH : ConnectionType.OUT;
 
-					consumer.accept(level, pos, side, connection);
+					action.accept(level, pos, side, connection);
 				}
 			}
 		}
