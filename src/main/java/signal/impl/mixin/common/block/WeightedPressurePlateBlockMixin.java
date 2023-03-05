@@ -20,7 +20,7 @@ public class WeightedPressurePlateBlockMixin implements RedstoneSignalSource {
 			floatValue = 15.0F
 		)
 	)
-	private float modifyMaxOutputSignal(float fifteen) {
+	private float signal$modifyMaxOutputSignal(float fifteen) {
 		return getSignalType().max() - getSignalType().min();
 	}
 
@@ -31,7 +31,7 @@ public class WeightedPressurePlateBlockMixin implements RedstoneSignalSource {
 			value = "RETURN"
 		)
 	)
-	private void modifyOutputSignal(CallbackInfoReturnable<Integer> cir) {
+	private void signal$modifyOutputSignal(CallbackInfoReturnable<Integer> cir) {
 		cir.setReturnValue(cir.getReturnValue() - getSignalType().min());
 	}
 }

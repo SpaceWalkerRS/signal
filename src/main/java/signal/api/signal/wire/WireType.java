@@ -128,16 +128,9 @@ public class WireType {
 		}
 
 		Wire neighborWire = (Wire)neighborState.getBlock();
-		WireType neighborType = neighborWire.getWireType();
+		ConnectionType neighborConnection = neighborWire.getConnection(level, neighborPos, neighborState, side.getOpposite(), this);
 
-		if (this == neighborType) {
-			return connection;
-		}
-		if (!WireTypes.areCompatible(this, neighborType)) {
-			return ConnectionType.NONE;
-		}
-
-		return connection.and(neighborType.getPotentialConnection(level, neighborPos, side.getOpposite()));
+		return connection.and(neighborConnection);
 	}
 
 	@FunctionalInterface

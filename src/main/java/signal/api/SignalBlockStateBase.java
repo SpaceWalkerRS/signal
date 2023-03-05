@@ -1,9 +1,12 @@
 package signal.api;
 
+import java.util.function.Consumer;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.signal.SignalType;
@@ -26,8 +29,12 @@ public interface SignalBlockStateBase {
 		return null;
 	}
 
+	default void getSignalTypes(Consumer<SignalType> action) {
+		signal$getBlock().getSignalTypes(signal$asState(), action);
+	}
+
 	default boolean isSignalSource(SignalType type) {
-		return signal$getBlock().isSignalSource(type);
+		return signal$getBlock().isSignalSource(signal$asState(), type);
 	}
 
 	default int getSignal(Level level, BlockPos pos, Direction dir, SignalType type) {
@@ -47,7 +54,7 @@ public interface SignalBlockStateBase {
 	}
 
 	default boolean isAnalogSignalSource(SignalType type) {
-		return signal$getBlock().isAnalogSignalSource(type);
+		return signal$getBlock().isAnalogSignalSource(signal$asState(), type);
 	}
 
 	default int getAnalogSignal(Level level, BlockPos pos, SignalType type) {
@@ -55,7 +62,7 @@ public interface SignalBlockStateBase {
 	}
 
 	default boolean isSignalConsumer(SignalType type) {
-		return signal$getBlock().isSignalConsumer(type);
+		return signal$getBlock().isSignalConsumer(signal$asState(), type);
 	}
 
 	default boolean isSignalConductor(Level level, BlockPos pos, SignalType type) {
@@ -63,7 +70,7 @@ public interface SignalBlockStateBase {
 	}
 
 	default boolean isWire(WireType type) {
-		return signal$getBlock().isWire(type);
+		return signal$getBlock().isWire(signal$asState(), type);
 	}
 
 	default boolean shouldConnectToWire(Level level, BlockPos pos, ConnectionSide dir, WireType type) {

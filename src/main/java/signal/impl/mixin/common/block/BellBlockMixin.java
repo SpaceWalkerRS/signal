@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BellBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(BellBlock.class)
-public class BellBlockMixin implements SignalConsumer {
+public class BellBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "neighborChanged",
@@ -21,6 +21,6 @@ public class BellBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 }

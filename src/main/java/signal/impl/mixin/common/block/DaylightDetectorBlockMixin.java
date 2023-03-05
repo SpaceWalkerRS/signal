@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalSource;
+import signal.api.signal.block.BasicSignalSource;
 import signal.api.signal.block.SignalState;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 
@@ -57,7 +57,7 @@ public class DaylightDetectorBlockMixin implements RedstoneSignalSource, SignalS
 		brightness = Mth.clamp(brightness, min, max);
 		float f = (float)(brightness - min) / (max - min);
 
-		SignalSource source = (SignalSource)state.getBlock();
+		BasicSignalSource source = (BasicSignalSource)state.getBlock();
 		SignalType type = source.getSignalType();
 
 		return type.min() + (int)(f * (type.max() - type.min()));

@@ -46,7 +46,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+	private boolean signal$isRedstoneConductor(BlockState state, BlockGetter blockGetter, BlockPos pos) {
 		return blockGetter instanceof Level && state.isSignalConductor((Level)blockGetter, pos, getSignalType());
 	}
 
@@ -57,7 +57,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 			)
 		)
-	private boolean isRedstoneConductor2(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+	private boolean signal$isRedstoneConductor2(BlockState state, BlockGetter blockGetter, BlockPos pos) {
 		return blockGetter instanceof Level && state.isSignalConductor((Level)blockGetter, pos, getSignalType());
 	}
 
@@ -68,7 +68,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean isRedstoneCondcutor3(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+	private boolean signal$isRedstoneCondcutor3(BlockState state, BlockGetter blockGetter, BlockPos pos) {
 		return blockGetter instanceof Level && state.isSignalConductor((Level)blockGetter, pos, getSignalType());
 	}
 
@@ -79,7 +79,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean isRedstoneCondcutor4(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
+	private boolean signal$isRedstoneCondcutor4(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
 		return state.isSignalConductor(level, pos, getSignalType());
 	}
 
@@ -90,7 +90,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;isRedstoneConductor(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean isRedstoneCondcutor5(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
+	private boolean signal$isRedstoneCondcutor5(BlockState state, BlockGetter blockGetter, BlockPos pos, Level level) {
 		return state.isSignalConductor(level, pos, getSignalType());
 	}
 
@@ -103,7 +103,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	@SuppressWarnings("unchecked")
-	private <T extends Comparable<T>> T getConnectionStateGetSignal(BlockState state, Property<T> property) {
+	private <T extends Comparable<T>> T signal$getConnectionStateGetSignal(BlockState state, Property<T> property) {
 		return (T)(Integer)getSignal(state);
 	}
 
@@ -115,7 +115,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;setValue(Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/Comparable;)Ljava/lang/Object;"
 		)
 	)
-	private <T extends Comparable<T>> Object getConnectionStateSetSignal(BlockState state, Property<T> property, T signal) {
+	private <T extends Comparable<T>> Object signal$getConnectionStateSetSignal(BlockState state, Property<T> property, T signal) {
 		return setSignal(state, (Integer)signal);
 	}
 
@@ -127,7 +127,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;setValue(Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/Comparable;)Ljava/lang/Object;"
 		)
 	)
-	private <T extends Comparable<T>> Object updateShapeSetSignal(BlockState state, Property<T> property, T signal) {
+	private <T extends Comparable<T>> Object signal$updateShapeSetSignal(BlockState state, Property<T> property, T signal) {
 		return setSignal(state, (Integer)signal);
 	}
 
@@ -138,11 +138,11 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"
 		)
 	)
-	private boolean onUpdateIndirectNeighbourShapesRedirectIsThis(BlockState state, Block block) {
+	private boolean signal$onUpdateIndirectNeighbourShapesRedirectIsThis(BlockState state, Block block) {
 		// Diagonal shape updates are only sent to neighbors of the same block.
 		// This redirect makes it so they are also sent to wire blocks that
 		// can connect to this wire block.
-		return state.isWire(WireTypes.ANY) && isCompatible(((Wire)state.getBlock()));
+		return state.isWire(WireTypes.ANY) && (((Wire)state.getBlock())).isCompatible(getWireType());
 	}
 
 	@Redirect(
@@ -153,7 +153,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/RedStoneWireBlock;shouldConnectTo(Lnet/minecraft/world/level/block/state/BlockState;)Z"
 		)
 	)
-	private boolean shouldConnectUp(BlockState neighborState, BlockGetter level, BlockPos pos, Direction hor, boolean allowUpConnection) {
+	private boolean signal$shouldConnectUp(BlockState neighborState, BlockGetter level, BlockPos pos, Direction hor, boolean allowUpConnection) {
 		if (!(level instanceof Level)) {
 			return shouldConnectTo(neighborState); // we should never get here
 		}
@@ -171,7 +171,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/RedStoneWireBlock;shouldConnectTo(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"
 		)
 	)
-	private boolean shouldConnectSide(BlockState neighborState, Direction neighborDir, BlockGetter level, BlockPos pos, Direction hor, boolean allowUpConnection) {
+	private boolean signal$shouldConnectSide(BlockState neighborState, Direction neighborDir, BlockGetter level, BlockPos pos, Direction hor, boolean allowUpConnection) {
 		if (!(level instanceof Level)) {
 			return shouldConnectTo(neighborState, neighborDir); // we should never get here
 		}
@@ -190,7 +190,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/RedStoneWireBlock;shouldConnectTo(Lnet/minecraft/world/level/block/state/BlockState;)Z"
 		)
 	)
-	private boolean shouldConnectDown(BlockState neighborState, BlockGetter level, BlockPos pos, Direction hor, boolean allowUpConnection) {
+	private boolean signal$shouldConnectDown(BlockState neighborState, BlockGetter level, BlockPos pos, Direction hor, boolean allowUpConnection) {
 		if (!(level instanceof Level)) {
 			return shouldConnectTo(neighborState); // we should never get here
 		}
@@ -210,7 +210,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	@SuppressWarnings("unchecked")
-	private <T extends Comparable<T>> T updatePowerStrengthGetSignal(BlockState state, Property<T> property) {
+	private <T extends Comparable<T>> T signal$updatePowerStrengthGetSignal(BlockState state, Property<T> property) {
 		return (T)(Integer)getSignal(state);
 	}
 
@@ -233,7 +233,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			value = "HEAD"
 		)
 	)
-	private void modifyCalculateTargetStrength(Level level, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+	private void signal$modifyCalculateTargetStrength(Level level, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
 		cir.setReturnValue(getNeighborSignal(level, pos));
 	}
 
@@ -244,14 +244,14 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"
 		)
 	)
-	private boolean onCheckCornerChangeAtRedirectIsThis(BlockState state, Block block) {
+	private boolean signal$onCheckCornerChangeAtRedirectIsThis(BlockState state, Block block) {
 		// Vanilla redstone dust is weird. When its connection properties change
 		// it does not emit block updates to notify neighboring blocks that it
 		// has done so. Instead, when a wire is placed or removed, neighboring
 		// wires are told to emit block updates to their neighbors.
 		// We do not change this, but instead extend this condition to include
 		// all wires that can connect to this wire.
-		return state.isWire(WireTypes.ANY) && isCompatible(((Wire)state.getBlock()));
+		return state.isWire(WireTypes.ANY) && ((Wire)state.getBlock()).isCompatible(getWireType());
 	}
 
 	@Redirect(
@@ -263,7 +263,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 		)
 	)
 	@SuppressWarnings("unchecked")
-	private <T extends Comparable<T>> T useGetSignal(BlockState state, Property<T> property) {
+	private <T extends Comparable<T>> T signal$useGetSignal(BlockState state, Property<T> property) {
 		return (T)(Integer)getSignal(state);
 	}
 
@@ -275,7 +275,7 @@ public class RedStoneWireBlockMixin extends Block implements IRedStoneWireBlock,
 			target = "Lnet/minecraft/world/level/block/state/BlockState;setValue(Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/Comparable;)Ljava/lang/Object;"
 		)
 	)
-	private <T extends Comparable<T>> Object useSetSignal(BlockState state, Property<T> property, T signal) {
+	private <T extends Comparable<T>> Object signal$useSetSignal(BlockState state, Property<T> property, T signal) {
 		return setSignal(state, (Integer)signal);
 	}
 

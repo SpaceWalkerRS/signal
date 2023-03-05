@@ -11,11 +11,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.CommandBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.block.AnalogSignalSource;
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicAnalogSignalSource;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(CommandBlock.class)
-public class CommandBlockMixin implements AnalogSignalSource, SignalConsumer {
+public class CommandBlockMixin implements BasicAnalogSignalSource, BasicSignalConsumer {
 
 	@Redirect(
 		method = "neighborChanged",
@@ -25,7 +25,7 @@ public class CommandBlockMixin implements AnalogSignalSource, SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Redirect(
@@ -36,7 +36,7 @@ public class CommandBlockMixin implements AnalogSignalSource, SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal2(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class CommandBlockMixin implements AnalogSignalSource, SignalConsumer {
 
 		if (blockEntity instanceof CommandBlockEntity) {
 			CommandBlockEntity commandBlockEntity = (CommandBlockEntity)blockEntity;
-			return AnalogSignalSource.getAnalogSignal(commandBlockEntity.getCommandBlock().getSuccessCount(), min, max);
+			return BasicAnalogSignalSource.getAnalogSignal(commandBlockEntity.getCommandBlock().getSuccessCount(), min, max);
 		}
 
 		return min;

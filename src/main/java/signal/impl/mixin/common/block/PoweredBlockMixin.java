@@ -16,11 +16,11 @@ public class PoweredBlockMixin implements IPoweredBlock, RedstoneSignalSource {
 
 	@Override
 	public int getSignal(Level level, BlockPos pos, BlockState state, Direction dir) {
-		return getSignal();
+		return signal$getSignal();
 	}
 
 	@Override
-	public int getSignal() {
+	public int signal$getSignal() {
 		return getSignalType().max();
 	}
 }

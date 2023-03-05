@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FenceGateBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(FenceGateBlock.class)
-public class FenceGateBlockMixin implements SignalConsumer {
+public class FenceGateBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "getStateForPlacement",
@@ -21,7 +21,7 @@ public class FenceGateBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Redirect(
@@ -32,6 +32,6 @@ public class FenceGateBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal2(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 }

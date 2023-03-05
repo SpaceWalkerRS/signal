@@ -4,6 +4,5 @@ public interface IRedStoneWireBlock {
 
 	/* impl provided in signal.impl.mixin.RedStoneWireBlockMixin */
 	default void fixCrossState() {
-
 	}
 }

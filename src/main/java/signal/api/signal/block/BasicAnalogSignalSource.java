@@ -12,17 +12,25 @@ import signal.api.SignalBlockBehavior;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
 
-public interface AnalogSignalSource extends SignalBlockBehavior {
+/**
+ * This interface represents a block that can emit analog signals of one type.
+ * 
+ * @author Space Walker
+ */
+public interface BasicAnalogSignalSource extends SignalBlockBehavior {
 
 	@Override
-	default boolean isAnalogSignalSource(SignalType type) {
+	default boolean isAnalogSignalSource(BlockState state, SignalType type) {
 		return getAnalogSignalType().is(type);
 	}
 
 	@Override
 	default int getAnalogSignal(Level level, BlockPos pos, BlockState state, SignalType type) {
-		return isAnalogSignalSource(type) ? getAnalogSignal(level, pos, state, type.min(), type.max()) : type.min();
+		return isAnalogSignalSource(state, type) ? getAnalogSignal(level, pos, state, type.min(), type.max()) : type.min();
 	}
+
+
+	// override these methods to control the analog output signal of your block
 
 	/**
 	 * Returns the type of analog signal this block emits.
@@ -31,12 +39,12 @@ public interface AnalogSignalSource extends SignalBlockBehavior {
 		return SignalTypes.ANY;
 	}
 
-
-	// override this method to control the analog output signal of your block
-
 	default int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
 		return min;
 	}
+
+
+	// helper methods for getting analog signals from containers
 
 	public static int getAnalogSignalFromBlockEntity(BlockEntity blockEntity, int min, int max) {
 		return blockEntity instanceof Container ? getAnalogSignalFromContainer((Container)blockEntity, min, max) : min;

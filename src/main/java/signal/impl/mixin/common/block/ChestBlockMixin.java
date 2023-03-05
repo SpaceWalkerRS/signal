@@ -11,10 +11,10 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.signal.SignalTypes;
-import signal.api.signal.block.AnalogSignalSource;
+import signal.api.signal.block.BasicAnalogSignalSource;
 
 @Mixin(ChestBlock.class)
-public class ChestBlockMixin implements AnalogSignalSource {
+public class ChestBlockMixin implements BasicAnalogSignalSource {
 
 	@Redirect(
 		method = "isBlockedChestByBlock",
@@ -29,6 +29,6 @@ public class ChestBlockMixin implements AnalogSignalSource {
 
 	@Override
 	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
-		return AnalogSignalSource.getAnalogSignalFromContainer(ChestBlock.getContainer((ChestBlock)(Object)this, state, level, pos, false), min, max);
+		return BasicAnalogSignalSource.getAnalogSignalFromContainer(ChestBlock.getContainer((ChestBlock)(Object)this, state, level, pos, false), min, max);
 	}
 }

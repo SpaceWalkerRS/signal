@@ -4,99 +4,25 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.SignalHolder;
+import signal.api.SignalBlockBehavior;
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalConsumer;
-import signal.api.signal.block.SignalSource;
 import signal.api.signal.wire.ConnectionSide;
 import signal.api.signal.wire.ConnectionType;
 import signal.api.signal.wire.WireType;
-import signal.api.signal.wire.WireTypes;
 
-public interface Wire extends SignalSource, SignalConsumer {
-
-	@Override
-	default boolean isWire(WireType type) {
-		return getWireType().is(type);
-	}
+public interface Wire extends SignalBlockBehavior {
 
 	@Override
-	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType neighborType) {
-		WireType type = getWireType();
-
-		if (!WireTypes.areCompatible(type, neighborType)) {
-			return false;
-		}
-
-		ConnectionType connection = type.getPotentialConnection(level, pos, side);
-
-		if (type != neighborType) {
-			BlockPos neighborPos = side.offset(pos);
-			ConnectionSide neighborSide = side.getOpposite();
-
-			connection = connection.and(neighborType.getPotentialConnection(level, neighborPos, neighborSide));
-		}
-
-		return connection != ConnectionType.NONE;
+	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType type) {
+		return isCompatible(type) && getConnection(level, pos, state, side, type) != ConnectionType.NONE;
 	}
 
-	@Override
-	default SignalType getSignalType() {
-		return getWireType().signal();
-	}
+	boolean isCompatible(WireType type);
 
-	@Override
-	default boolean shouldConnectToWire(Level level, BlockPos pos, BlockState state, ConnectionSide side) {
-		return getWireType().getConnection(level, pos, side) != ConnectionType.NONE;
-	}
+	int getSignal(Level level, BlockPos pos, BlockState state, SignalType type);
 
-	@Override
-	default SignalType getConsumedSignalType() {
-		return getWireType().signal();
-	}
+	BlockState setSignal(Level level, BlockPos pos, BlockState state, SignalType type, int signal);
 
-	/**
-	 * Returns the type of wire this block is (cannot be {@link signal.api.signal.wire.WireTypes#ANY WireTypes.ANY}).
-	 */
-	WireType getWireType();
+	ConnectionType getConnection(Level level, BlockPos pos, BlockState state, ConnectionSide side, WireType neighborType);
 
-	default boolean isCompatible(Wire wire) {
-		return WireTypes.areCompatible(getWireType(), wire.getWireType());
-	}
-
-	int getSignal(Level level, BlockPos pos, BlockState state);
-
-	BlockState setSignal(Level level, BlockPos pos, BlockState state, int signal);
-
-	default int getNeighborSignal(Level level, BlockPos pos) {
-		int signal = level.getSignal(pos, this);
-
-		if (signal < getWireType().max()) {
-			signal = Math.max(signal, getNeighborWireSignal(level, pos));
-		}
-
-		return signal;
-	}
-
-	default int getNeighborWireSignal(Level level, BlockPos pos) {
-		WireType type = getWireType();
-		SignalHolder signal = new SignalHolder(type.min());
-
-		type.findConnections(level, pos, (side, neighborPos, neighborState, connection) -> {
-			if (!connection.in()) {
-				return true;
-			}
-
-			Wire neighborWire = (Wire)neighborState.getBlock();
-
-			int neighborSignal = neighborWire.getSignal(level, neighborPos, neighborState);
-			int step = Math.max(type.step(), neighborWire.getWireType().step());
-
-			signal.increase(neighborSignal - step);
-
-			return signal.get() < type.max();
-		});
-
-		return type.clamp(signal.get());
-	}
 }

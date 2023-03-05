@@ -18,11 +18,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DetectorRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.block.AnalogSignalSource;
+import signal.api.signal.block.BasicAnalogSignalSource;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 
 @Mixin(DetectorRailBlock.class)
-public class DetectorRailBlockMixin implements RedstoneSignalSource, AnalogSignalSource {
+public class DetectorRailBlockMixin implements RedstoneSignalSource, BasicAnalogSignalSource {
 
 	@Shadow private <T extends AbstractMinecart> List<T> getInteractingMinecartOfType(Level level, BlockPos pos, Class<T> type, Predicate<Entity> predicate) { return null; }
 
@@ -48,13 +48,13 @@ public class DetectorRailBlockMixin implements RedstoneSignalSource, AnalogSigna
 			MinecartCommandBlock minecart = minecartCommandBlocks.get(0);
 			BaseCommandBlock commandBlock = minecart.getCommandBlock();
 
-			return AnalogSignalSource.getAnalogSignal(commandBlock.getSuccessCount(), min, max);
+			return BasicAnalogSignalSource.getAnalogSignal(commandBlock.getSuccessCount(), min, max);
 		}
 
 		List<AbstractMinecart> minecarts = getInteractingMinecartOfType(level, pos, AbstractMinecart.class, EntitySelector.CONTAINER_ENTITY_SELECTOR);
 
 		if (!minecarts.isEmpty()) {
-			return AnalogSignalSource.getAnalogSignalFromContainer((Container)minecarts.get(0), min, max);
+			return BasicAnalogSignalSource.getAnalogSignalFromContainer((Container)minecarts.get(0), min, max);
 		}
 
 		return min;

@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseRailBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(BaseRailBlock.class)
-public class BaseRailBlockMixin implements SignalConsumer {
+public class BaseRailBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "updateDir",
@@ -21,6 +21,6 @@ public class BaseRailBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 }

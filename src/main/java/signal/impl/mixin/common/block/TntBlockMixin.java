@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(TntBlock.class)
-public class TntBlockMixin implements SignalConsumer {
+public class TntBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "neighborChanged",
@@ -21,7 +21,7 @@ public class TntBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Redirect(
@@ -32,6 +32,6 @@ public class TntBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal2(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 }

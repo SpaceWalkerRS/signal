@@ -9,10 +9,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(PistonBaseBlock.class)
-public class PistonBaseBlockMixin implements SignalConsumer {
+public class PistonBaseBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "getNeighborSignal",
@@ -22,6 +22,6 @@ public class PistonBaseBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasSignal(Level level, BlockPos pos, Direction dir) {
-		return level.hasSignalFrom(pos, dir, this);
+		return hasNeighborSignalFrom(level, pos, dir);
 	}
 }

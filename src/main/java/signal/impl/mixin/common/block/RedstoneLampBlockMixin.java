@@ -9,10 +9,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(RedstoneLampBlock.class)
-public class RedstoneLampBlockMixin implements SignalConsumer {
+public class RedstoneLampBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "getStateForPlacement",
@@ -21,8 +21,8 @@ public class RedstoneLampBlockMixin implements SignalConsumer {
 			target = "Lnet/minecraft/world/level/Level;hasNeighborSignal(Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Redirect(
@@ -32,8 +32,8 @@ public class RedstoneLampBlockMixin implements SignalConsumer {
 			target = "Lnet/minecraft/world/level/Level;hasNeighborSignal(Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean hasNeighborSignal2(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+	private boolean signal$hasNeighborSignal2(Level level, BlockPos pos) {
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Redirect(
@@ -43,7 +43,7 @@ public class RedstoneLampBlockMixin implements SignalConsumer {
 			target = "Lnet/minecraft/server/level/ServerLevel;hasNeighborSignal(Lnet/minecraft/core/BlockPos;)Z"
 		)
 	)
-	private boolean hasNeighborSignal(ServerLevel level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+	private boolean signal$hasNeighborSignal(ServerLevel level, BlockPos pos) {
+		return hasNeighborSignal(level, pos);
 	}
 }

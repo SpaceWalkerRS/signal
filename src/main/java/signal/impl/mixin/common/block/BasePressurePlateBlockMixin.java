@@ -17,10 +17,10 @@ import net.minecraft.world.level.block.BasePressurePlateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.redstone.Redstone;
 
-import signal.api.signal.block.SignalSource;
+import signal.api.signal.block.BasicSignalSource;
 
 @Mixin(BasePressurePlateBlock.class)
-public abstract class BasePressurePlateBlockMixin implements SignalSource {
+public abstract class BasePressurePlateBlockMixin implements BasicSignalSource {
 
 	@Shadow private int getSignalForState(BlockState state) { return Redstone.SIGNAL_NONE; }
 	@Shadow private void checkPressed(Entity entity, Level level, BlockPos pos, BlockState state, int signal) { }

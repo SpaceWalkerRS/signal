@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.signal.SignalTypes;
-import signal.api.signal.block.AnalogSignalSource;
+import signal.api.signal.block.BasicAnalogSignalSource;
 import signal.api.signal.block.redstone.RedstoneSignalConsumer;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 import signal.api.signal.wire.ConnectionSide;
@@ -103,7 +103,7 @@ public class ComparatorBlockMixin implements RedstoneSignalSource, RedstoneSigna
 		)
 	)
 	private int signal$getAnalogOutput(ItemFrame itemFrame) {
-		return AnalogSignalSource.getAnalogSignal(itemFrame.getAnalogOutput(), getConsumedSignalType().min(), getConsumedSignalType().max());
+		return BasicAnalogSignalSource.getAnalogSignal(itemFrame.getAnalogOutput(), getConsumedSignalType().min(), getConsumedSignalType().max());
 	}
 
 	@ModifyConstant(

@@ -44,92 +44,92 @@
 				"signal/api/SignalBlockStateBase"
 			],
 			"net/minecraft/class_2363": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_3708": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2231": [
-				"signal/api/signal/block/SignalSource"
+				"signal/api/signal/block/BasicSignalSource"
 			],
 			"net/minecraft/class_2241": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_4481": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_3709": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_5801": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2260": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2269": [
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2272": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5545": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2281": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2288": [
-				"signal/api/signal/block/AnalogSignalSource",
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2286": [
 				"signal/api/signal/block/redstone/RedstoneSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalConsumer"
 			],
 			"net/minecraft/class_3962": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2309": [
 				"signal/api/signal/block/SignalState",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2313": [
-				"signal/api/signal/block/AnalogSignalSource",
+				"signal/api/signal/block/BasicAnalogSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2312": [
-				"signal/api/signal/block/SignalConsumer",
-				"signal/api/signal/block/SignalSource"
+				"signal/api/signal/block/BasicSignalConsumer",
+				"signal/api/signal/block/BasicSignalSource"
 			],
 			"net/minecraft/class_2315": [
-				"signal/api/signal/block/AnalogSignalSource",
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2323": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2333": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2349": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2377": [
-				"signal/api/signal/block/AnalogSignalSource",
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2387": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5553": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5556": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_3715": [
-				"signal/api/signal/block/AnalogSignalSource",
+				"signal/api/signal/block/BasicAnalogSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2401": [
@@ -139,25 +139,25 @@
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2428": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2426": [
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2665": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2436": [
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2442": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2440": [
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2453": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2459": [
 				"signal/api/signal/block/redstone/RedstoneSignalConsumer",
@@ -172,29 +172,29 @@
 				"signal/api/signal/block/redstone/RedstoneSignalConsumer"
 			],
 			"net/minecraft/class_4969": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5703": [
-				"signal/api/signal/block/AnalogSignalSource",
+				"signal/api/signal/block/BasicAnalogSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2480": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2515": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_4850": [
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2530": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2533": [
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2531": [
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2537": [
 				"signal/api/signal/block/redstone/RedstoneSignalSource"

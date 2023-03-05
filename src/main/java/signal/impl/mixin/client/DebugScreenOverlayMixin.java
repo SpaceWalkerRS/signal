@@ -1,6 +1,8 @@
 package signal.impl.mixin.client;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,14 +12,15 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.client.gui.components.DebugScreenOverlay;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
+import signal.api.SignalRegistries;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
-import signal.api.signal.block.SignalSource;
 import signal.api.signal.wire.WireType;
 import signal.api.signal.wire.WireTypes;
-import signal.api.signal.wire.block.Wire;
+import signal.util.Utils;
 
 @Mixin(DebugScreenOverlay.class)
 public class DebugScreenOverlayMixin {
@@ -31,18 +34,26 @@ public class DebugScreenOverlayMixin {
 		)
 	)
 	private void signal$addSignalAndWireTypeInformation(CallbackInfoReturnable<List<String>> cir, long maxMemory, long totalMemory, long freeMemory, long usedMemory, List<String> info, BlockPos pos, BlockState state) {
-		if (state.isSignalSource(SignalTypes.ANY)) {
-			SignalSource source = (SignalSource)state.getBlock();
-			SignalType signalType = source.getSignalType();
+		Collection<SignalType> signalTypes = Utils.collectTypes(SignalRegistries.SIGNAL_TYPE, state::isSignalSource);
+		Collection<WireType> wireTypes = Utils.collectTypes(SignalRegistries.WIRE_TYPE, state::isWire);
 
-			info.add("signal type: " + SignalTypes.getKey(signalType));
-
-			if (state.isWire(WireTypes.ANY)) {
-				Wire wire = (Wire)source;
-				WireType wireType = wire.getWireType();
-
-				info.add("wire type: " + WireTypes.getKey(wireType));
-			}
+		if (!signalTypes.isEmpty()) {
+			info.add(listTypes("signal type(s): ", signalTypes, SignalTypes::getKey));
 		}
+		if (!wireTypes.isEmpty()) {
+			info.add(listTypes("wire type(s): ", wireTypes, WireTypes::getKey));
+		}
+	}
+
+	private static <T> String listTypes(String name, Collection<T> types, Function<T, ResourceLocation> idGetter) {
+		StringBuilder sb = new StringBuilder();
+
+		for (T type : types) {
+			if (!sb.isEmpty())
+				sb.append(", ");
+			sb.append(idGetter.apply(type));
+		}
+
+		return sb.insert(0, name).toString();
 	}
 }

@@ -41,7 +41,7 @@ public abstract class RepeaterBlockMixin extends DiodeBlock implements RedstoneS
 			target = "Lnet/minecraft/world/level/block/RepeaterBlock;isDiode(Lnet/minecraft/world/level/block/state/BlockState;)Z"
 		)
 	)
-	private boolean redirectIsDiode(BlockState state) {
+	private boolean signal$redirectIsDiode(BlockState state) {
 		return RepeaterBlock.isDiode(state) && state.isSignalSource(getConsumedSignalType());
 	}
 

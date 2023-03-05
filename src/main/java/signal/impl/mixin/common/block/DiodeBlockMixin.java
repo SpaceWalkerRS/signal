@@ -21,13 +21,12 @@ import net.minecraft.world.level.block.PoweredBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import signal.api.signal.SignalType;
-import signal.api.signal.block.SignalConsumer;
-import signal.api.signal.block.SignalSource;
-import signal.api.signal.wire.block.Wire;
+import signal.api.signal.block.BasicSignalConsumer;
+import signal.api.signal.block.BasicSignalSource;
 import signal.impl.interfaces.mixin.IPoweredBlock;
 
 @Mixin(DiodeBlock.class)
-public abstract class DiodeBlockMixin implements SignalSource, SignalConsumer {
+public abstract class DiodeBlockMixin implements BasicSignalSource, BasicSignalConsumer {
 
 	@Shadow private boolean isAlternateInput(BlockState state) { return false; }
 	@Shadow private int getOutputSignal(BlockGetter level, BlockPos pos, BlockState state) { return 0; }
@@ -53,7 +52,7 @@ public abstract class DiodeBlockMixin implements SignalSource, SignalConsumer {
 		Direction facing = state.getValue(DiodeBlock.FACING);
 		BlockPos behind = pos.relative(facing);
 
-		cir.setReturnValue(level.getSignalFrom(behind, facing, this));
+		cir.setReturnValue(getNeighborSignalFrom(level, behind, facing));
 	}
 
 	@Inject(
@@ -78,12 +77,9 @@ public abstract class DiodeBlockMixin implements SignalSource, SignalConsumer {
 			Block block = state.getBlock();
 
 			if (block instanceof PoweredBlock) {
-				signal = ((IPoweredBlock)block).getSignal();
-			} else
-			if (block instanceof Wire) {
-				signal = ((Wire)block).getSignal(level, pos, state);
+				signal = ((IPoweredBlock)block).signal$getSignal();
 			} else {
-				signal = level.getDirectSignalFrom(pos, dir, this);
+				signal = getDirectNeighborSignalFrom(level, pos, dir);
 			}
 
 			signal = type.clamp(signal);

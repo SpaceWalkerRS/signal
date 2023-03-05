@@ -9,10 +9,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.block.AnalogSignalSource;
+import signal.api.signal.block.BasicAnalogSignalSource;
 
 @Mixin(ChiseledBookShelfBlock.class)
-public class ChiseledBookShelfBlockMixin implements AnalogSignalSource {
+public class ChiseledBookShelfBlockMixin implements BasicAnalogSignalSource {
 
 	@Override
 	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
@@ -21,7 +21,7 @@ public class ChiseledBookShelfBlockMixin implements AnalogSignalSource {
 
 			if (blockEntity instanceof ChiseledBookShelfBlockEntity) {
 				ChiseledBookShelfBlockEntity bookShelf = (ChiseledBookShelfBlockEntity) blockEntity;
-				return AnalogSignalSource.getAnalogSignal(bookShelf.getLastInteractedSlot() + 1, min, max);
+				return BasicAnalogSignalSource.getAnalogSignal(bookShelf.getLastInteractedSlot() + 1, min, max);
 			}
 		}
 

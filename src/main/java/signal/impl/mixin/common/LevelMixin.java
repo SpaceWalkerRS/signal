@@ -16,13 +16,14 @@ import signal.SignalMod;
 import signal.api.SignalLevel;
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
-import signal.api.signal.block.SignalConsumer;
 import signal.api.signal.wire.WireTypes;
 
 @Mixin(Level.class)
 public abstract class LevelMixin implements BlockGetter, SignalLevel {
 
 	private static final Direction[] DIRECTIONS = Direction.values();
+
+	private boolean ignoreWireSignals;
 
 	@Redirect(
 		method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z",
@@ -97,14 +98,17 @@ public abstract class LevelMixin implements BlockGetter, SignalLevel {
 	}
 
 	@Override
-	public int getSignal(BlockPos pos, SignalConsumer consumer) {
-		SignalType type = consumer.getConsumedSignalType();
+	public void ignoreWireSignals(boolean ignore) {
+		ignoreWireSignals = ignore;
+	}
 
+	@Override
+	public int getSignal(BlockPos pos, SignalType type) {
 		int signal = type.min();
 		int max = type.max();
 
 		for (Direction dir : DIRECTIONS) {
-			signal = Math.max(signal, getSignalFrom(pos.relative(dir), dir, consumer));
+			signal = Math.max(signal, getSignalFrom(pos.relative(dir), dir, type));
 
 			if (signal >= max) {
 				return max;
@@ -115,14 +119,12 @@ public abstract class LevelMixin implements BlockGetter, SignalLevel {
 	}
 
 	@Override
-	public int getDirectSignal(BlockPos pos, SignalConsumer consumer) {
-		SignalType type = consumer.getConsumedSignalType();
-
+	public int getDirectSignal(BlockPos pos, SignalType type) {
 		int signal = type.min();
 		int max = type.max();
 
 		for (Direction dir : DIRECTIONS) {
-			signal = Math.max(signal, getDirectSignalFrom(pos.relative(dir), dir, consumer));
+			signal = Math.max(signal, getDirectSignalFrom(pos.relative(dir), dir, type));
 
 			if (signal >= max) {
 				return max;
@@ -133,14 +135,13 @@ public abstract class LevelMixin implements BlockGetter, SignalLevel {
 	}
 
 	@Override
-	public int getSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
-		SignalType type = consumer.getConsumedSignalType();
+	public int getSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
 
 		int signal = type.min();
 		int max = type.max();
 
-		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
+		if (ignoreWireSignals && state.isWire(WireTypes.ANY)) {
 			return signal;
 		}
 
@@ -151,18 +152,17 @@ public abstract class LevelMixin implements BlockGetter, SignalLevel {
 		}
 
 		if (state.isSignalConductor(signal$asLevel(), pos, type)) {
-			signal = Math.max(signal, getDirectSignal(pos, consumer));
+			signal = Math.max(signal, getDirectSignal(pos, type));
 		}
 
 		return type.clamp(signal);
 	}
 
 	@Override
-	public int getDirectSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
-		SignalType type = consumer.getConsumedSignalType();
+	public int getDirectSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
 
-		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
+		if (ignoreWireSignals && state.isWire(WireTypes.ANY)) {
 			return type.min();
 		}
 
@@ -170,9 +170,9 @@ public abstract class LevelMixin implements BlockGetter, SignalLevel {
 	}
 
 	@Override
-	public boolean hasSignal(BlockPos pos, SignalConsumer consumer) {
+	public boolean hasSignal(BlockPos pos, SignalType type) {
 		for (Direction dir : DIRECTIONS) {
-			if (hasSignalFrom(pos.relative(dir), dir, consumer)) {
+			if (hasSignalFrom(pos.relative(dir), dir, type)) {
 				return true;
 			}
 		}
@@ -181,9 +181,9 @@ public abstract class LevelMixin implements BlockGetter, SignalLevel {
 	}
 
 	@Override
-	public boolean hasDirectSignal(BlockPos pos, SignalConsumer consumer) {
+	public boolean hasDirectSignal(BlockPos pos, SignalType type) {
 		for (Direction dir : DIRECTIONS) {
-			if (hasDirectSignalFrom(pos.relative(dir), dir, consumer)) {
+			if (hasDirectSignalFrom(pos.relative(dir), dir, type)) {
 				return true;
 			}
 		}
@@ -192,26 +192,24 @@ public abstract class LevelMixin implements BlockGetter, SignalLevel {
 	}
 
 	@Override
-	public boolean hasSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
-		SignalType type = consumer.getConsumedSignalType();
+	public boolean hasSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
 
-		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
+		if (ignoreWireSignals && state.isWire(WireTypes.ANY)) {
 			return false;
 		}
 		if (state.hasSignal(signal$asLevel(), pos, dir, type)) {
 			return true;
 		}
 
-		return state.isSignalConductor(signal$asLevel(), pos, type) && hasDirectSignal(pos, consumer);
+		return state.isSignalConductor(signal$asLevel(), pos, type) && hasDirectSignal(pos, type);
 	}
 
 	@Override
-	public boolean hasDirectSignalFrom(BlockPos pos, Direction dir, SignalConsumer consumer) {
-		SignalType type = consumer.getConsumedSignalType();
+	public boolean hasDirectSignalFrom(BlockPos pos, Direction dir, SignalType type) {
 		BlockState state = getBlockState(pos);
 
-		if (consumer.isWire(WireTypes.ANY) && state.isWire(WireTypes.ANY)) {
+		if (ignoreWireSignals && state.isWire(WireTypes.ANY)) {
 			return false;
 		}
 

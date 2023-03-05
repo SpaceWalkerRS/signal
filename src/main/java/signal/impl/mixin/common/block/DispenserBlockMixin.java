@@ -9,11 +9,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.block.AnalogSignalSource;
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicAnalogSignalSource;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(DispenserBlock.class)
-public class DispenserBlockMixin implements AnalogSignalSource, SignalConsumer {
+public class DispenserBlockMixin implements BasicAnalogSignalSource, BasicSignalConsumer {
 
 	@Redirect(
 		method = "neighborChanged",
@@ -23,11 +23,11 @@ public class DispenserBlockMixin implements AnalogSignalSource, SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Override
 	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
-		return AnalogSignalSource.getAnalogSignalFromBlockEntity(level.getBlockEntity(pos), min, max);
+		return BasicAnalogSignalSource.getAnalogSignalFromBlockEntity(level.getBlockEntity(pos), min, max);
 	}
 }

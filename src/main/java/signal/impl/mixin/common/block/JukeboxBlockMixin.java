@@ -12,10 +12,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.block.AnalogSignalSource;
+import signal.api.signal.block.BasicAnalogSignalSource;
 
 @Mixin(JukeboxBlock.class)
-public class JukeboxBlockMixin implements AnalogSignalSource {
+public class JukeboxBlockMixin implements BasicAnalogSignalSource {
 
 	@Override
 	public int getAnalogSignal(Level level, BlockPos pos, BlockState state, int min, int max) {
@@ -27,7 +27,7 @@ public class JukeboxBlockMixin implements AnalogSignalSource {
 			Item item = stack.getItem();
 
 			if (item instanceof RecordItem) {
-				return AnalogSignalSource.getAnalogSignal(((RecordItem)item).getAnalogOutput(), min, max);	
+				return BasicAnalogSignalSource.getAnalogSignal(((RecordItem)item).getAnalogOutput(), min, max);	
 			}
 		}
 

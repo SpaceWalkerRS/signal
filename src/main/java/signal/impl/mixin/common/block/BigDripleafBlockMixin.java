@@ -9,10 +9,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BigDripleafBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(BigDripleafBlock.class)
-public class BigDripleafBlockMixin implements SignalConsumer {
+public class BigDripleafBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "entityInside",
@@ -22,7 +22,7 @@ public class BigDripleafBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Redirect(
@@ -33,7 +33,7 @@ public class BigDripleafBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal2(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 
 	@Redirect(
@@ -44,6 +44,6 @@ public class BigDripleafBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(ServerLevel level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 }

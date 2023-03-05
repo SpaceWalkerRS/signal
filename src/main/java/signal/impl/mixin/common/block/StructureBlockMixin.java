@@ -8,10 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.StructureBlock;
 
-import signal.api.signal.block.SignalConsumer;
+import signal.api.signal.block.BasicSignalConsumer;
 
 @Mixin(StructureBlock.class)
-public class StructureBlockMixin implements SignalConsumer {
+public class StructureBlockMixin implements BasicSignalConsumer {
 
 	@Redirect(
 		method = "neighborChanged",
@@ -21,6 +21,6 @@ public class StructureBlockMixin implements SignalConsumer {
 		)
 	)
 	private boolean signal$hasNeighborSignal(Level level, BlockPos pos) {
-		return level.hasSignal(pos, this);
+		return hasNeighborSignal(level, pos);
 	}
 }

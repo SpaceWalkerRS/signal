@@ -13,11 +13,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.LecternBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import signal.api.signal.block.AnalogSignalSource;
+import signal.api.signal.block.BasicAnalogSignalSource;
 import signal.api.signal.block.redstone.RedstoneSignalSource;
 
 @Mixin(LecternBlock.class)
-public class LecternBlockMixin implements RedstoneSignalSource, AnalogSignalSource {
+public class LecternBlockMixin implements RedstoneSignalSource, BasicAnalogSignalSource {
 
 	@Override
 	public int getSignal(Level level, BlockPos pos, BlockState state, Direction dir) {
@@ -40,7 +40,7 @@ public class LecternBlockMixin implements RedstoneSignalSource, AnalogSignalSour
 			int pageCount = WrittenBookItem.getPageCount(book);
 			int page = lecternBlockEntity.getPage();
 
-			return AnalogSignalSource.getAnalogSignal(Mth.floor(((float)page / pageCount) * (max - min - 1)) + (lecternBlockEntity.hasBook() ? 1 : 0), min, max);
+			return BasicAnalogSignalSource.getAnalogSignal(Mth.floor(((float)page / pageCount) * (max - min - 1)) + (lecternBlockEntity.hasBook() ? 1 : 0), min, max);
 		}
 
 		return min;

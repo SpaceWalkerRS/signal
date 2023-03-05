@@ -1,5 +1,7 @@
 package signal.api;
 
+import java.util.function.Consumer;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -13,7 +15,10 @@ import signal.impl.interfaces.mixin.IBlockStateBase;
 
 public interface SignalBlockBehavior {
 
-	default boolean isSignalSource(SignalType type) {
+	default void getSignalTypes(BlockState state, Consumer<SignalType> action) {
+	}
+
+	default boolean isSignalSource(BlockState state, SignalType type) {
 		return false;
 	}
 
@@ -33,7 +38,7 @@ public interface SignalBlockBehavior {
 		return false;
 	}
 
-	default boolean isAnalogSignalSource(SignalType type) {
+	default boolean isAnalogSignalSource(BlockState state, SignalType type) {
 		return false;
 	}
 
@@ -41,7 +46,7 @@ public interface SignalBlockBehavior {
 		return type.min();
 	}
 
-	default boolean isSignalConsumer(SignalType type) {
+	default boolean isSignalConsumer(BlockState state, SignalType type) {
 		return false;
 	}
 
@@ -49,7 +54,7 @@ public interface SignalBlockBehavior {
 		return type.is(SignalTypes.ANY) && ((IBlockStateBase)state).signal$isRedstoneConductor(level, pos);
 	}
 
-	default boolean isWire(WireType type) {
+	default boolean isWire(BlockState state, WireType type) {
 		return false;
 	}
 

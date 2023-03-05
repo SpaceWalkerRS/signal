@@ -13,92 +13,92 @@
 				"signal/api/SignalBlockStateBase"
 			],
 			"net/minecraft/class_2363": [ // AbstractFurnaceBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_3708": [ // BarrelBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2231": [ // BasePressurePlateBlock
-				"signal/api/signal/block/SignalSource"
+				"signal/api/signal/block/BasicSignalSource"
 			],
 			"net/minecraft/class_2241": [ // BaseRailBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_4481": [ // BeehiveBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_3709": [ // BellBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_5801": [ // BigDripleafBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2260": [ // BrewingStandBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2269": [ // ButtonBlock
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2272": [ // CakeBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5545": [ // CandleCakeBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2281": [ // ChestBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2288": [ // CommandBlock
-				"signal/api/signal/block/AnalogSignalSource",
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2286": [ // ComparatorBlock
 				"signal/api/signal/block/redstone/RedstoneSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalConsumer"
 			],
 			"net/minecraft/class_3962": [ // ComposterBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2309": [ // DaylightDetectorBlock
 				"signal/api/signal/block/SignalState",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2313": [ // DetectorRailBlock
-				"signal/api/signal/block/AnalogSignalSource",
+				"signal/api/signal/block/BasicAnalogSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2312": [ // DiodeBlock
-				"signal/api/signal/block/SignalConsumer",
-				"signal/api/signal/block/SignalSource"
+				"signal/api/signal/block/BasicSignalConsumer",
+				"signal/api/signal/block/BasicSignalSource"
 			],
 			"net/minecraft/class_2315": [ // DispenserBlock
-				"signal/api/signal/block/AnalogSignalSource",
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2323": [ // DoorBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2333": [ // EndPortalFrameBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2349": [ // FenceGateBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2377": [ // HopperBlock
-				"signal/api/signal/block/AnalogSignalSource",
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2387": [ // JukeboxBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5553": [ // LavaCauldronBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5556": [ // LayeredCauldronBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_3715": [ // LecternBlock
-				"signal/api/signal/block/AnalogSignalSource",
+				"signal/api/signal/block/BasicAnalogSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2401": [ // LeverBlock
@@ -108,25 +108,25 @@
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2428": [ // NoteBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2426": [ // ObserverBlock
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2665": [ // PistonBaseBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2436": [ // PoweredBlock
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2442": [ // PoweredRailBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2440": [ // PressurePlateBlock
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2453": [ // RedstoneLampBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2459": [ // RedstoneTorchBlock
 				"signal/api/signal/block/redstone/RedstoneSignalConsumer",
@@ -141,29 +141,29 @@
 				"signal/api/signal/block/redstone/RedstoneSignalConsumer"
 			],
 			"net/minecraft/class_4969": [ // RespawnAnchorBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_5703": [ // SculkSensorBlock
-				"signal/api/signal/block/AnalogSignalSource",
+				"signal/api/signal/block/BasicAnalogSignalSource",
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2480": [ // ShulkerBoxBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2515": [ // StructureBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_4850": [ // TargetBlock
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_2530": [ // TntBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2533": [ // TrapDoorBlock
-				"signal/api/signal/block/SignalConsumer"
+				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2531": [ // TrappedChestBlock
-				"signal/api/signal/block/AnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource"
 			],
 			"net/minecraft/class_2537": [ // TripWireHookBlock
 				"signal/api/signal/block/redstone/RedstoneSignalSource"
