@@ -43,5 +43,15 @@ public class WireTypes {
 		return a.isCompatible(b) && b.isCompatible(a);
 	}
 
+	public static void requireNotAny(WireType type) {
+		if (type == ANY)
+			throw new IllegalStateException("wire type ANY is not allowed!");
+	}
+
+	public static void requireBounded(WireType type, int signal) {
+		if (signal < type.min || signal > type.max)
+			throw new IllegalStateException("signal " + signal + " is not bounded by type " + type);
+	}
+
 	public static void bootstrap() { }
 }

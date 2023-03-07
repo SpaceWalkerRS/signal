@@ -3,6 +3,7 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.PoweredBlock;
 
 import signal.api.signal.SignalType;
+import signal.api.signal.SignalTypes;
 
 public class SignalPoweredBlock extends PoweredBlock {
 
@@ -16,8 +17,11 @@ public class SignalPoweredBlock extends PoweredBlock {
 	public SignalPoweredBlock(Properties properties, SignalType signalType, int signal) {
 		super(properties);
 
+		SignalTypes.requireNotAny(signalType);
+		SignalTypes.requireBounded(signalType, signal);
+
 		this.signalType = signalType;
-		this.signal = this.signalType.clamp(signal); // clamp just in case...
+		this.signal = signal;
 	}
 
 	@Override

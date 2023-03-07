@@ -3,6 +3,7 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.RedstoneTorchBlock;
 
 import signal.api.signal.SignalType;
+import signal.api.signal.SignalTypes;
 
 public class SignalTorchBlock extends RedstoneTorchBlock {
 
@@ -10,6 +11,8 @@ public class SignalTorchBlock extends RedstoneTorchBlock {
 
 	public SignalTorchBlock(Properties properties, SignalType signalType) {
 		super(properties);
+
+		SignalTypes.requireNotAny(signalType);
 
 		this.signalType = signalType;
 	}

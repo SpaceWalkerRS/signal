@@ -24,17 +24,15 @@ public class WireType {
 	}
 
 	public WireType(SignalType signal, int min, int max, int step) {
-		if (signal == null || signal == SignalTypes.ANY) {
-			throw new IllegalArgumentException("signal type cannot be null or any!");
+		SignalTypes.requireNotAny(signal);
+		SignalTypes.requireBounded(signal, min);
+		SignalTypes.requireBounded(signal, max);
+
+		if (signal == null) {
+			throw new IllegalArgumentException("signal type cannot be null!");
 		}
 		if (max < min) {
 			throw new IllegalArgumentException("max cannot be less than min!");
-		}
-		if (min < signal.min() || min > signal.max()) {
-			throw new IllegalArgumentException("min must be bound by signal type's min/max!");
-		}
-		if (max < signal.min() || max > signal.max()) {
-			throw new IllegalArgumentException("max must be bound by signal type's min/max!");
 		}
 		if (step < 0) {
 			throw new IllegalArgumentException("step cannot be less than 0!");

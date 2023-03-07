@@ -3,6 +3,7 @@ package signal.impl.signal.block;
 import net.minecraft.world.level.block.BasePressurePlateBlock;
 
 import signal.api.signal.SignalType;
+import signal.api.signal.SignalTypes;
 
 public abstract class SignalBasePressurePlateBlock extends BasePressurePlateBlock {
 
@@ -10,6 +11,8 @@ public abstract class SignalBasePressurePlateBlock extends BasePressurePlateBloc
 
 	protected SignalBasePressurePlateBlock(Properties properties, SignalType signalType) {
 		super(properties);
+
+		SignalTypes.requireNotAny(signalType);
 
 		this.signalType = signalType;
 	}

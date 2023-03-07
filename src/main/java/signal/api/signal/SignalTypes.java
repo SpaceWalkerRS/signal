@@ -38,5 +38,15 @@ public class SignalTypes {
 		return SignalRegistries.SIGNAL_TYPE.getKey(type);
 	}
 
+	public static void requireNotAny(SignalType type) {
+		if (type == ANY)
+			throw new IllegalStateException("signal type ANY is not allowed!");
+	}
+
+	public static void requireBounded(SignalType type, int signal) {
+		if (signal < type.min || signal > type.max)
+			throw new IllegalStateException("signal " + signal + " is not bounded by type " + type);
+	}
+
 	public static void bootstrap() { }
 }
