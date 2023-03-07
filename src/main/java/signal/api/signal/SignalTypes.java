@@ -20,6 +20,8 @@ public class SignalTypes {
 	 * For the key, it is customary to use your mod id as the namespace.
 	 */
 	public static <T extends SignalType> T register(ResourceLocation key, T type) {
+		if (type == ANY)
+			throw new IllegalArgumentException("cannot register the ANY signal type!");
 		return Registry.register(SignalRegistries.SIGNAL_TYPE, key, type);
 	}
 
@@ -27,6 +29,8 @@ public class SignalTypes {
 	 * Register a custom signal type.
 	 */
 	public static <T extends SignalType> T register(ResourceKey<SignalType> key, T type) {
+		if (type == ANY)
+			throw new IllegalArgumentException("cannot register the ANY signal type!");
 		return Registry.register(SignalRegistries.SIGNAL_TYPE, key, type);
 	}
 

@@ -8,7 +8,8 @@ public class SignalType {
 	protected final int max;
 
 	SignalType() {
-		this(Integer.MIN_VALUE, Integer.MAX_VALUE);
+		this.min = Integer.MIN_VALUE;
+		this.max = Integer.MAX_VALUE;
 	}
 
 	public SignalType(int min, int max) {

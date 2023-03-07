@@ -21,6 +21,8 @@ public class WireTypes {
 	 * For the key, it is customary to use your mod id as the namespace.
 	 */
 	public static <T extends WireType> T register(ResourceLocation key, T type) {
+		if (type == ANY)
+			throw new IllegalArgumentException("cannot register the ANY wire type!");
 		return Registry.register(SignalRegistries.WIRE_TYPE, key, type);
 	}
 
@@ -28,6 +30,8 @@ public class WireTypes {
 	 * Register a custom wire type.
 	 */
 	public static <T extends WireType> T register(ResourceKey<WireType> key, T type) {
+		if (type == ANY)
+			throw new IllegalArgumentException("cannot register the ANY wire type!");
 		return Registry.register(SignalRegistries.WIRE_TYPE, key, type);
 	}
 
