@@ -1,7 +1,5 @@
 package signal.api;
 
-import java.util.function.Consumer;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -27,10 +25,6 @@ public interface SignalBlockStateBase {
 	 */
 	default Block signal$getBlock() {
 		return null;
-	}
-
-	default void getSignalTypes(Consumer<SignalType> action) {
-		signal$getBlock().getSignalTypes(signal$asState(), action);
 	}
 
 	default boolean isSignalSource(SignalType type) {
