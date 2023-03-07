@@ -130,7 +130,7 @@ public class WireType {
 		Wire neighborWire = (Wire)neighborState.getBlock();
 		ConnectionType neighborConnection = neighborWire.getConnection(level, neighborPos, neighborState, side.getOpposite(), this);
 
-		return connection.and(neighborConnection);
+		return connection.and(neighborConnection.inverse());
 	}
 
 	@FunctionalInterface
