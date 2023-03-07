@@ -23,7 +23,7 @@ public class SignalHolder {
 	}
 
 	public void decrease(int signal) {
-		if (signal > this.signal) {
+		if (signal < this.signal) {
 			this.signal = signal;
 		}
 	}
