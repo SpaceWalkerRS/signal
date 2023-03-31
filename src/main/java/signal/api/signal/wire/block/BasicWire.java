@@ -3,6 +3,7 @@ package signal.api.signal.wire.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+
 import signal.api.signal.SignalHolder;
 import signal.api.signal.SignalType;
 import signal.api.signal.block.BasicSignalConsumer;
@@ -13,16 +14,11 @@ import signal.api.signal.wire.WireType;
 import signal.api.signal.wire.WireTypes;
 
 /**
- * This interface represents a wire block that of one specific type.
+ * This interface represents a wire block of one specific type.
  * 
  * @author Space Walker
  */
 public interface BasicWire extends BasicSignalSource, BasicSignalConsumer, Wire {
-
-	@Override
-	default boolean isSignalSource(BlockState state, SignalType type) {
-		return getSignalType().is(type);
-	}
 
 	@Override
 	default boolean isWire(BlockState state, WireType type) {
