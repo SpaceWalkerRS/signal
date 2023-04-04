@@ -89,7 +89,8 @@
 				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2387": [ // JukeboxBlock
-				"signal/api/signal/block/BasicAnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_5553": [ // LavaCauldronBlock
 				"signal/api/signal/block/BasicAnalogSignalSource"

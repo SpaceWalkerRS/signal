@@ -1,7 +1,7 @@
 package signal.impl.signal.block;
 
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.WeightedPressurePlateBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 import signal.api.signal.SignalType;
 import signal.api.signal.SignalTypes;
@@ -10,8 +10,8 @@ public abstract class SignalWeightedPressurePlateBlock extends WeightedPressureP
 
 	protected final SignalType signalType;
 
-	protected SignalWeightedPressurePlateBlock(int maxWeight, Properties properties, SoundEvent soundOff, SoundEvent soundOn, SignalType signalType) {
-		super(maxWeight, properties, soundOff, soundOn);
+	protected SignalWeightedPressurePlateBlock(int maxWeight, Properties properties, BlockSetType type, SignalType signalType) {
+		super(maxWeight, properties, type);
 
 		SignalTypes.requireNotAny(signalType);
 

@@ -120,7 +120,8 @@
 				"signal/api/signal/block/BasicSignalConsumer"
 			],
 			"net/minecraft/class_2387": [
-				"signal/api/signal/block/BasicAnalogSignalSource"
+				"signal/api/signal/block/BasicAnalogSignalSource",
+				"signal/api/signal/block/redstone/RedstoneSignalSource"
 			],
 			"net/minecraft/class_5553": [
 				"signal/api/signal/block/BasicAnalogSignalSource"
