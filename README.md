@@ -8,15 +8,15 @@ While the Signal API does not add any tools for adding custom blocks in general,
 
 If you wish to use the signal API for your own custom redstone-like blocks, you can add it as a dependency to your project.
 
-- Download the desired release of the Signal API from [github](https://github.com/SpaceWalkerRS/signal/releases), [modrinth](https://github.com/SpaceWalkerRS/signal/releases), or [curseforge](https://github.com/SpaceWalkerRS/signal/releases), and place it in `/vendor/signal/` in your project folder.
-
 - In `build.gradle` add the following to the `repositories { }` section:
-
 ```
 repositories {
 	...
-	flatDir {
-		dirs "./vendor/signal/"
+	maven {
+		url "https://api.modrinth.com/maven"
+		content {
+			includeGroup "maven.modrinth"
+		}
 	}
 }
 ```
@@ -26,7 +26,7 @@ repositories {
 ```
 dependencies {
 	...
-	modImplementation ":signal:${project.signal_version}"
+	modImplementation "maven.modrinth:signal:${project.signal_version}"
 }
 ```
 
